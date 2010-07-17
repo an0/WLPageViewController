@@ -24,7 +24,9 @@
     // Override point for customization after application launch.
 	WLSwitchController *switchController = [[WLSwitchController alloc] init];
 	ContentController *aViewController = [[ContentController alloc] initWithNibName:@"AViewController" bundle:nil];
+	aViewController.title = @"Seg A";
 	ContentController *bViewController = [[ContentController alloc] initWithNibName:@"BViewController" bundle:nil];
+	bViewController.title = @"Seg B";
 	switchController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
 	[navigationController pushViewController:switchController animated:NO];
 	[aViewController release];

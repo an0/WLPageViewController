@@ -2,16 +2,16 @@
 {
 	1D3623240D0F684500981E51 /* WLContainerControllersAppDelegate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {801, 504}}";
+			sepNavIntBoundsRect = "{{0, 0}, {798, 780}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{43, 463}";
+			sepNavVisRange = "{0, 506}";
 		};
 	};
 	1D3623250D0F684500981E51 /* WLContainerControllersAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {700, 2541}}";
-			sepNavSelRange = "{1183, 0}";
-			sepNavVisRange = "{3014, 346}";
+			sepNavIntBoundsRect = "{{0, 0}, {798, 2205}}";
+			sepNavSelRange = "{992, 0}";
+			sepNavVisRange = "{70, 1259}";
 		};
 	};
 	1D6058900D05DD3D006BFB54 /* WLContainerControllers */ = {
@@ -44,7 +44,30 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					273,
+					620,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.XCSCMDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					20,
+					596,
 					20,
 					48.16259765625,
 					43,
@@ -52,6 +75,7 @@
 					20,
 				);
 				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_SCM_ColumnID,
 					PBXFileDataSource_FiletypeID,
 					PBXFileDataSource_Filename_ColumnID,
 					PBXFileDataSource_Built_ColumnID,
@@ -83,17 +107,52 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 300979839;
-			PBXWorkspaceStateSaveDate = 300979839;
+			PBXPerProjectTemplateStateSaveDate = 301026844;
+			PBXWorkspaceStateSaveDate = 301026844;
 		};
 		perUserProjectItems = {
-			C9D0AD0B11F0971A00A84A80 /* PBXTextBookmark */ = C9D0AD0B11F0971A00A84A80 /* PBXTextBookmark */;
-			C9D0AD0C11F0971A00A84A80 /* PBXTextBookmark */ = C9D0AD0C11F0971A00A84A80 /* PBXTextBookmark */;
-			C9D0AD2911F09C0100A84A80 /* PBXTextBookmark */ = C9D0AD2911F09C0100A84A80 /* PBXTextBookmark */;
+			C9C631BD11F14E3200A09C37 /* PBXTextBookmark */ = C9C631BD11F14E3200A09C37 /* PBXTextBookmark */;
+			C9C631BE11F14E3200A09C37 /* PBXTextBookmark */ = C9C631BE11F14E3200A09C37 /* PBXTextBookmark */;
+			C9C631BF11F14E3200A09C37 /* PBXBookmark */ = C9C631BF11F14E3200A09C37 /* PBXBookmark */;
+			C9C631D011F14E8A00A09C37 /* PBXTextBookmark */ = C9C631D011F14E8A00A09C37 /* PBXTextBookmark */;
 		};
 		sourceControlManager = C9D0ACA111F0943100A84A80 /* Source Control */;
 		userBuildSettings = {
 		};
+	};
+	C9C631BD11F14E3200A09C37 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C9D0AC9A11F0943000A84A80 /* WLContainerController.h */;
+		name = "WLContainerController.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1653;
+		vrLoc = 182;
+	};
+	C9C631BE11F14E3200A09C37 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* WLContainerControllersAppDelegate.h */;
+		name = "WLContainerControllersAppDelegate.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 506;
+		vrLoc = 0;
+	};
+	C9C631BF11F14E3200A09C37 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 1D3623250D0F684500981E51 /* WLContainerControllersAppDelegate.m */;
+	};
+	C9C631D011F14E8A00A09C37 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* WLContainerControllersAppDelegate.m */;
+		name = "WLContainerControllersAppDelegate.m: 29";
+		rLen = 0;
+		rLoc = 992;
+		rType = 0;
+		vrLen = 1259;
+		vrLoc = 70;
 	};
 	C9D0AC9411F0941800A84A80 /* WLContainerControllers */ = {
 		isa = PBXExecutable;
@@ -125,9 +184,9 @@
 	};
 	C9D0AC9A11F0943000A84A80 /* WLContainerController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {451, 1386}}";
+			sepNavIntBoundsRect = "{{0, 0}, {798, 1260}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 219}";
+			sepNavVisRange = "{182, 1653}";
 		};
 	};
 	C9D0AC9B11F0943000A84A80 /* WLContainerController.m */ = {
@@ -150,35 +209,5 @@
 	C9D0ACA211F0943100A84A80 /* Code sense */ = {
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
-	};
-	C9D0AD0B11F0971A00A84A80 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C9D0AC9A11F0943000A84A80 /* WLContainerController.h */;
-		name = "WLContainerController.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 232;
-		vrLoc = 0;
-	};
-	C9D0AD0C11F0971A00A84A80 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C9D0AC9A11F0943000A84A80 /* WLContainerController.h */;
-		name = "WLContainerController.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 219;
-		vrLoc = 0;
-	};
-	C9D0AD2911F09C0100A84A80 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C9D0AC9A11F0943000A84A80 /* WLContainerController.h */;
-		name = "WLContainerController.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 219;
-		vrLoc = 0;
 	};
 }
