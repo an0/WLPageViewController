@@ -12,6 +12,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
+		C9C633AF11F1997A00A09C37 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C633AE11F1997A00A09C37 /* NSString+Extension.m */; };
 		C9D0AC9E11F0943000A84A80 /* WLSwitchController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9911F0943000A84A80 /* WLSwitchController.m */; };
 		C9D0AC9F11F0943000A84A80 /* WLContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9B11F0943000A84A80 /* WLContainerController.m */; };
 		C9D0ACA011F0943000A84A80 /* ContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9D11F0943000A84A80 /* ContentController.m */; };
@@ -30,6 +31,8 @@
 		28A0AAE50D9B0CCF005BE974 /* WLContainerControllers_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLContainerControllers_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* WLContainerControllers-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WLContainerControllers-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		C9C633AD11F1997A00A09C37 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Extension.h"; path = "../WLFoundation/NSString+Extension.h"; sourceTree = SOURCE_ROOT; };
+		C9C633AE11F1997A00A09C37 /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extension.m"; path = "../WLFoundation/NSString+Extension.m"; sourceTree = SOURCE_ROOT; };
 		C9D0AC9811F0943000A84A80 /* WLSwitchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSwitchController.h; sourceTree = "<group>"; };
 		C9D0AC9911F0943000A84A80 /* WLSwitchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSwitchController.m; sourceTree = "<group>"; };
 		C9D0AC9A11F0943000A84A80 /* WLContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLContainerController.h; sourceTree = "<group>"; };
@@ -58,6 +61,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C9C633B111F1998100A09C37 /* External Libs */,
 				C9D0ACFD11F096C400A84A80 /* WLContainerControllers */,
 				1D3623240D0F684500981E51 /* WLContainerControllersAppDelegate.h */,
 				1D3623250D0F684500981E51 /* WLContainerControllersAppDelegate.m */,
@@ -115,6 +119,23 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9C633AC11F1997A00A09C37 /* WLFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				C9C633AD11F1997A00A09C37 /* NSString+Extension.h */,
+				C9C633AE11F1997A00A09C37 /* NSString+Extension.m */,
+			);
+			name = WLFoundation;
+			sourceTree = "<group>";
+		};
+		C9C633B111F1998100A09C37 /* External Libs */ = {
+			isa = PBXGroup;
+			children = (
+				C9C633AC11F1997A00A09C37 /* WLFoundation */,
+			);
+			name = "External Libs";
 			sourceTree = "<group>";
 		};
 		C9D0ACFD11F096C400A84A80 /* WLContainerControllers */ = {
@@ -198,7 +219,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "appledoc -p \"$PROJECT_NAME\" -i \"$SRCROOT\" -o \"$BUILD_DIR/Doc/$PROJECT_NAME\" --xhtml --docset";
+			shellScript = "appledoc -p \"$PROJECT_NAME\" -i \"$SRCROOT\" -o \"$BUILD_DIR/doc\" --xhtml --docset";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -212,6 +233,7 @@
 				C9D0AC9E11F0943000A84A80 /* WLSwitchController.m in Sources */,
 				C9D0AC9F11F0943000A84A80 /* WLContainerController.m in Sources */,
 				C9D0ACA011F0943000A84A80 /* ContentController.m in Sources */,
+				C9C633AF11F1997A00A09C37 /* NSString+Extension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -42,7 +42,11 @@ inheritsToolbarItems = _inheritsToolbarItems;
 //}
 
 
-- (void)dealloc {	
+- (void)dealloc {
+	// Stop the observation.
+	[self updateNavigationBarFrom:nil];
+	[self updateToolbarFrom:nil];
+	
 	[_contentController release];
     [super dealloc];
 }
@@ -86,11 +90,30 @@ inheritsToolbarItems = _inheritsToolbarItems;
 #pragma mark Update navigation bar and toolbar
 
 - (void)updateNavigationBarFrom:(UIViewController *)contentController {
-	// FIXME: removing throws exception if it is not an observer
-//	[_contentController removeObserver:self forKeyPath:@"navigationItem.titleView"];
-//	[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItem"];
-//	[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItem"];
+	// Removing observer throws NSException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.titleView"];
+	}
+	@catch (NSException * e) {
+//		DLog(@"%@: %@", [e class], e);
+	}
+
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItem"];
+	}
+	@catch (NSException * e) {
+//		DLog(@"%@: %@", [e class], e);
+	}
+
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItem"];
+	}
+	@catch (NSException * e) {
+//		DLog(@"%@: %@", [e class], e);
+	}
 	
+	
+		
 	if (_inheritsTitleView) {
 		self.navigationItem.titleView = contentController.navigationItem.titleView;
 		[contentController addObserver:self forKeyPath:@"navigationItem.titleView" options:NSKeyValueObservingOptionNew context:nil];
@@ -106,8 +129,14 @@ inheritsToolbarItems = _inheritsToolbarItems;
 }
 
 - (void)updateToolbarFrom:(UIViewController *)contentController {
-	// FIXME: removing throws exception if it is not an observer
-//	[_contentController removeObserver:self forKeyPath:@"toolbarItems"];
+	// Removing observer throws NSRangeException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"toolbarItems"];
+	}
+	@catch (NSException * e) {
+//		DLog(@"%@: %@", [e class], e);
+	}
+
 
 	if (_inheritsToolbarItems) {
 		[self setToolbarItems:contentController.toolbarItems animated:YES];
@@ -117,7 +146,11 @@ inheritsToolbarItems = _inheritsToolbarItems;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if (object == _contentController) {
-		[self setValue:[change objectForKey:NSKeyValueChangeNewKey] forKeyPath:keyPath];
+		id value = [change objectForKey:NSKeyValueChangeNewKey];
+		if (value == [NSNull null]) {
+			value = nil;
+		}
+		[self setValue:value forKeyPath:keyPath];
 	}
 }
 

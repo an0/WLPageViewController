@@ -7,6 +7,16 @@
 //
 
 #import "WLSwitchController.h"
+#import "NSString+Extension.h"
+
+
+@interface WLSwitchController (Private)
+
+// Track the item to update segment in real time.
+- (void)startObservingTabBarItems:(NSArray *)viewControllers;
+- (void)stopObservingTabBarItems:(NSArray *)viewControllers;
+
+@end
 
 
 @implementation WLSwitchController
@@ -34,6 +44,8 @@ selectedViewController = _selectedViewController;
 }
 
 - (void)viewDidUnload {
+	[self stopObservingTabBarItems:_viewControllers];
+	
 	[_switchBar release];
 	_switchBar = nil;
 	 
@@ -42,6 +54,8 @@ selectedViewController = _selectedViewController;
 
 
 - (void)dealloc {
+	[self stopObservingTabBarItems:_viewControllers];
+	
 	[_switchBar release];
 	[_viewControllers release];
 	
@@ -99,7 +113,8 @@ selectedViewController = _selectedViewController;
 		_switchBar = [[UISegmentedControl alloc] initWithItems:items];
 		_switchBar.segmentedControlStyle = UISegmentedControlStyleBar;
 		[_switchBar addTarget:self action:@selector(switchView:) forControlEvents:UIControlEventValueChanged];
-
+		
+		[self startObservingTabBarItems:self.viewControllers];
 	}
 	
 	return _switchBar;
@@ -117,10 +132,13 @@ selectedViewController = _selectedViewController;
 	if ([_viewControllers isEqualToArray:viewControllers]) {
 		return;
 	}
-
+	
+	[self stopObservingTabBarItems:_viewControllers];
+	
 	if (_switchBar) {
 		// Update the switch bar.
 		[self.switchBar removeAllSegments];
+		
 		// Insert new items in reverse order because the limit of insertion methods.
 		for (UIViewController *controller in [viewControllers reverseObjectEnumerator]) {
 			if (controller.tabBarItem.image) {
@@ -129,8 +147,10 @@ selectedViewController = _selectedViewController;
 				[self.switchBar insertSegmentWithTitle:controller.tabBarItem.title atIndex:0 animated:animated];
 			} else {
 				[self.switchBar insertSegmentWithTitle:@"?" atIndex:0 animated:animated];
-			}		
-		}		
+			}			
+		}
+		
+		[self startObservingTabBarItems:viewControllers];
 	} else {
 		// Just leave _switchBar nil and depend on it lazy initialization.
 	}
@@ -183,6 +203,55 @@ selectedViewController = _selectedViewController;
 	self.selectedViewController = [self.viewControllers objectAtIndex:index];
 }
 
+
+#pragma mark -
+#pragma mark Tab bar item observation
+
+- (void)startObservingTabBarItems:(NSArray *)viewControllers {
+	for (UIViewController *controller in viewControllers) {
+		[controller addObserver:self forKeyPath:@"tabBarItem.image" options:NSKeyValueObservingOptionNew context:nil];
+		[controller addObserver:self forKeyPath:@"tabBarItem.title" options:NSKeyValueObservingOptionNew context:nil];
+	}	
+}
+
+- (void)stopObservingTabBarItems:(NSArray *)viewControllers {
+	for (UIViewController *controller in viewControllers) {
+		// Removing observer throws NSRangeException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
+		@try {
+			[controller removeObserver:self forKeyPath:@"tabBarItem.image"];
+		}
+		@catch (NSException * e) {
+			//		DLog(@"%@: %@", [e class], e);
+		}
+		
+		@try {
+			[controller removeObserver:self forKeyPath:@"tabBarItem.title"];
+		}
+		@catch (NSException * e) {
+			//		DLog(@"%@: %@", [e class], e);
+		}				
+	}
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	NSUInteger index = [self.viewControllers indexOfObject:object];
+	if (index != NSNotFound) {
+		if ([keyPath startsWith:@"tabBarItem"]) {
+			UIViewController *controller = (UIViewController *)object;
+			if (controller.tabBarItem.image) {
+				[self.switchBar setImage:controller.tabBarItem.image forSegmentAtIndex:index];
+			} else if (controller.tabBarItem.title) {
+				[self.switchBar setTitle:controller.tabBarItem.title forSegmentAtIndex:index];
+			} else {
+				[self.switchBar setTitle:@"?" forSegmentAtIndex:index];
+			}
+			
+			return;
+		}
+	}
+	
+	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
 
 
 @end
