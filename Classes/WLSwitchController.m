@@ -10,7 +10,7 @@
 #import "NSString+Extension.h"
 
 
-@interface WLSwitchController (Private)
+@interface WLSwitchController ()
 
 // Track the item to update segment in real time.
 - (void)startObservingTabBarItems:(NSArray *)viewControllers;
@@ -29,7 +29,7 @@ selectedViewController = _selectedViewController;
 
 
 - (id)init {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.inheritsRightBarButtonItem = YES;
 		self.inheritsToolbarItems = YES;
 	}
@@ -113,6 +113,7 @@ selectedViewController = _selectedViewController;
 		_switchBar = [[UISegmentedControl alloc] initWithItems:items];
 		_switchBar.segmentedControlStyle = UISegmentedControlStyleBar;
 		[_switchBar addTarget:self action:@selector(switchView:) forControlEvents:UIControlEventValueChanged];
+		_switchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		
 		[self startObservingTabBarItems:self.viewControllers];
 	}

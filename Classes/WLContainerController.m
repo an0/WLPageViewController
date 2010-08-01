@@ -9,7 +9,7 @@
 #import "WLContainerController.h"
 
 
-@interface WLContainerController (Private)
+@interface WLContainerController ()
 
 - (void)updateNavigationBarFrom:(UIViewController *)contentController;
 - (void)updateToolbarFrom:(UIViewController *)contentController;
@@ -73,6 +73,19 @@ inheritsToolbarItems = _inheritsToolbarItems;
 			
 			[self updateNavigationBarFrom:contentController];
 			[self updateToolbarFrom:contentController];
+
+			/**
+			 FIXME: Logically, parent view controller should be responsible for rotating subview controller, but 1) UINavigationController and UITabBarController don't do it; 2) interfaceOrientation is readonly, so it is impossible to do perfect orientation management currently.
+			 I think I should follow the behavior of UINavigationController and UITabBarController, and users should follow http://wangling.me/2010/07/how-to-rock-and-roll-your-apps/ and override interfaceOrientation to return interfaceOrientation of its parent or the device. 
+			 In fact, the following code does not work, because contentController.interfaceOrientation never changes and condition clause will have false negative results.
+			 */
+			// Rotate the content view if necessary.
+//			if (contentController.interfaceOrientation != self.interfaceOrientation) {
+//				UIInterfaceOrientation oldOrientation = contentController.interfaceOrientation;
+//				[contentController willRotateToInterfaceOrientation:self.interfaceOrientation duration:0.3];
+//				[contentController willAnimateRotationToInterfaceOrientation:self.interfaceOrientation duration:0.3];
+//				[contentController didRotateFromInterfaceOrientation:oldOrientation];
+//			}
 		}		
 		
 		[_contentController release];
