@@ -246,8 +246,6 @@ selectedViewController = _selectedViewController;
 			} else {
 				[self.switchBar setTitle:@"?" forSegmentAtIndex:index];
 			}
-			
-			return;
 		}
 	}
 	

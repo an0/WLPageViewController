@@ -164,7 +164,7 @@ inheritsToolbarItems = _inheritsToolbarItems;
 			value = nil;
 		}
 		[self setValue:value forKeyPath:keyPath];
-	}
+	}	
 }
 
 
