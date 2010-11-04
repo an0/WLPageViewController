@@ -23,6 +23,7 @@
 
 @synthesize
 contentController = _contentController,
+contentInset = _contentInset,
 inheritsTitleView = _inheritsTitleView,
 inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem,
 inheritsRightBarButtonItem = _inheritsRightBarButtonItem,
@@ -61,9 +62,9 @@ inheritsToolbarItems = _inheritsToolbarItems;
 			// Update the content view only if the containing view is loaded.
 			// Ensure the content view is loaded before sending view event messages.
 			UIView *contentView = contentController.view;
-			contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-			// Adjust the frame of the content view to fit in the containing view.
-			contentView.frame = self.view.bounds;
+			contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;			
+			// Adjust the frame of the content view according to the insets.
+			contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, self.contentInset);
 			[_contentController viewWillDisappear:YES];
 			[contentController viewWillAppear:YES];
 			[_contentController.view removeFromSuperview];
@@ -76,9 +77,12 @@ inheritsToolbarItems = _inheritsToolbarItems;
 
 			/**
 			 FIXME: Logically, parent view controller should be responsible for rotating subview controller, but 1) UINavigationController and UITabBarController don't do it; 2) interfaceOrientation is readonly, so it is impossible to do perfect orientation management currently.
-			 I think I should follow the behavior of UINavigationController and UITabBarController, and users should follow http://wangling.me/2010/07/how-to-rock-and-roll-your-apps/ and override interfaceOrientation to return interfaceOrientation of its parent or the device. 
-			 In fact, the following code does not work, because contentController.interfaceOrientation never changes and condition clause will have false negative results.
+			 I think I should follow the behavior of UINavigationController and UITabBarController, and users should follow http://wangling.me/2010/07/how-to-rock-and-roll-your-apps/ and override interfaceOrientation to return interfaceOrientation of its parent. 
+			 In fact, the following code does not work, because contentController.interfaceOrientation never changes and condition clause will have false negatives.
 			 */
+			
+			/** Refer to http://openradar.appspot.com/8365675. */
+			
 			// Rotate the content view if necessary.
 //			if (contentController.interfaceOrientation != self.interfaceOrientation) {
 //				UIInterfaceOrientation oldOrientation = contentController.interfaceOrientation;
@@ -110,7 +114,7 @@ inheritsToolbarItems = _inheritsToolbarItems;
 	@catch (NSException * e) {
 //		DLog(@"%@: %@", [e class], e);
 	}
-
+	
 	@try {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItem"];
 	}
@@ -175,11 +179,11 @@ inheritsToolbarItems = _inheritsToolbarItems;
 	if (_contentController) {
 		// Ensure the content view is loaded before sending view event messages.
 		UIView *contentView = _contentController.view;
-		contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		if (contentView.superview != self.view) { 
 			// Add the content view in the containing view if necessary.
-			// Adjust the frame of the content view to fit in the containing view.
-			contentView.frame = self.view.bounds;
+			// Adjust the frame of the content view according to the insets.
+			contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, self.contentInset);
+			contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 			[self.view addSubview:contentView];
 			
 			[self updateNavigationBarFrom:_contentController];
@@ -221,23 +225,19 @@ inheritsToolbarItems = _inheritsToolbarItems;
 #pragma mark Rotation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	DLog(@"should rotate to: %d", interfaceOrientation);
     return [_contentController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	DLog(@"will rotate from %d to %d", self.interfaceOrientation, toInterfaceOrientation);
 	[_contentController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
-	DLog(@"willAnimateRotationToInterfaceOrientation %d", interfaceOrientation);
 	[_contentController willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
 }
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	DLog(@"did rotate from %d to %d", fromInterfaceOrientation, self.interfaceOrientation);
 	[_contentController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 

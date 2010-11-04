@@ -46,12 +46,12 @@ selectedViewController = _selectedViewController;
 - (void)viewDidUnload {
 	[self stopObservingTabBarItems:_viewControllers];
 	
+	self.navigationItem.titleView = nil;
 	[_switchBar release];
 	_switchBar = nil;
 	 
     [super viewDidUnload];
 }
-
 
 - (void)dealloc {
 	[self stopObservingTabBarItems:_viewControllers];
@@ -72,7 +72,7 @@ selectedViewController = _selectedViewController;
 		self.selectedIndex = 0;
 	}
 	
-	[super viewWillAppear:animated];
+	[super viewWillAppear:animated];		
 }
 
 
@@ -113,7 +113,7 @@ selectedViewController = _selectedViewController;
 		_switchBar = [[UISegmentedControl alloc] initWithItems:items];
 		_switchBar.segmentedControlStyle = UISegmentedControlStyleBar;
 		[_switchBar addTarget:self action:@selector(switchView:) forControlEvents:UIControlEventValueChanged];
-		_switchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+		_switchBar.autoresizingMask = UIViewAutoresizingNone;
 		
 		[self startObservingTabBarItems:self.viewControllers];
 	}
