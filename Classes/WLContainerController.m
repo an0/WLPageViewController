@@ -37,12 +37,6 @@ inheritsToolbarItems = _inheritsToolbarItems;
 	return self;
 }
 
-
-//- (void)viewDidUnload {
-//    [super viewDidUnload];	
-//}
-
-
 - (void)dealloc {
 	// Stop the observation.
 	[self updateNavigationBarFrom:nil];
@@ -156,7 +150,14 @@ inheritsToolbarItems = _inheritsToolbarItems;
 
 
 	if (_inheritsToolbarItems) {
-		[self setToolbarItems:contentController.toolbarItems animated:YES];
+		if ([contentController.toolbarItems count] > 0) {
+			self.navigationController.toolbarHidden = NO;
+			[self setToolbarItems:contentController.toolbarItems animated:YES];
+		} else {
+			self.navigationController.toolbarHidden = YES;
+			[self setToolbarItems:nil];
+		}
+
 		[contentController addObserver:self forKeyPath:@"toolbarItems" options:NSKeyValueObservingOptionNew context:nil];
 	}	
 }
@@ -167,6 +168,7 @@ inheritsToolbarItems = _inheritsToolbarItems;
 		if (value == [NSNull null]) {
 			value = nil;
 		}
+		
 		[self setValue:value forKeyPath:keyPath];
 	}	
 }
