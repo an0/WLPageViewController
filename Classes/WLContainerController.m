@@ -9,13 +9,6 @@
 #import "WLContainerController.h"
 
 
-@interface WLContainerController ()
-
-- (void)updateNavigationBarFrom:(UIViewController *)contentController;
-- (void)updateToolbarFrom:(UIViewController *)contentController;
-
-@end
-
 
 
 @implementation WLContainerController
@@ -45,6 +38,8 @@ inheritsToolbarItems = _inheritsToolbarItems;
 	[_contentController release];
     [super dealloc];
 }
+
+
 
 
 #pragma mark -
@@ -88,6 +83,10 @@ inheritsToolbarItems = _inheritsToolbarItems;
 		
 		[_contentController release];
 		_contentController = [contentController retain];
+		// Set self as the parent view controller of content view controller.
+		if ([_contentController respondsToSelector:@selector(setParentViewController:)]) {
+			[_contentController setParentViewController:self];
+		}
 	}
 }
 
@@ -95,6 +94,8 @@ inheritsToolbarItems = _inheritsToolbarItems;
 - (UIView *)contentView {
 	return self.contentController.view;
 }
+
+
 
 
 #pragma mark -
@@ -174,6 +175,8 @@ inheritsToolbarItems = _inheritsToolbarItems;
 }
 
 
+
+
 #pragma mark -
 #pragma mark View events
 
@@ -221,6 +224,8 @@ inheritsToolbarItems = _inheritsToolbarItems;
 	
 	[super viewDidDisappear:animated];
 }
+
+
 
 
 #pragma mark -

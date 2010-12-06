@@ -121,6 +121,11 @@ selectedViewController = _selectedViewController;
 	return _switchBar;
 }
 
+- (void)setInheritsTitleView:(BOOL)flag {
+	// Never change title view. It must be the switch bar.
+}
+
+
 
 #pragma mark -
 #pragma mark Managing the View Controllers
@@ -138,22 +143,28 @@ selectedViewController = _selectedViewController;
 	
 	if (_switchBar) {
 		// Update the switch bar.
-		[self.switchBar removeAllSegments];
+		[_switchBar removeAllSegments];
 		
 		// Insert new items in reverse order because the limit of insertion methods.
 		for (UIViewController *controller in [viewControllers reverseObjectEnumerator]) {
 			if (controller.tabBarItem.image) {
-				[self.switchBar insertSegmentWithImage:controller.tabBarItem.image atIndex:0 animated:animated];
+				[_switchBar insertSegmentWithImage:controller.tabBarItem.image atIndex:0 animated:animated];
 			} else if (controller.tabBarItem.title) {
-				[self.switchBar insertSegmentWithTitle:controller.tabBarItem.title atIndex:0 animated:animated];
+				[_switchBar insertSegmentWithTitle:controller.tabBarItem.title atIndex:0 animated:animated];
 			} else {
-				[self.switchBar insertSegmentWithTitle:@"?" atIndex:0 animated:animated];
+				[_switchBar insertSegmentWithTitle:@"?" atIndex:0 animated:animated];
 			}			
 		}
 		
 		[self startObservingTabBarItems:viewControllers];
 	} else {
 		// Just leave _switchBar nil and depend on it lazy initialization.
+	}
+	
+	for (UIViewController *controller in viewControllers) {
+		if ([controller respondsToSelector:@selector(setParentViewController:)]) {
+			[controller setParentViewController:self];
+		}
 	}
 	
 	// Update the selected view controller.
@@ -251,6 +262,10 @@ selectedViewController = _selectedViewController;
 	
 	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
+
+
+
+
 
 
 @end

@@ -8,6 +8,7 @@
 
 #import "WLContainerControllersAppDelegate.h"
 #import "WLSwitchController.h"
+#import "WLSplitViewController.h"
 #import "ContentController.h"
 
 @implementation WLContainerControllersAppDelegate
@@ -22,17 +23,26 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     // Override point for customization after application launch.
-	WLSwitchController *switchController = [[WLSwitchController alloc] init];
 	ContentController *aViewController = [[ContentController alloc] initWithNibName:@"AViewController" bundle:nil];
 	aViewController.title = @"Seg A";
+	aViewController.view.backgroundColor = [UIColor redColor];
 	ContentController *bViewController = [[ContentController alloc] initWithNibName:@"BViewController" bundle:nil];
 	bViewController.title = @"Seg B";
-	switchController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
-	[navigationController pushViewController:switchController animated:NO];
+	bViewController.view.backgroundColor = [UIColor blueColor];
+	
+//	WLSwitchController *switchController = [[WLSwitchController alloc] init];
+//	switchController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
+//	[navigationController pushViewController:switchController animated:NO];
+//	[switchController release];
+
+	WLSplitViewController *splitViewController = [[WLSplitViewController alloc] init];
+	splitViewController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
+	[navigationController pushViewController:splitViewController animated:NO];
+	[splitViewController release];
+
 	[aViewController release];
 	[bViewController release];
-	[switchController release];
-    
+
     // Add the navigation controller's view to the window and display.
     [window addSubview:navigationController.view];
     [window makeKeyAndVisible];

@@ -12,7 +12,7 @@
  The WLContainerController class implements a generic container controller that manages a content controller.
  */
 @interface WLContainerController : UIViewController {
-@private
+@protected
 	UIViewController *_contentController;
 	UIEdgeInsets _contentInset;
 	BOOL _inheritsTitleView;
@@ -41,6 +41,14 @@
  
  */
 - (id)initWithContentController:(UIViewController *)contentController;
+
+
+
+#pragma mark -
+#pragma mark Protected methods
+
+- (void)updateNavigationBarFrom:(UIViewController *)contentController;
+- (void)updateToolbarFrom:(UIViewController *)contentController;
 
 
 @end
