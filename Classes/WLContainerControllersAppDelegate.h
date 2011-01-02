@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WLSplitViewController.h"
 
-@interface WLContainerControllersAppDelegate : NSObject <UIApplicationDelegate> {
+@interface WLContainerControllersAppDelegate : NSObject <UIApplicationDelegate, WLSplitViewControllerDelegate> {
     
     UIWindow *window;
     UINavigationController *navigationController;

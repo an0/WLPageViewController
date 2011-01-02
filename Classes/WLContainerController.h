@@ -19,6 +19,10 @@
 	BOOL _inheritsLeftBarButtonItem;
 	BOOL _inheritsRightBarButtonItem;
 	BOOL _inheritsToolbarItems;
+	BOOL _isViewDisplayed;
+	UIImageView *_backgroundView;
+	UIImage *_portraitBackgroundImage;
+	UIImage *_landscapeBackgroundImage;
 }
 
 @property (nonatomic, retain) UIViewController *contentController; ///< The content controller managed by the container controller.
@@ -43,13 +47,20 @@
 - (id)initWithContentController:(UIViewController *)contentController;
 
 
+/**
+ Set background views.
+ */
+- (void)setPortraitBackgroundImage:(UIImage *)image;
+- (void)setLandscapeBackgroundImage:(UIImage *)image;
+
+
 
 #pragma mark -
 #pragma mark Protected methods
 
 - (void)updateNavigationBarFrom:(UIViewController *)contentController;
 - (void)updateToolbarFrom:(UIViewController *)contentController;
-
+- (void)layoutContentView;
 
 @end
 

@@ -25,10 +25,10 @@
     // Override point for customization after application launch.
 	ContentController *aViewController = [[ContentController alloc] initWithNibName:@"AViewController" bundle:nil];
 	aViewController.title = @"Seg A";
-	aViewController.view.backgroundColor = [UIColor redColor];
+//	aViewController.view.backgroundColor = [UIColor redColor];
 	ContentController *bViewController = [[ContentController alloc] initWithNibName:@"BViewController" bundle:nil];
 	bViewController.title = @"Seg B";
-	bViewController.view.backgroundColor = [UIColor blueColor];
+//	bViewController.view.backgroundColor = [UIColor blueColor];
 	
 //	WLSwitchController *switchController = [[WLSwitchController alloc] init];
 //	switchController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
@@ -36,6 +36,8 @@
 //	[switchController release];
 
 	WLSplitViewController *splitViewController = [[WLSplitViewController alloc] init];
+	splitViewController.showsSplitLine = NO;
+	splitViewController.delegate = self;
 	splitViewController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
 	[navigationController pushViewController:splitViewController animated:NO];
 	[splitViewController release];
@@ -105,6 +107,25 @@
 	[super dealloc];
 }
 
+
+
+#pragma mark -
+#pragma mark WLSplitViewControllerDelegate methods
+
+- (void)splitViewController:(WLSplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController {
+	DLog(@"popover");
+}
+
+- (void)splitViewController:(WLSplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc {
+	DLog(@"willHideViewController");
+	barButtonItem.title = @"Master";
+	navigationController.topViewController.navigationItem.leftBarButtonItem = barButtonItem;
+}
+
+- (void)splitViewController:(WLSplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)button {
+	DLog(@"willShowViewController");
+	navigationController.topViewController.navigationItem.leftBarButtonItem = nil;	
+}
 
 @end
 

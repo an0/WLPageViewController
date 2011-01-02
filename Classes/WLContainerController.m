@@ -9,6 +9,15 @@
 #import "WLContainerController.h"
 
 
+@interface WLContainerController ()
+
+@property (nonatomic, retain) UIImage *portraitBackgroundImage;
+@property (nonatomic, retain) UIImage *landscapeBackgroundImage;
+
+- (void)layoutBackgroundForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
+
+@end
+
 
 
 @implementation WLContainerController
@@ -20,7 +29,9 @@ contentInset = _contentInset,
 inheritsTitleView = _inheritsTitleView,
 inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem,
 inheritsRightBarButtonItem = _inheritsRightBarButtonItem,
-inheritsToolbarItems = _inheritsToolbarItems;
+inheritsToolbarItems = _inheritsToolbarItems,
+portraitBackgroundImage = _portraitBackgroundImage,
+landscapeBackgroundImage = _landscapeBackgroundImage;
 
 
 - (id)initWithContentController:(UIViewController *)contentController {
@@ -36,6 +47,8 @@ inheritsToolbarItems = _inheritsToolbarItems;
 	[self updateToolbarFrom:nil];
 	
 	[_contentController release];
+	[_portraitBackgroundImage release];
+	[_landscapeBackgroundImage release];
     [super dealloc];
 }
 
@@ -47,13 +60,10 @@ inheritsToolbarItems = _inheritsToolbarItems;
 
 - (void)setContentController:(UIViewController *)contentController {
 	if (_contentController != contentController) {
-		if ([self isViewLoaded]) {
-			// Update the content view only if the containing view is loaded.
+		if (_isViewDisplayed) {
+			// Update the content view only if the containing view is displayed.
 			// Ensure the content view is loaded before sending view event messages.
 			UIView *contentView = contentController.view;
-			contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;			
-			// Adjust the frame of the content view according to the insets.
-			contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, self.contentInset);
 			[_contentController viewWillDisappear:YES];
 			[contentController viewWillAppear:YES];
 			[_contentController.view removeFromSuperview];
@@ -62,8 +72,7 @@ inheritsToolbarItems = _inheritsToolbarItems;
 			[contentController viewDidAppear:YES];
 			
 			[self updateNavigationBarFrom:contentController];
-			[self updateToolbarFrom:contentController];
-
+			[self updateToolbarFrom:contentController];			
 			/**
 			 FIXME: Logically, parent view controller should be responsible for rotating subview controller, but 1) UINavigationController and UITabBarController don't do it; 2) interfaceOrientation is readonly, so it is impossible to do perfect orientation management currently.
 			 I think I should follow the behavior of UINavigationController and UITabBarController, and users should follow http://wangling.me/2010/07/how-to-rock-and-roll-your-apps/ and override interfaceOrientation to return interfaceOrientation of its parent. 
@@ -87,6 +96,10 @@ inheritsToolbarItems = _inheritsToolbarItems;
 		if ([_contentController respondsToSelector:@selector(setParentViewController:)]) {
 			[_contentController setParentViewController:self];
 		}
+		
+		if (_isViewDisplayed) {
+			[self layoutContentView];
+		}
 	}
 }
 
@@ -95,6 +108,12 @@ inheritsToolbarItems = _inheritsToolbarItems;
 	return self.contentController.view;
 }
 
+- (void)layoutContentView {
+	UIView *contentView = _contentController.view;
+	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;			
+	// Adjust the frame of the content view according to the insets.
+	contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, self.contentInset);
+}
 
 
 
@@ -180,22 +199,34 @@ inheritsToolbarItems = _inheritsToolbarItems;
 #pragma mark -
 #pragma mark View events
 
-- (void)viewWillAppear:(BOOL)animated {	
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	
+	// Add background view.
+	_backgroundView = [[[UIImageView alloc] initWithFrame:self.view.bounds] autorelease];
+	_backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	[self.view insertSubview:_backgroundView atIndex:0];	
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	_isViewDisplayed = YES;
+	
+	[self layoutBackgroundForInterfaceOrientation:self.interfaceOrientation];	
+
 	if (_contentController) {
 		// Ensure the content view is loaded before sending view event messages.
 		UIView *contentView = _contentController.view;
+
+		[_contentController viewWillAppear:animated];			 
+
 		if (contentView.superview != self.view) { 
 			// Add the content view in the containing view if necessary.
-			// Adjust the frame of the content view according to the insets.
-			contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, self.contentInset);
-			contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-			[self.view addSubview:contentView];
-			
+			[self.view addSubview:contentView];			
 			[self updateNavigationBarFrom:_contentController];
 			[self updateToolbarFrom:_contentController];
 		}
 		
-		[_contentController viewWillAppear:animated];			 
+		[self layoutContentView];		
 	}
 	
 	[super viewWillAppear:animated];
@@ -223,6 +254,8 @@ inheritsToolbarItems = _inheritsToolbarItems;
 	}
 	
 	[super viewDidDisappear:animated];
+	
+	_isViewDisplayed = NO;
 }
 
 
@@ -237,6 +270,8 @@ inheritsToolbarItems = _inheritsToolbarItems;
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	[_contentController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	
+	[self layoutBackgroundForInterfaceOrientation:toInterfaceOrientation];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
@@ -246,6 +281,19 @@ inheritsToolbarItems = _inheritsToolbarItems;
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	[_contentController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+}
+
+
+
+#pragma mark -
+#pragma mark Background
+
+- (void)layoutBackgroundForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+	if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+		_backgroundView.image = _portraitBackgroundImage;
+	} else {		
+		_backgroundView.image = _landscapeBackgroundImage;
+	}	
 }
 
 

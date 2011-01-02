@@ -27,17 +27,44 @@
 }
 */
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	DLog(@"%@ viewDidLoad", self.title);
 }
-*/
+
+- (void)viewWillAppear:(BOOL)animated {
+	NSLog(@"%@ viewWillAppear:%d", self.title, animated);
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	NSLog(@"%@ viewDidAppear:%d", self.title, animated);
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	NSLog(@"%@ viewWillDisapper:%d", self.title, animated);
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	NSLog(@"%@ viewDidDisappear:%d", self.title, animated);
+    [super viewDidDisappear:animated];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return YES;
 }
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	NSLog(@"%@ will rotate", self.title);
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	NSLog(@"%@ did rotate", self.title);
+}
+
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
