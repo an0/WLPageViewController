@@ -440,7 +440,7 @@ delegate = _delegate;
 }
 
 - (void)showMasterViewController {
-	// FIXME: I know this looks strange, but it fixes the bizarre crash.
+	// FIXME: I know this looks strange, but it fixes the bizarre crash. See bug 8816843 for detail.
 	[_poController presentPopoverFromRect:CGRectZero inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];	
 
 	if (_poController.popoverVisible) {
