@@ -59,7 +59,6 @@ delegate = _delegate;
 	[super viewDidLoad];
 	
 	self.view.backgroundColor = [UIColor blackColor];
-	DLog(@"viewDidLoad");
 }
 
 - (void)viewDidUnload {
@@ -112,7 +111,7 @@ delegate = _delegate;
 				[self updateToolbarFrom:_masterViewController];
 			} else {
 				[self hideMasterViewController];
-
+				
 				if (_poController.popoverVisible) {
 					[_poController dismissPopoverAnimated:NO];
 				}
@@ -156,7 +155,7 @@ delegate = _delegate;
 #pragma mark View events
 
 - (void)viewWillAppear:(BOOL)animated {
-	DLog(@"viewWillAppear");
+//	DLog(@"viewWillAppear");
 	
 	// Ensure the content views are loaded before sending view event messages.
 	UIView *masterView = _masterViewController.view;
@@ -189,7 +188,7 @@ delegate = _delegate;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	DLog(@"viewDidAppear");
+//	DLog(@"viewDidAppear");
 	if (_masterViewController.view.superview == self.view) {
 		[_masterViewController viewDidAppear:animated];
 	}
@@ -204,7 +203,7 @@ delegate = _delegate;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	DLog(@"viewWillDisappear");
+//	DLog(@"viewWillDisappear");
 	if (_masterViewController.view.superview == self.view) {
 		[_masterViewController viewWillDisappear:animated];
 	}
@@ -219,7 +218,7 @@ delegate = _delegate;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-	DLog(@"viewDidDisappear");
+//	DLog(@"viewDidDisappear");
 	if (_masterViewController.view.superview == self.view) {
 		[_masterViewController viewDidDisappear:animated];
 	}
@@ -241,7 +240,7 @@ delegate = _delegate;
 #pragma mark Rotation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
+    return (_masterViewController == nil ? YES : [_masterViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation]) && (_detailViewController == nil ? YES : [_detailViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation]);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -420,8 +419,9 @@ delegate = _delegate;
 #pragma mark Popover handling
 
 - (void)hideMasterViewController {
-	[_poController release];
-	_poController = [[UIPopoverController alloc] initWithContentViewController:_masterViewController];
+	if (_poController == nil) {
+		_poController = [[UIPopoverController alloc] initWithContentViewController:_masterViewController];
+	}
 	
 	// Create and configure _barButtonItem.
 	[_barButtonItem release];		
@@ -440,6 +440,9 @@ delegate = _delegate;
 }
 
 - (void)showMasterViewController {
+	// FIXME: I know this looks strange, but it fixes the bizarre crash.
+	[_poController presentPopoverFromRect:CGRectZero inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];	
+
 	if (_poController.popoverVisible) {
 		[_poController dismissPopoverAnimated:NO];
 	}

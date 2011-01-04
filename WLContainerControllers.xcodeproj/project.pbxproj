@@ -12,6 +12,8 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
+		C90BC36C12D291EE002D24F5 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90BC36B12D291EE002D24F5 /* DetailViewController.m */; };
+		C90BC48912D29CF2002D24F5 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90BC48812D29CF2002D24F5 /* MasterViewController.m */; };
 		C91E8B3412AC86310083E558 /* corner_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B2B12AC86310083E558 /* corner_bottom.png */; };
 		C91E8B3512AC86310083E558 /* corner_bottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B2C12AC86310083E558 /* corner_bottom@2x.png */; };
 		C91E8B3612AC86310083E558 /* corner_left.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B2D12AC86310083E558 /* corner_left.png */; };
@@ -40,6 +42,10 @@
 		28A0AAE50D9B0CCF005BE974 /* WLContainerControllers_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLContainerControllers_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* WLContainerControllers-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WLContainerControllers-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		C90BC36A12D291EE002D24F5 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		C90BC36B12D291EE002D24F5 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		C90BC48712D29CF2002D24F5 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		C90BC48812D29CF2002D24F5 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		C91E8B2B12AC86310083E558 /* corner_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = corner_bottom.png; sourceTree = "<group>"; };
 		C91E8B2C12AC86310083E558 /* corner_bottom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "corner_bottom@2x.png"; sourceTree = "<group>"; };
 		C91E8B2D12AC86310083E558 /* corner_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = corner_left.png; sourceTree = "<group>"; };
@@ -86,6 +92,10 @@
 				1D3623250D0F684500981E51 /* WLContainerControllersAppDelegate.m */,
 				C9D0AC9C11F0943000A84A80 /* ContentController.h */,
 				C9D0AC9D11F0943000A84A80 /* ContentController.m */,
+				C90BC48712D29CF2002D24F5 /* MasterViewController.h */,
+				C90BC48812D29CF2002D24F5 /* MasterViewController.m */,
+				C90BC36A12D291EE002D24F5 /* DetailViewController.h */,
+				C90BC36B12D291EE002D24F5 /* DetailViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -284,6 +294,8 @@
 				C9D0ACA011F0943000A84A80 /* ContentController.m in Sources */,
 				C9C633AF11F1997A00A09C37 /* NSString+Extension.m in Sources */,
 				C941FBF712A6EF5100FB1ADD /* WLSplitViewController.m in Sources */,
+				C90BC36C12D291EE002D24F5 /* DetailViewController.m in Sources */,
+				C90BC48912D29CF2002D24F5 /* MasterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

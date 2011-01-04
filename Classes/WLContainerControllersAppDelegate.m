@@ -10,6 +10,8 @@
 #import "WLSwitchController.h"
 #import "WLSplitViewController.h"
 #import "ContentController.h"
+#import "MasterViewController.h"
+#import "DetailViewController.h"
 
 @implementation WLContainerControllersAppDelegate
 
@@ -23,12 +25,16 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     // Override point for customization after application launch.
-	ContentController *aViewController = [[ContentController alloc] initWithNibName:@"AViewController" bundle:nil];
-	aViewController.title = @"Seg A";
+//	ContentController *aViewController = [[ContentController alloc] initWithNibName:@"AViewController" bundle:nil];
+//	aViewController.title = @"Seg A";
 //	aViewController.view.backgroundColor = [UIColor redColor];
-	ContentController *bViewController = [[ContentController alloc] initWithNibName:@"BViewController" bundle:nil];
-	bViewController.title = @"Seg B";
+//	ContentController *bViewController = [[ContentController alloc] initWithNibName:@"BViewController" bundle:nil];
+//	bViewController.title = @"Seg B";
 //	bViewController.view.backgroundColor = [UIColor blueColor];
+	
+	MasterViewController *masterViewController = [[MasterViewController alloc] initWithStyle:UITableViewStylePlain];
+	
+	DetailViewController *detailViewController = [[DetailViewController alloc] initWithStyle:UITableViewStylePlain];
 	
 //	WLSwitchController *switchController = [[WLSwitchController alloc] init];
 //	switchController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
@@ -38,12 +44,12 @@
 	WLSplitViewController *splitViewController = [[WLSplitViewController alloc] init];
 	splitViewController.showsSplitLine = NO;
 	splitViewController.delegate = self;
-	splitViewController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
+	splitViewController.viewControllers = [NSArray arrayWithObjects:masterViewController, detailViewController, nil];
 	[navigationController pushViewController:splitViewController animated:NO];
 	[splitViewController release];
 
-	[aViewController release];
-	[bViewController release];
+	[masterViewController release];
+	[detailViewController release];
 
     // Add the navigation controller's view to the window and display.
     [window addSubview:navigationController.view];
