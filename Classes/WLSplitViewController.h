@@ -52,6 +52,8 @@
 
 - (void)splitViewController:(WLSplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController;
 
+- (void)splitViewController:(WLSplitViewController *)svc popoverController:(UIPopoverController *)pc willDismissViewController:(UIViewController *)aViewController;
+
 - (void)splitViewController:(WLSplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc;
 
 - (void)splitViewController:(WLSplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)button;

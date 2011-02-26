@@ -62,6 +62,7 @@ delegate = _delegate;
 }
 
 - (void)viewDidUnload {
+	DLog(@"viewDidUnload");
 	[_poController release];
 	_poController = nil;
 	[_barButtonItem release];
@@ -135,11 +136,17 @@ delegate = _delegate;
 		_viewControllers = [viewControllers copy];
 		
 		// Set self as the parent view controller of content view controller.
-		if ([_masterViewController respondsToSelector:@selector(setParentViewController:)]) {
-			[_masterViewController setParentViewController:self];
+//		if ([_masterViewController respondsToSelector:@selector(setParentViewController:)]) {
+//			[_masterViewController performSelector:@selector(setParentViewController:) withObject:self];
+//		}
+//		if ([_detailViewController respondsToSelector:@selector(setParentViewController:)]) {
+//			[_detailViewController performSelector:@selector(setParentViewController:) withObject:self];
+//		}
+		if ([_masterViewController respondsToSelector:@selector(setHostController:)]) {
+			[_masterViewController performSelector:@selector(setHostController:) withObject:self];
 		}
-		if ([_detailViewController respondsToSelector:@selector(setParentViewController:)]) {
-			[_detailViewController setParentViewController:self];
+		if ([_detailViewController respondsToSelector:@selector(setHostController:)]) {
+			[_detailViewController performSelector:@selector(setHostController:) withObject:self];
 		}
 		
 		[_contentController release];
@@ -421,14 +428,18 @@ delegate = _delegate;
 - (void)hideMasterViewController {
 	if (_poController == nil) {
 		_poController = [[UIPopoverController alloc] initWithContentViewController:_masterViewController];
+	} else {
+		_poController.contentViewController = _masterViewController;
 	}
+
 	
 	// Create and configure _barButtonItem.
-	[_barButtonItem release];		
-	_barButtonItem = [[UIBarButtonItem alloc] initWithTitle:nil 
-													  style:UIBarButtonItemStyleBordered 
-													 target:self 
-													 action:@selector(showMasterPopover:)];
+	if (_barButtonItem == nil) {
+		_barButtonItem = [[UIBarButtonItem alloc] initWithTitle:nil 
+														  style:UIBarButtonItemStyleBordered 
+														 target:self 
+														 action:@selector(toggleMasterPopover:)];		
+	}
 	
 	// Inform delegate of this state of affairs.
 	if (_delegate && [_delegate respondsToSelector:@selector(splitViewController:willHideViewController:withBarButtonItem:forPopoverController:)]) {
@@ -441,37 +452,41 @@ delegate = _delegate;
 
 - (void)showMasterViewController {
 	// FIXME: I know this looks strange, but it fixes the bizarre crash. See bug 8816843 for detail.
-	[_poController presentPopoverFromRect:CGRectZero inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];	
+	if (self.view.window) {
+		[_poController presentPopoverFromRect:CGRectZero inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
+	}
 
 	if (_poController.popoverVisible) {
 		[_poController dismissPopoverAnimated:NO];
 	}
-	[_poController release];
-	_poController = nil;
 	
 	// Inform delegate that the _barButtonItem will become invalid.
 	if (_delegate && [_delegate respondsToSelector:@selector(splitViewController:willShowViewController:invalidatingBarButtonItem:)]) {
 		[(id <WLSplitViewControllerDelegate>)_delegate splitViewController:self 
 													willShowViewController:_masterViewController 
 												 invalidatingBarButtonItem:_barButtonItem];
-	}
-	
-	// Destroy _barButtonItem.
-	[_barButtonItem release];
-	_barButtonItem = nil;
+	}	
 }
 
 
 
-- (IBAction)showMasterPopover:(id)sender {
-	if (_poController) {
+- (IBAction)toggleMasterPopover:(id)sender {
+	if (_poController.popoverVisible) {
+		// Inform delegate.
+		if (_delegate && [_delegate respondsToSelector:@selector(splitViewController:popoverController:willDismissViewController:)]) {
+			[(id <WLSplitViewControllerDelegate>)_delegate splitViewController:self 
+															 popoverController:_poController 
+													 willDismissViewController:_masterViewController];
+		}		
+		// Hide popover.
+		[_poController dismissPopoverAnimated:YES];
+	} else {
 		// Inform delegate.
 		if (_delegate && [_delegate respondsToSelector:@selector(splitViewController:popoverController:willPresentViewController:)]) {
 			[(id <WLSplitViewControllerDelegate>)_delegate splitViewController:self 
 															 popoverController:_poController 
 													 willPresentViewController:_masterViewController];
 		}
-		
 		// Show popover.
 		[_poController presentPopoverFromBarButtonItem:_barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 	}

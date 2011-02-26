@@ -31,7 +31,8 @@ inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem,
 inheritsRightBarButtonItem = _inheritsRightBarButtonItem,
 inheritsToolbarItems = _inheritsToolbarItems,
 portraitBackgroundImage = _portraitBackgroundImage,
-landscapeBackgroundImage = _landscapeBackgroundImage;
+landscapeBackgroundImage = _landscapeBackgroundImage,
+hostController = _hostController;
 
 
 - (id)initWithContentController:(UIViewController *)contentController {
@@ -93,8 +94,11 @@ landscapeBackgroundImage = _landscapeBackgroundImage;
 		[_contentController release];
 		_contentController = [contentController retain];
 		// Set self as the parent view controller of content view controller.
-		if ([_contentController respondsToSelector:@selector(setParentViewController:)]) {
-			[_contentController setParentViewController:self];
+//		if ([_contentController respondsToSelector:@selector(setParentViewController:)]) {
+//			[_contentController performSelector:@selector(setParentViewController:) withObject:self];
+//		}
+		if ([_contentController respondsToSelector:@selector(setHostController:)]) {
+			[_contentController performSelector:@selector(setHostController:) withObject:self];
 		}
 		
 		if (_isViewDisplayed) {
@@ -115,6 +119,12 @@ landscapeBackgroundImage = _landscapeBackgroundImage;
 	contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, self.contentInset);
 }
 
+- (void)setContentInset:(UIEdgeInsets)insets {
+	_contentInset = insets;
+	if (_isViewDisplayed) {
+		[self layoutContentView];
+	}
+}
 
 
 #pragma mark -

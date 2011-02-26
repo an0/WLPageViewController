@@ -44,6 +44,7 @@ selectedViewController = _selectedViewController;
 }
 
 - (void)viewDidUnload {
+	DLog(@"viewDidUnload");
 	[self stopObservingTabBarItems:_viewControllers];
 	
 	self.navigationItem.titleView = nil;
@@ -162,9 +163,12 @@ selectedViewController = _selectedViewController;
 	}
 	
 	for (UIViewController *controller in viewControllers) {
-		if ([controller respondsToSelector:@selector(setParentViewController:)]) {
-			[controller setParentViewController:self];
-		}
+//		if ([controller respondsToSelector:@selector(setParentViewController:)]) {
+//			[controller performSelector:@selector(setParentViewController:) withObject:self];
+//		}
+		if ([_contentController respondsToSelector:@selector(setHostController:)]) {
+			[_contentController performSelector:@selector(setHostController:) withObject:self];
+		}		
 	}
 	
 	// Update the selected view controller.

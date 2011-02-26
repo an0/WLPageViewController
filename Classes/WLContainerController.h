@@ -23,6 +23,7 @@
 	UIImageView *_backgroundView;
 	UIImage *_portraitBackgroundImage;
 	UIImage *_landscapeBackgroundImage;
+	UIViewController *_hostController;
 }
 
 @property (nonatomic, retain) UIViewController *contentController; ///< The content controller managed by the container controller.
@@ -32,7 +33,8 @@
 @property (nonatomic, assign) BOOL inheritsLeftBarButtonItem; ///< A Boolean value indicating whether the container controller inherits the navigationItem.leftBarButtonItem property from the content controller. It has effect only when a new content controller is assigned.
 @property (nonatomic, assign) BOOL inheritsRightBarButtonItem; ///< A Boolean value indicating whether the container controller inherits the navigationItem.rightBarButtonItem property from the content controller. It has effect only when a new content controller is assigned.
 @property (nonatomic, assign) BOOL inheritsToolbarItems; ///< A Boolean value indicating whether the container controller inherits the toolbarItems property from the content controller. It has effect only when a new content controller is assigned. Notice: WLContainerController will change navigationBarController.toolbarHidden, so its parent view controller may have to restore navigationBarController.toolbarHidden after poping it.
-
+@property (nonatomic, assign) UIViewController *hostController; ///< See UIViewController+WLViewController.
+		   
 
 /**
  Initializes and returns a newly created container controller.

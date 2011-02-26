@@ -30,6 +30,8 @@
 		C9D0ACA611F0946700A84A80 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D0ACA511F0946700A84A80 /* MainWindow.xib */; };
 		C9D0ACA911F0947900A84A80 /* AViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D0ACA711F0947900A84A80 /* AViewController.xib */; };
 		C9D0ACAA11F0947900A84A80 /* BViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D0ACA811F0947900A84A80 /* BViewController.xib */; };
+		C9E3ABE8130B36FD004A4940 /* NSObject+Swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E3ABE7130B36FD004A4940 /* NSObject+Swizzle.m */; };
+		C9E3ABF0130B3743004A4940 /* UIViewController+WLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E3ABEF130B3743004A4940 /* UIViewController+WLViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +69,10 @@
 		C9D0ACA511F0946700A84A80 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		C9D0ACA711F0947900A84A80 /* AViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AViewController.xib; sourceTree = "<group>"; };
 		C9D0ACA811F0947900A84A80 /* BViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BViewController.xib; sourceTree = "<group>"; };
+		C9E3ABE6130B36FD004A4940 /* NSObject+Swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Swizzle.h"; path = "../WLFoundation/NSObject+Swizzle.h"; sourceTree = SOURCE_ROOT; };
+		C9E3ABE7130B36FD004A4940 /* NSObject+Swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Swizzle.m"; path = "../WLFoundation/NSObject+Swizzle.m"; sourceTree = SOURCE_ROOT; };
+		C9E3ABEE130B3743004A4940 /* UIViewController+WLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+WLViewController.h"; sourceTree = "<group>"; };
+		C9E3ABEF130B3743004A4940 /* UIViewController+WLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+WLViewController.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +175,8 @@
 		C9C633AC11F1997A00A09C37 /* WLFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				C9E3ABE6130B36FD004A4940 /* NSObject+Swizzle.h */,
+				C9E3ABE7130B36FD004A4940 /* NSObject+Swizzle.m */,
 				C9C633AD11F1997A00A09C37 /* NSString+Extension.h */,
 				C9C633AE11F1997A00A09C37 /* NSString+Extension.m */,
 			);
@@ -192,6 +200,8 @@
 				C9D0AC9911F0943000A84A80 /* WLSwitchController.m */,
 				C941FBF512A6EF5100FB1ADD /* WLSplitViewController.h */,
 				C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */,
+				C9E3ABEE130B3743004A4940 /* UIViewController+WLViewController.h */,
+				C9E3ABEF130B3743004A4940 /* UIViewController+WLViewController.m */,
 			);
 			name = WLContainerControllers;
 			sourceTree = "<group>";
@@ -296,6 +306,8 @@
 				C941FBF712A6EF5100FB1ADD /* WLSplitViewController.m in Sources */,
 				C90BC36C12D291EE002D24F5 /* DetailViewController.m in Sources */,
 				C90BC48912D29CF2002D24F5 /* MasterViewController.m in Sources */,
+				C9E3ABE8130B36FD004A4940 /* NSObject+Swizzle.m in Sources */,
+				C9E3ABF0130B3743004A4940 /* UIViewController+WLViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
