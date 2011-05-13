@@ -7,7 +7,7 @@
 //
 
 #import "WLSwitchController.h"
-#import "NSString+Extension.h"
+#import "NSString+WLExtension.h"
 
 
 @interface WLSwitchController ()
