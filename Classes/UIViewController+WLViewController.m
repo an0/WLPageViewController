@@ -7,7 +7,7 @@
 //
 
 #import "UIViewController+WLViewController.h"
-#import "NSObject+Swizzle.h"
+#import "NSObject+WLExtension.h"
 
 
 @implementation UIViewController (WLViewController)
