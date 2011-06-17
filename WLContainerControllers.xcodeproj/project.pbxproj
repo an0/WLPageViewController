@@ -23,14 +23,14 @@
 		C91E8B3A12AC86310083E558 /* corner_top.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B3112AC86310083E558 /* corner_top.png */; };
 		C91E8B3B12AC86310083E558 /* corner_top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B3212AC86310083E558 /* corner_top@2x.png */; };
 		C941FBF712A6EF5100FB1ADD /* WLSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */; };
-		C9C633AF11F1997A00A09C37 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C633AE11F1997A00A09C37 /* NSString+Extension.m */; };
+		C96012DF13ABD2DD005F871B /* NSObject+WLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C96012DE13ABD2DD005F871B /* NSObject+WLExtension.m */; };
+		C96012E213ABD338005F871B /* NSString+WLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C96012E113ABD338005F871B /* NSString+WLExtension.m */; };
 		C9D0AC9E11F0943000A84A80 /* WLSwitchController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9911F0943000A84A80 /* WLSwitchController.m */; };
 		C9D0AC9F11F0943000A84A80 /* WLContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9B11F0943000A84A80 /* WLContainerController.m */; };
 		C9D0ACA011F0943000A84A80 /* ContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9D11F0943000A84A80 /* ContentController.m */; };
 		C9D0ACA611F0946700A84A80 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D0ACA511F0946700A84A80 /* MainWindow.xib */; };
 		C9D0ACA911F0947900A84A80 /* AViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D0ACA711F0947900A84A80 /* AViewController.xib */; };
 		C9D0ACAA11F0947900A84A80 /* BViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D0ACA811F0947900A84A80 /* BViewController.xib */; };
-		C9E3ABE8130B36FD004A4940 /* NSObject+Swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E3ABE7130B36FD004A4940 /* NSObject+Swizzle.m */; };
 		C9E3ABF0130B3743004A4940 /* UIViewController+WLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E3ABEF130B3743004A4940 /* UIViewController+WLViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -58,8 +58,10 @@
 		C91E8B3212AC86310083E558 /* corner_top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "corner_top@2x.png"; sourceTree = "<group>"; };
 		C941FBF512A6EF5100FB1ADD /* WLSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSplitViewController.h; sourceTree = "<group>"; };
 		C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSplitViewController.m; sourceTree = "<group>"; };
-		C9C633AD11F1997A00A09C37 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Extension.h"; path = "../WLFoundation/NSString+Extension.h"; sourceTree = SOURCE_ROOT; };
-		C9C633AE11F1997A00A09C37 /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extension.m"; path = "../WLFoundation/NSString+Extension.m"; sourceTree = SOURCE_ROOT; };
+		C96012DD13ABD2DD005F871B /* NSObject+WLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+WLExtension.h"; path = "../../WLFoundation/NSObject+WLExtension.h"; sourceTree = "<group>"; };
+		C96012DE13ABD2DD005F871B /* NSObject+WLExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+WLExtension.m"; path = "../../WLFoundation/NSObject+WLExtension.m"; sourceTree = "<group>"; };
+		C96012E013ABD338005F871B /* NSString+WLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+WLExtension.h"; path = "../../WLFoundation/NSString+WLExtension.h"; sourceTree = "<group>"; };
+		C96012E113ABD338005F871B /* NSString+WLExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+WLExtension.m"; path = "../../WLFoundation/NSString+WLExtension.m"; sourceTree = "<group>"; };
 		C9D0AC9811F0943000A84A80 /* WLSwitchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSwitchController.h; sourceTree = "<group>"; };
 		C9D0AC9911F0943000A84A80 /* WLSwitchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSwitchController.m; sourceTree = "<group>"; };
 		C9D0AC9A11F0943000A84A80 /* WLContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLContainerController.h; sourceTree = "<group>"; };
@@ -69,8 +71,6 @@
 		C9D0ACA511F0946700A84A80 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		C9D0ACA711F0947900A84A80 /* AViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AViewController.xib; sourceTree = "<group>"; };
 		C9D0ACA811F0947900A84A80 /* BViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BViewController.xib; sourceTree = "<group>"; };
-		C9E3ABE6130B36FD004A4940 /* NSObject+Swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Swizzle.h"; path = "../WLFoundation/NSObject+Swizzle.h"; sourceTree = SOURCE_ROOT; };
-		C9E3ABE7130B36FD004A4940 /* NSObject+Swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Swizzle.m"; path = "../WLFoundation/NSObject+Swizzle.m"; sourceTree = SOURCE_ROOT; };
 		C9E3ABEE130B3743004A4940 /* UIViewController+WLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+WLViewController.h"; sourceTree = "<group>"; };
 		C9E3ABEF130B3743004A4940 /* UIViewController+WLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+WLViewController.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -175,10 +175,10 @@
 		C9C633AC11F1997A00A09C37 /* WLFoundation */ = {
 			isa = PBXGroup;
 			children = (
-				C9E3ABE6130B36FD004A4940 /* NSObject+Swizzle.h */,
-				C9E3ABE7130B36FD004A4940 /* NSObject+Swizzle.m */,
-				C9C633AD11F1997A00A09C37 /* NSString+Extension.h */,
-				C9C633AE11F1997A00A09C37 /* NSString+Extension.m */,
+				C96012DD13ABD2DD005F871B /* NSObject+WLExtension.h */,
+				C96012DE13ABD2DD005F871B /* NSObject+WLExtension.m */,
+				C96012E013ABD338005F871B /* NSString+WLExtension.h */,
+				C96012E113ABD338005F871B /* NSString+WLExtension.m */,
 			);
 			name = WLFoundation;
 			sourceTree = "<group>";
@@ -233,6 +233,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "I Wonder Phone";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "WLContainerControllers" */;
@@ -288,7 +289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "appledoc -p \"$PROJECT_NAME\" -i \"$SRCROOT\" -o \"$BUILD_DIR/doc\" --xhtml --docset";
+			shellScript = "#appledoc -p \"$PROJECT_NAME\" -i \"$SRCROOT\" -o \"$TMPDIR/doc\" --xhtml --docset";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -302,12 +303,12 @@
 				C9D0AC9E11F0943000A84A80 /* WLSwitchController.m in Sources */,
 				C9D0AC9F11F0943000A84A80 /* WLContainerController.m in Sources */,
 				C9D0ACA011F0943000A84A80 /* ContentController.m in Sources */,
-				C9C633AF11F1997A00A09C37 /* NSString+Extension.m in Sources */,
 				C941FBF712A6EF5100FB1ADD /* WLSplitViewController.m in Sources */,
 				C90BC36C12D291EE002D24F5 /* DetailViewController.m in Sources */,
 				C90BC48912D29CF2002D24F5 /* MasterViewController.m in Sources */,
-				C9E3ABE8130B36FD004A4940 /* NSObject+Swizzle.m in Sources */,
 				C9E3ABF0130B3743004A4940 /* UIViewController+WLViewController.m in Sources */,
+				C96012DF13ABD2DD005F871B /* NSObject+WLExtension.m in Sources */,
+				C96012E213ABD338005F871B /* NSString+WLExtension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +319,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -332,6 +334,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WLContainerControllers_Prefix.pch;
@@ -349,9 +352,9 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -364,10 +367,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -11,9 +11,6 @@
 
 @interface WLContainerController ()
 
-@property (nonatomic, retain) UIImage *portraitBackgroundImage;
-@property (nonatomic, retain) UIImage *landscapeBackgroundImage;
-
 - (void)layoutBackgroundForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 
 @end
@@ -47,10 +44,6 @@ hostController = _hostController;
 	[self updateNavigationBarFrom:nil];
 	[self updateToolbarFrom:nil];
 	
-	[_contentController release];
-	[_portraitBackgroundImage release];
-	[_landscapeBackgroundImage release];
-    [super dealloc];
 }
 
 
@@ -91,8 +84,7 @@ hostController = _hostController;
 //			}
 		}		
 		
-		[_contentController release];
-		_contentController = [contentController retain];
+		_contentController = contentController;
 		// Set self as the parent view controller of content view controller.
 //		if ([_contentController respondsToSelector:@selector(setParentViewController:)]) {
 //			[_contentController performSelector:@selector(setParentViewController:) withObject:self];
@@ -213,7 +205,7 @@ hostController = _hostController;
 	[super viewDidLoad];
 	
 	// Add background view.
-	_backgroundView = [[[UIImageView alloc] initWithFrame:self.view.bounds] autorelease];
+	_backgroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
 	_backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.view insertSubview:_backgroundView atIndex:0];	
 }

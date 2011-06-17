@@ -25,7 +25,6 @@
 @private
 	UISegmentedControl *_switchBar;
 	NSArray *_viewControllers;
-	UIViewController *_selectedViewController;
 }
 
 @property(nonatomic,readonly) UISegmentedControl *switchBar; ///< The switch bar associated with this controller.

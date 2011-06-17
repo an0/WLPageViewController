@@ -18,15 +18,15 @@ static CFMutableDictionaryRef theHostTable;
 
 // Host Table management.
 - (UIViewController *)hostController {
-	return CFDictionaryGetValue(theHostTable, self);
+	return objc_unretainedObject(CFDictionaryGetValue(theHostTable, objc_unretainedPointer(self)));
 }
 
 - (void)setHostController:(UIViewController *)hostController {
-	CFDictionarySetValue(theHostTable, self, hostController);
+	CFDictionarySetValue(theHostTable, objc_unretainedPointer(self), objc_unretainedPointer(hostController));
 }
 
 - (void)WLDealloc {
-	CFDictionaryRemoveValue(theHostTable, self);
+	CFDictionaryRemoveValue(theHostTable, objc_unretainedPointer(self));
 	[self WLDealloc];
 }
 
@@ -58,7 +58,8 @@ static CFMutableDictionaryRef theHostTable;
 	// Do method swizzling.
 	[UIViewController swizzleMethod:@selector(parentViewController) withMethod:@selector(WLParentViewController)];
 	[UIViewController swizzleMethod:@selector(interfaceOrientation) withMethod:@selector(WLInterfaceOrientation)];
-	[UIViewController swizzleMethod:@selector(dealloc) withMethod:@selector(WLDealloc)];
+	// FIXME:
+	// [UIViewController swizzleMethod:@selector(dealloc) withMethod:@selector(WLDealloc)];
 	// Initialize the Host Table.
 	theHostTable = CFDictionaryCreateMutable(NULL, 20, NULL, NULL);
 }

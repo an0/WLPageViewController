@@ -46,10 +46,7 @@
 	splitViewController.delegate = self;
 	splitViewController.viewControllers = [NSArray arrayWithObjects:masterViewController, detailViewController, nil];
 	[navigationController pushViewController:splitViewController animated:NO];
-	[splitViewController release];
 
-	[masterViewController release];
-	[detailViewController release];
 
     // Add the navigation controller's view to the window and display.
     [window addSubview:navigationController.view];
@@ -107,11 +104,6 @@
 }
 
 
-- (void)dealloc {
-	[navigationController release];
-	[window release];
-	[super dealloc];
-}
 
 
 

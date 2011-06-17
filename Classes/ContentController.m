@@ -80,14 +80,6 @@
 }
 
 
-- (void)dealloc {
-    [super dealloc];
-}
-
-- (BOOL)_isPresentedModally {
-	DLog(@"_isPresentedModally");
-	return [super _isPresentedModally];
-}
 
 
 @end

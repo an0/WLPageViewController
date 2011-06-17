@@ -24,7 +24,6 @@
 	BOOL _hidesMasterViewInPortrait;
 	UIPopoverController *_poController;
 	UIBarButtonItem *_barButtonItem;
-	id _delegate;
 }
 
 @property (nonatomic, copy) NSArray *viewControllers; ///< The array of view controllers managed by the receiver. The array in this property must contain exactly two view controllers. The view controllers are presented left-to-right/top-to-bottom in the split view interface when it is in a landscape/portrait orientation. Thus, the view controller at index 0 is displayed on the left/top side and the view controller at index 1 is displayed on the right/bottom side of the interface.
@@ -46,7 +45,7 @@
 
 
 
-@protocol WLSplitViewControllerDelegate
+@protocol WLSplitViewControllerDelegate <NSObject>
 
 @optional
 

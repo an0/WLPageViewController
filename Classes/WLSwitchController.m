@@ -48,7 +48,6 @@ selectedViewController = _selectedViewController;
 	[self stopObservingTabBarItems:_viewControllers];
 	
 	self.navigationItem.titleView = nil;
-	[_switchBar release];
 	_switchBar = nil;
 	 
     [super viewDidUnload];
@@ -57,10 +56,7 @@ selectedViewController = _selectedViewController;
 - (void)dealloc {
 	[self stopObservingTabBarItems:_viewControllers];
 	
-	[_switchBar release];
-	[_viewControllers release];
 	
-    [super dealloc];
 }
 
 
@@ -182,10 +178,7 @@ selectedViewController = _selectedViewController;
 	}
 	controllerToSelect = [viewControllers objectAtIndex:index];
 	
-	// Retain the selected view controller to prevent it from being deallocated by releasing the view controller array; then autorelease it because I can not release it when I've lost the reference to it after the assignment.
-	[[self.selectedViewController retain] autorelease];
 	// Must update the view controller array before the assignment of selected view controller because of the precondition that the selected view controller must be element of the view contronller array.
-	[_viewControllers release];
 	_viewControllers = [viewControllers copy];
 
 	self.selectedViewController = controllerToSelect;

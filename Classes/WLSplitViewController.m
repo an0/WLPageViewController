@@ -63,23 +63,10 @@ delegate = _delegate;
 
 - (void)viewDidUnload {
 	DLog(@"viewDidUnload");
-	[_poController release];
 	_poController = nil;
-	[_barButtonItem release];
 	_barButtonItem = nil;
 }
 
-- (void)dealloc {
-	[_viewControllers release];
-	[_leftCorner release];
-	[_rightCorner release];
-	[_topCorner release];
-	[_bottomCorner release];
-	[_poController release];
-	[_barButtonItem release];
-	
-    [super dealloc];
-}
 
 
 
@@ -132,7 +119,6 @@ delegate = _delegate;
 			[self layoutViews:viewControllers];
 		}
 		
-		[_viewControllers release];
 		_viewControllers = [viewControllers copy];
 		
 		// Set self as the parent view controller of content view controller.
@@ -149,8 +135,7 @@ delegate = _delegate;
 			[_detailViewController performSelector:@selector(setHostController:) withObject:self];
 		}
 		
-		[_contentController release];
-		_contentController = [_masterViewController retain];		
+		_contentController = _masterViewController;		
 	}
 }
 
