@@ -58,8 +58,9 @@ static CFMutableDictionaryRef theHostTable;
 	// Do method swizzling.
 	[UIViewController swizzleMethod:@selector(parentViewController) withMethod:@selector(WLParentViewController)];
 	[UIViewController swizzleMethod:@selector(interfaceOrientation) withMethod:@selector(WLInterfaceOrientation)];
-	// FIXME:
-	// [UIViewController swizzleMethod:@selector(dealloc) withMethod:@selector(WLDealloc)];
+#if !__has_feature(objc_arc)
+	[UIViewController swizzleMethod:@selector(dealloc) withMethod:@selector(WLDealloc)];
+#endif
 	// Initialize the Host Table.
 	theHostTable = CFDictionaryCreateMutable(NULL, 20, NULL, NULL);
 }
