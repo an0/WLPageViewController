@@ -43,7 +43,6 @@ hostController = _hostController;
 	// Stop the observation.
 	[self updateNavigationBarFrom:nil];
 	[self updateToolbarFrom:nil];
-	
 }
 
 

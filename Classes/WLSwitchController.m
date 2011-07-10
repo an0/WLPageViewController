@@ -55,8 +55,6 @@ selectedViewController = _selectedViewController;
 
 - (void)dealloc {
 	[self stopObservingTabBarItems:_viewControllers];
-	
-	
 }
 
 

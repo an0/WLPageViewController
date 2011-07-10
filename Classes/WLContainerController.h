@@ -44,8 +44,8 @@
 /**
  Set background views.
  */
-@property (nonatomic, strong) UIImage *portraitBackgroundImage;
-@property (nonatomic, strong) UIImage *landscapeBackgroundImage;
+@property (nonatomic, retain) UIImage *portraitBackgroundImage;
+@property (nonatomic, retain) UIImage *landscapeBackgroundImage;
 
 
 
