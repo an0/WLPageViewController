@@ -158,6 +158,10 @@
 			value = nil;
 		}
 		
+		if ([keyPath isEqualToString:@"toolbarItems"]) {
+			self.navigationController.toolbarHidden = ([value count] == 0);
+		}
+
 		[self setValue:value forKeyPath:keyPath];
 	}	
 }
