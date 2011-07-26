@@ -31,7 +31,7 @@
 		C9D0ACA611F0946700A84A80 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D0ACA511F0946700A84A80 /* MainWindow.xib */; };
 		C9D0ACA911F0947900A84A80 /* AViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D0ACA711F0947900A84A80 /* AViewController.xib */; };
 		C9D0ACAA11F0947900A84A80 /* BViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D0ACA811F0947900A84A80 /* BViewController.xib */; };
-		C9E3ABF0130B3743004A4940 /* UIViewController+WLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E3ABEF130B3743004A4940 /* UIViewController+WLViewController.m */; };
+		C9E36F3213DE1179002013C9 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9E36F3113DE1179002013C9 /* DetailViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,8 +71,7 @@
 		C9D0ACA511F0946700A84A80 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		C9D0ACA711F0947900A84A80 /* AViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AViewController.xib; sourceTree = "<group>"; };
 		C9D0ACA811F0947900A84A80 /* BViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BViewController.xib; sourceTree = "<group>"; };
-		C9E3ABEE130B3743004A4940 /* UIViewController+WLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+WLViewController.h"; sourceTree = "<group>"; };
-		C9E3ABEF130B3743004A4940 /* UIViewController+WLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+WLViewController.m"; sourceTree = "<group>"; };
+		C9E36F3113DE1179002013C9 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +141,7 @@
 				C9D0ACA511F0946700A84A80 /* MainWindow.xib */,
 				C9D0ACA711F0947900A84A80 /* AViewController.xib */,
 				C9D0ACA811F0947900A84A80 /* BViewController.xib */,
+				C9E36F3113DE1179002013C9 /* DetailViewController.xib */,
 				8D1107310486CEB800E47090 /* WLContainerControllers-Info.plist */,
 			);
 			name = Resources;
@@ -200,8 +200,6 @@
 				C9D0AC9911F0943000A84A80 /* WLSwitchController.m */,
 				C941FBF512A6EF5100FB1ADD /* WLSplitViewController.h */,
 				C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */,
-				C9E3ABEE130B3743004A4940 /* UIViewController+WLViewController.h */,
-				C9E3ABEF130B3743004A4940 /* UIViewController+WLViewController.m */,
 			);
 			name = WLContainerControllers;
 			sourceTree = "<group>";
@@ -272,6 +270,7 @@
 				C91E8B3912AC86310083E558 /* corner_right@2x.png in Resources */,
 				C91E8B3A12AC86310083E558 /* corner_top.png in Resources */,
 				C91E8B3B12AC86310083E558 /* corner_top@2x.png in Resources */,
+				C9E36F3213DE1179002013C9 /* DetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,7 +305,6 @@
 				C941FBF712A6EF5100FB1ADD /* WLSplitViewController.m in Sources */,
 				C90BC36C12D291EE002D24F5 /* DetailViewController.m in Sources */,
 				C90BC48912D29CF2002D24F5 /* MasterViewController.m in Sources */,
-				C9E3ABF0130B3743004A4940 /* UIViewController+WLViewController.m in Sources */,
 				C96012DF13ABD2DD005F871B /* NSObject+WLExtension.m in Sources */,
 				C96012E213ABD338005F871B /* NSString+WLExtension.m in Sources */,
 			);

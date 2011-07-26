@@ -11,7 +11,6 @@
 
 @interface WLSplitViewController ()
 
-- (void)layoutViews:(NSArray *)viewControllers;
 - (void)hideMasterViewController;
 - (void)showMasterViewController;
 
@@ -30,49 +29,38 @@ hidesMasterViewInPortrait = _hidesMasterViewInPortrait,
 delegate = _delegate;
 
 
-- (void)_init {
-	_splitPosition = 320.f;
-	_gutterWidth = 1.f;
-	_showsSplitLine = YES;
-	_hidesMasterViewInPortrait = YES;
+static void init(WLSplitViewController *self) {
+	self->_splitPosition = 320.f;
+	self->_gutterWidth = 1.f;
+	self->_showsSplitLine = YES;
+	self->_hidesMasterViewInPortrait = YES;
 	
-	_leftCorner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"corner_left"]];	
-	_rightCorner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"corner_right"]];
-	_topCorner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"corner_top"]];
-	_bottomCorner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"corner_bottom"]];	
+	self->_leftCorner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"corner_left"]];	
+	self->_rightCorner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"corner_right"]];
+	self->_topCorner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"corner_top"]];
+	self->_bottomCorner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"corner_bottom"]];
 }
 
-- (void)awakeFromNib {
-	[super awakeFromNib];
-	[self _init];
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if (self) {
+		init(self);
+	}
+	return self;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-		[self _init];
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		init(self);
 	}
 	
 	return self;
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	
-	self.view.backgroundColor = [UIColor blackColor];
-}
-
-- (void)viewDidUnload {
-	DLog(@"viewDidUnload");
-	_poController = nil;
-	_barButtonItem = nil;
-}
 
 
-
-
-
-#pragma mark -
-#pragma mark Content View management
+#pragma mark - Content View management
 
 - (void)setViewControllers:(NSArray *)viewControllers {
 	if (_viewControllers != viewControllers) {
@@ -82,60 +70,34 @@ delegate = _delegate;
 		_masterViewController = [viewControllers objectAtIndex:0];
 		_detailViewController = [viewControllers objectAtIndex:1];
 		
-		if (_isViewDisplayed) {
-			// Update the content views only if the containing view is displayed.
+		[oldMasterViewController willMoveToParentViewController:nil];
+		[self addChildViewController:_masterViewController];
+		[oldDetailViewController willMoveToParentViewController:nil];
+		[self addChildViewController:_detailViewController];
+
+		if (self.isViewLoaded) {
+			[oldDetailViewController.view removeFromSuperview];
+			[self.view addSubview:_detailViewController.view];
+
 			if (!(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && _hidesMasterViewInPortrait)) {
-				NSInteger index = [[self.view subviews] indexOfObject:oldMasterViewController.view];
-				
-				[oldMasterViewController viewWillDisappear:NO];
-				[oldMasterViewController.view removeFromSuperview];
-				[oldMasterViewController viewDidDisappear:NO];
-				
-				[_masterViewController viewWillAppear:NO];
-				[self.view insertSubview:_masterViewController.view atIndex:index];
-				[_masterViewController viewDidAppear:NO];
-				
-				[self updateNavigationBarFrom:_masterViewController];
-				[self updateToolbarFrom:_masterViewController];
+				[oldMasterViewController.view removeFromSuperview];				
+				[self.view addSubview:_masterViewController.view];
+				[self showMasterViewController];
 			} else {
 				[self hideMasterViewController];
-				
-				if (_poController.popoverVisible) {
-					[_poController dismissPopoverAnimated:NO];
-				}
-				
-			}
-			
-			NSInteger index = [[self.view subviews] indexOfObject:oldDetailViewController.view];
-			
-			[oldDetailViewController viewWillDisappear:NO];
-			[oldDetailViewController.view removeFromSuperview];
-			[oldDetailViewController viewDidDisappear:NO];
-			
-			[_detailViewController viewWillAppear:NO];
-			[self.view insertSubview:_detailViewController.view atIndex:index];
-			[_detailViewController viewDidAppear:NO];
-						
-			[self layoutViews:viewControllers];
+			}			
 		}
 		
+		[_detailViewController didMoveToParentViewController:self];
+		[oldDetailViewController removeFromParentViewController];
+		[_masterViewController didMoveToParentViewController:self];
+		[oldMasterViewController removeFromParentViewController];
+		
+		[self updateNavigationBarFrom:_masterViewController];
+		[self updateToolbarFrom:_masterViewController];
+
 		_viewControllers = [viewControllers copy];
-		
-		// Set self as the parent view controller of content view controller.
-//		if ([_masterViewController respondsToSelector:@selector(setParentViewController:)]) {
-//			[_masterViewController performSelector:@selector(setParentViewController:) withObject:self];
-//		}
-//		if ([_detailViewController respondsToSelector:@selector(setParentViewController:)]) {
-//			[_detailViewController performSelector:@selector(setParentViewController:) withObject:self];
-//		}
-		if ([_masterViewController respondsToSelector:@selector(setHostController:)]) {
-			[_masterViewController performSelector:@selector(setHostController:) withObject:self];
-		}
-		if ([_detailViewController respondsToSelector:@selector(setHostController:)]) {
-			[_detailViewController performSelector:@selector(setHostController:) withObject:self];
-		}
-		
-		_contentController = _masterViewController;		
+		_contentController = _masterViewController;
 	}
 }
 
@@ -143,186 +105,97 @@ delegate = _delegate;
 
 
 
-#pragma mark -
-#pragma mark View events
+#pragma mark - View events
 
-- (void)viewWillAppear:(BOOL)animated {
-//	DLog(@"viewWillAppear");
+- (void)viewDidLoad {
+	[super viewDidLoad];
 	
-	// Ensure the content views are loaded before sending view event messages.
-	UIView *masterView = _masterViewController.view;
-	UIView *detailView = _detailViewController.view;
+	self.view.backgroundColor = [UIColor blackColor];
 	
+	if (!_viewControllers) return;
+	
+	[self.view addSubview:_detailViewController.view];
+
 	if (!(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && _hidesMasterViewInPortrait)) {
-		[_masterViewController viewWillAppear:animated];
-		if (masterView.superview != self.view) {
-			[self.view addSubview:masterView];
-			[self updateNavigationBarFrom:_masterViewController];
-			[self updateToolbarFrom:_masterViewController];
-		}
+		[self.view addSubview:_masterViewController.view];
 	} else {
+		// Initial delegate message.
 		[self hideMasterViewController];
 	}
-	
-	[_detailViewController viewWillAppear:animated];	
-	if (detailView.superview != self.view) {
-		[self.view addSubview:detailView];
-	}
-	
-	[self layoutViews:_viewControllers];
-	
-	// Nullify self.contentController to avoid redundant calls.
-	UIViewController *contentController = _contentController;
-	_contentController = nil;
+}
+
+- (void)viewDidUnload {
+	DLog(@"viewDidUnload");
+	_poController = nil;
+	_barButtonItem = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	DLog(@"viewWillAppear");
 	[super viewWillAppear:animated];
-	// Restore self.contentController.
-	_contentController = contentController;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-//	DLog(@"viewDidAppear");
-	if (_masterViewController.view.superview == self.view) {
-		[_masterViewController viewDidAppear:animated];
-	}
-	[_detailViewController viewDidAppear:animated];
 	
-	// Nullify self.contentController to avoid redundant calls.
-	UIViewController *contentController = _contentController;
-	_contentController = nil;
-	[super viewDidAppear:animated];
-	// Restore self.contentController.
-	_contentController = contentController;	
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-//	DLog(@"viewWillDisappear");
-	if (_masterViewController.view.superview == self.view) {
-		[_masterViewController viewWillDisappear:animated];
-	}
-	[_detailViewController viewWillDisappear:animated];
-	
-	// Nullify self.contentController to avoid redundant calls.
-	UIViewController *contentController = _contentController;
-	_contentController = nil;
-	[super viewWillDisappear:animated];
-	// Restore self.contentController.
-	_contentController = contentController;
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-//	DLog(@"viewDidDisappear");
-	if (_masterViewController.view.superview == self.view) {
-		[_masterViewController viewDidDisappear:animated];
-	}
-	[_detailViewController viewDidDisappear:animated];
-	
-	// Nullify self.contentController to avoid redundant calls.
-	UIViewController *contentController = _contentController;
-	_contentController = nil;
-	[super viewDidDisappear:animated];
-	// Restore self.contentController.
-	_contentController = contentController;
+	if (!(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && _hidesMasterViewInPortrait)) {
+		if (_masterViewController.view.superview != self.view) {
+			[self.view addSubview:_masterViewController.view];
+		}
+		if (!_isMasterViewShown) {
+			[self showMasterViewController];
+		}
+	} else {
+		if (_isMasterViewShown) {
+			[self hideMasterViewController];
+		}
+	}	
 }
 
 
-
-
-
-#pragma mark -
-#pragma mark Rotation support
+#pragma mark - Rotation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (_masterViewController == nil ? YES : [_masterViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation]) && (_detailViewController == nil ? YES : [_detailViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation]);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	
-	// Nullify self.contentController to avoid redundant calls.
-	UIViewController *contentController = _contentController;
-	_contentController = nil;
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	// Restore self.contentController.
-	_contentController = contentController;
 	
-	UIView *masterView = _masterViewController.view;
 	if (_hidesMasterViewInPortrait &&
 		UIInterfaceOrientationIsLandscape(self.interfaceOrientation) &&
 		UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
-		// Hide master.
 		[self hideMasterViewController];
-		[_masterViewController viewWillDisappear:NO];
-	}
-	
-	[_masterViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	[_detailViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	
-	if (_hidesMasterViewInPortrait &&
-		UIInterfaceOrientationIsPortrait(self.interfaceOrientation) &&
-		UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-		// Show master.
+	} else if (_hidesMasterViewInPortrait &&
+			   UIInterfaceOrientationIsPortrait(self.interfaceOrientation) &&
+			   UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
 		[self showMasterViewController];
-		[_masterViewController viewWillAppear:NO];
-		[self.view addSubview:masterView];
+		[self.view addSubview:_masterViewController.view];
 	}
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
-	// Nullify self.contentController to avoid redundant calls.
-	UIViewController *contentController = _contentController;
-	_contentController = nil;
 	[super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
-	// Restore self.contentController.
-	_contentController = contentController;
-	
-	
-	[_masterViewController willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
-	[_detailViewController willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
 	
 	if (_poController.popoverVisible) {
 		[_poController dismissPopoverAnimated:NO];
 	}
-	
-	[self layoutViews:_viewControllers];
 }
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	[_masterViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-	[_detailViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-	
-	UIView *masterView = _masterViewController.view;
+	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 	if (_hidesMasterViewInPortrait &&
 		UIInterfaceOrientationIsLandscape(fromInterfaceOrientation) &&
 		UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-		// Hide master.
-		[masterView removeFromSuperview];
-		[_masterViewController viewDidDisappear:NO];
-	} else if (_hidesMasterViewInPortrait && 
-			   UIInterfaceOrientationIsPortrait(fromInterfaceOrientation) &&
-			   UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-		// Show master.
-		[_masterViewController viewDidAppear:NO];
-	}
-	
-	// Nullify self.contentController to avoid redundant calls.
-	UIViewController *contentController = _contentController;
-	_contentController = nil;
-	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-	// Restore self.contentController.
-	_contentController = contentController;	
+		[_masterViewController.view removeFromSuperview];
+	}	
 }
 
 
 
 
-#pragma mark -
-#pragma mark Layout views
+#pragma mark - Layout views
 
-- (void)layoutViews:(NSArray *)viewControllers {
-	UIViewController *masterViewController = [viewControllers objectAtIndex:0];
-	UIViewController *detailViewController = [viewControllers objectAtIndex:1];
-	UIView *masterView = masterViewController.view;
-	UIView *detailView = detailViewController.view;
+- (void)viewWillLayoutSubviews {
+	UIView *masterView = _masterViewController.view;
+	UIView *detailView = _detailViewController.view;
 	UIView *leadingCorner = nil;
 	UIView *trailingCorner = nil;
 	
@@ -407,8 +280,7 @@ delegate = _delegate;
 
 
 
-#pragma mark -
-#pragma mark Popover handling
+#pragma mark - Popover handling
 
 - (void)hideMasterViewController {
 	if (_poController == nil) {
@@ -433,14 +305,11 @@ delegate = _delegate;
 														 withBarButtonItem:_barButtonItem 
 													  forPopoverController:_poController];
 	}
+	
+	_isMasterViewShown = NO;
 }
 
 - (void)showMasterViewController {
-	// FIXME: I know this looks strange, but it fixes the bizarre crash. See bug 8816843 for detail.
-	if (self.view.window) {
-		[_poController presentPopoverFromRect:CGRectZero inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
-	}
-
 	if (_poController.popoverVisible) {
 		[_poController dismissPopoverAnimated:NO];
 	}
@@ -450,7 +319,9 @@ delegate = _delegate;
 		[(id <WLSplitViewControllerDelegate>)_delegate splitViewController:self 
 													willShowViewController:_masterViewController 
 												 invalidatingBarButtonItem:_barButtonItem];
-	}	
+	}
+	
+	_isMasterViewShown = YES;
 }
 
 

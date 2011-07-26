@@ -21,11 +21,7 @@
 
  Refer to the class reference of UITabBarController and UISegmentedControl.
  */
-@interface WLSwitchController : WLContainerController {
-@private
-	UISegmentedControl *_switchBar;
-	NSArray *_viewControllers;
-}
+@interface WLSwitchController : WLContainerController
 
 @property(nonatomic,readonly) UISegmentedControl *switchBar; ///< The switch bar associated with this controller.
 @property(nonatomic, copy) NSArray *viewControllers; ///< An array of the root view controllers displayed by the switch controller.

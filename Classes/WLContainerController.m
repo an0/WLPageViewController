@@ -20,17 +20,19 @@
 @implementation WLContainerController
 
 
-@synthesize
-contentController = _contentController,
-contentInset = _contentInset,
-inheritsTitleView = _inheritsTitleView,
-inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem,
-inheritsRightBarButtonItem = _inheritsRightBarButtonItem,
-inheritsToolbarItems = _inheritsToolbarItems,
-portraitBackgroundImage = _portraitBackgroundImage,
-landscapeBackgroundImage = _landscapeBackgroundImage,
-hostController = _hostController;
+@synthesize contentController = _contentController;
+@synthesize contentInset = _contentInset;
+@synthesize inheritsTitleView = _inheritsTitleView;
+@synthesize inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem;
+@synthesize inheritsRightBarButtonItem = _inheritsRightBarButtonItem;
+@synthesize inheritsToolbarItems = _inheritsToolbarItems;
+@synthesize portraitBackgroundImage = _portraitBackgroundImage;
+@synthesize landscapeBackgroundImage = _landscapeBackgroundImage;
 
+
+- (id)init {
+	return [self initWithContentController:nil];
+}
 
 - (id)initWithContentController:(UIViewController *)contentController {
 	if ((self = [super init])) {
@@ -48,53 +50,22 @@ hostController = _hostController;
 
 
 
-#pragma mark -
-#pragma mark Content View management
+#pragma mark - Content View management
 
 - (void)setContentController:(UIViewController *)contentController {
 	if (_contentController != contentController) {
-		if (_isViewDisplayed) {
-			// Update the content view only if the containing view is displayed.
-			// Ensure the content view is loaded before sending view event messages.
-			UIView *contentView = contentController.view;
-			[_contentController viewWillDisappear:YES];
-			[contentController viewWillAppear:YES];
+		[_contentController willMoveToParentViewController:nil];
+		[self addChildViewController:contentController];
+		if (self.isViewLoaded) {
 			[_contentController.view removeFromSuperview];
-			[self.view addSubview:contentView];
-			[_contentController viewDidDisappear:YES];
-			[contentController viewDidAppear:YES];
-			
-			[self updateNavigationBarFrom:contentController];
-			[self updateToolbarFrom:contentController];			
-			/**
-			 FIXME: Logically, parent view controller should be responsible for rotating subview controller, but 1) UINavigationController and UITabBarController don't do it; 2) interfaceOrientation is readonly, so it is impossible to do perfect orientation management currently.
-			 I think I should follow the behavior of UINavigationController and UITabBarController, and users should follow http://wangling.me/2010/07/how-to-rock-and-roll-your-apps/ and override interfaceOrientation to return interfaceOrientation of its parent. 
-			 In fact, the following code does not work, because contentController.interfaceOrientation never changes and condition clause will have false negatives.
-			 */
-			
-			/** Refer to http://openradar.appspot.com/8365675. */
-			
-			// Rotate the content view if necessary.
-//			if (contentController.interfaceOrientation != self.interfaceOrientation) {
-//				UIInterfaceOrientation oldOrientation = contentController.interfaceOrientation;
-//				[contentController willRotateToInterfaceOrientation:self.interfaceOrientation duration:0.3];
-//				[contentController willAnimateRotationToInterfaceOrientation:self.interfaceOrientation duration:0.3];
-//				[contentController didRotateFromInterfaceOrientation:oldOrientation];
-//			}
-		}		
+			[self.view addSubview:contentController.view];
+		}
+		[contentController didMoveToParentViewController:self];	
+		[_contentController removeFromParentViewController];
 		
+		[self updateNavigationBarFrom:contentController];
+		[self updateToolbarFrom:contentController];
 		_contentController = contentController;
-		// Set self as the parent view controller of content view controller.
-//		if ([_contentController respondsToSelector:@selector(setParentViewController:)]) {
-//			[_contentController performSelector:@selector(setParentViewController:) withObject:self];
-//		}
-		if ([_contentController respondsToSelector:@selector(setHostController:)]) {
-			[_contentController performSelector:@selector(setHostController:) withObject:self];
-		}
-		
-		if (_isViewDisplayed) {
-			[self layoutContentView];
-		}
 	}
 }
 
@@ -103,7 +74,7 @@ hostController = _hostController;
 	return self.contentController.view;
 }
 
-- (void)layoutContentView {
+- (void)viewWillLayoutSubviews {
 	UIView *contentView = _contentController.view;
 	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;			
 	// Adjust the frame of the content view according to the insets.
@@ -112,14 +83,11 @@ hostController = _hostController;
 
 - (void)setContentInset:(UIEdgeInsets)insets {
 	_contentInset = insets;
-	if (_isViewDisplayed) {
-		[self layoutContentView];
-	}
+	[self.view setNeedsLayout];
 }
 
 
-#pragma mark -
-#pragma mark Update navigation bar and toolbar
+#pragma mark - Update navigation bar and toolbar
 
 - (void)updateNavigationBarFrom:(UIViewController *)contentController {
 	// Removing observer throws NSException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
@@ -197,8 +165,7 @@ hostController = _hostController;
 
 
 
-#pragma mark -
-#pragma mark View events
+#pragma mark - View events
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -206,88 +173,28 @@ hostController = _hostController;
 	// Add background view.
 	_backgroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
 	_backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	[self.view insertSubview:_backgroundView atIndex:0];	
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	_isViewDisplayed = YES;
-	
-	[self layoutBackgroundForInterfaceOrientation:self.interfaceOrientation];	
-
-	if (_contentController) {
-		// Ensure the content view is loaded before sending view event messages.
-		UIView *contentView = _contentController.view;
-
-		[_contentController viewWillAppear:animated];			 
-
-		if (contentView.superview != self.view) { 
-			// Add the content view in the containing view if necessary.
-			[self.view addSubview:contentView];			
-			[self updateNavigationBarFrom:_contentController];
-			[self updateToolbarFrom:_contentController];
-		}
-		
-		[self layoutContentView];		
+	[self.view insertSubview:_backgroundView atIndex:0];
+	// Add content view.
+	if (self.contentView) {
+		[self.view addSubview:self.contentView];
 	}
-	
-	[super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {	
-	if (_contentController) {
-		[_contentController viewDidAppear:animated];
-	}
-	
-	[super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	if (_contentController) {
-		[_contentController viewWillDisappear:animated];
-	}
-	
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	if (_contentController) {
-		[_contentController viewDidDisappear:animated];		
-	}
-	
-	[super viewDidDisappear:animated];
-	
-	_isViewDisplayed = NO;
 }
 
 
-
-
-#pragma mark -
-#pragma mark Rotation support
+#pragma mark - Rotation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return [_contentController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	[_contentController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];	
 	[self layoutBackgroundForInterfaceOrientation:toInterfaceOrientation];
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
-	[_contentController willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
-}
 
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	[_contentController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-}
-
-
-
-#pragma mark -
-#pragma mark Background
+#pragma mark - Background
 
 - (void)layoutBackgroundForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {

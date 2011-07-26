@@ -37,9 +37,15 @@ selectedViewController = _selectedViewController;
 	return self;
 }
 
+
+#pragma mark - View events
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+	// Initially select the first controller is none is pre-selected.
+	if (self.selectedViewController == nil && [self.viewControllers count] > 0) {
+		self.selectedIndex = 0;
+	}
 	self.navigationItem.titleView = self.switchBar;
 }
 
@@ -58,21 +64,8 @@ selectedViewController = _selectedViewController;
 }
 
 
-#pragma mark -
-#pragma mark View events
 
-- (void)viewWillAppear:(BOOL)animated {	
-	// Initially select the first controller is none is pre-selected.
-	if (self.selectedViewController == nil && [self.viewControllers count] > 0) {
-		self.selectedIndex = 0;
-	}
-	
-	[super viewWillAppear:animated];		
-}
-
-
-#pragma mark -
-#pragma mark Rotation support
+#pragma mark - Rotation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	BOOL result = YES;
@@ -89,8 +82,7 @@ selectedViewController = _selectedViewController;
 
 
 
-#pragma mark -
-#pragma mark Switch bar
+#pragma mark - Switch bar
 
 - (UISegmentedControl *)switchBar {
 	if (_switchBar == nil) {
@@ -122,8 +114,7 @@ selectedViewController = _selectedViewController;
 
 
 
-#pragma mark -
-#pragma mark Managing the View Controllers
+#pragma mark - Managing the View Controllers
 
 - (void)setViewControllers:(NSArray *)viewControllers {
 	[self setViewControllers:viewControllers animated:NO];
@@ -156,13 +147,14 @@ selectedViewController = _selectedViewController;
 		// Just leave _switchBar nil and depend on it lazy initialization.
 	}
 	
+	for (UIViewController *controller in _viewControllers) {
+		[controller willMoveToParentViewController:nil];
+		[controller removeFromParentViewController];
+	}
+	
 	for (UIViewController *controller in viewControllers) {
-//		if ([controller respondsToSelector:@selector(setParentViewController:)]) {
-//			[controller performSelector:@selector(setParentViewController:) withObject:self];
-//		}
-		if ([_contentController respondsToSelector:@selector(setHostController:)]) {
-			[_contentController performSelector:@selector(setHostController:) withObject:self];
-		}		
+		[self addChildViewController:controller];
+		[controller didMoveToParentViewController:self];
 	}
 	
 	// Update the selected view controller.
@@ -182,10 +174,21 @@ selectedViewController = _selectedViewController;
 	self.selectedViewController = controllerToSelect;
 }
 
+- (void)setContentController:(UIViewController *)contentController {
+	if (_contentController != contentController) {
+		if (self.isViewLoaded) {
+			[_contentController.view removeFromSuperview];
+			[self.view addSubview:contentController.view];
+		}		
+		
+		[self updateNavigationBarFrom:contentController];
+		[self updateToolbarFrom:contentController];			
+		_contentController = contentController;
+	}
+}
 
 
-#pragma mark -
-#pragma mark View switching
+#pragma mark - View switching
 
 - (void)switchView:(UISegmentedControl *)switchBar {
 	self.selectedIndex = switchBar.selectedSegmentIndex;
@@ -211,8 +214,7 @@ selectedViewController = _selectedViewController;
 }
 
 
-#pragma mark -
-#pragma mark Tab bar item observation
+#pragma mark - Tab bar item observation
 
 - (void)startObservingTabBarItems:(NSArray *)viewControllers {
 	for (UIViewController *controller in viewControllers) {
@@ -243,7 +245,7 @@ selectedViewController = _selectedViewController;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	NSUInteger index = [self.viewControllers indexOfObject:object];
 	if (index != NSNotFound) {
-		if ([keyPath startsWith:@"tabBarItem"]) {
+		if ([keyPath hasPrefix:@"tabBarItem"]) {
 			UIViewController *controller = (UIViewController *)object;
 			if (controller.tabBarItem.image) {
 				[self.switchBar setImage:controller.tabBarItem.image forSegmentAtIndex:index];

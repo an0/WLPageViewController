@@ -1,179 +1,154 @@
 //
 //  DetailViewController.m
-//  WLContainerControllers
+//  NestedModalView
 //
-//  Created by Ling Wang on 1/3/11.
-//  Copyright 2011 I Wonder Phone. All rights reserved.
+//  Created by Wang Ling on 5/11/10.
+//  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
 #import "DetailViewController.h"
 
 
+@interface DetailViewController ()
+@property (nonatomic, retain) UIPopoverController *popoverController;
+- (void)configureView;
+@end
+
+
+
 @implementation DetailViewController
+
+@synthesize toolbar, popoverController, detailItem, detailDescriptionLabel, depth;
 
 
 #pragma mark -
-#pragma mark Initialization
+#pragma mark Managing the detail item
 
 /*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization.
+ When setting the detail item, update the view and dismiss the popover controller if it's showing.
+ */
+- (void)setDetailItem:(id)newDetailItem {
+    if (detailItem != newDetailItem) {
+        detailItem = newDetailItem;
+        
+        // Update the view.
+        [self configureView];
     }
-    return self;
+	
+    if (popoverController != nil) {
+        [popoverController dismissPopoverAnimated:YES];
+    }        
 }
-*/
+
+
+- (void)configureView {
+    // Update the user interface for the detail item.
+    detailDescriptionLabel.text = [detailItem description];   
+}
+
+
+#pragma mark -
+#pragma mark Split view support
+
+- (void)splitViewController: (WLSplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController: (UIPopoverController*)pc {
+    NSLog(@"willHideViewController");
+    barButtonItem.title = @"Root List";
+    NSMutableArray *items = [[toolbar items] mutableCopy];
+    [items insertObject:barButtonItem atIndex:0];
+    [toolbar setItems:items animated:YES];
+    self.popoverController = pc;
+}
+
+
+// Called when the view is shown again in the split view, invalidating the button and popover controller.
+- (void)splitViewController: (WLSplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
+    NSLog(@"willShowViewController");
+    NSMutableArray *items = [[toolbar items] mutableCopy];
+    [items removeObjectAtIndex:0];
+    [toolbar setItems:items animated:YES];
+    self.popoverController = nil;
+}
+
+
+#pragma mark -
+#pragma mark Rotation support
+
+// Ensure that the view controller supports rotation and that the split view can therefore show in both portrait and landscape.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	NSLog(@"d%d: will rotate", depth);
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	NSLog(@"d%d: did rotate", depth);
+	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+}
+
 
 
 #pragma mark -
 #pragma mark View lifecycle
 
-/*
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+	NSLog(@"d%d: viewDidLoad", depth);
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	if (depth > 0) {
+		self.detailItem = [NSString stringWithFormat:@"Modal %d", depth];
+	}
 }
-*/
 
-/*
 - (void)viewWillAppear:(BOOL)animated {
+	NSLog(@"d%d: viewWillAppear", depth);
     [super viewWillAppear:animated];
 }
-*/
-/*
+
 - (void)viewDidAppear:(BOOL)animated {
+	NSLog(@"d%d: viewDidAppear", depth);
     [super viewDidAppear:animated];
 }
-*/
-/*
+
 - (void)viewWillDisappear:(BOOL)animated {
+	NSLog(@"d%d: viewWillDisapper", depth);
     [super viewWillDisappear:animated];
 }
-*/
-/*
+
 - (void)viewDidDisappear:(BOOL)animated {
+	NSLog(@"d%d: viewDidDisappear", depth);
     [super viewDidDisappear:animated];
 }
-*/
 
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Override to allow orientations other than the default portrait orientation.
-    return YES;
-}
-
-
-#pragma mark -
-#pragma mark Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return 100;
-}
-
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    // Configure the cell...
-    cell.textLabel.text = [NSString stringWithFormat:@"%d", indexPath.row];
-	
-    return cell;
-}
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-
-#pragma mark -
-#pragma mark Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-    // ...
-    // Pass the selected object to the new view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
-	 */
-}
-
-
-#pragma mark -
-#pragma mark Memory management
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc. that aren't in use.
-}
 
 - (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
+	NSLog(@"d%d: viewDidUnload", depth);
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.popoverController = nil;
 }
 
 
+#pragma mark -
+#pragma mark Button actions
 
+- (IBAction)showModal {
+	
+	DetailViewController *modalViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+	modalViewController.depth = depth + 1;
+	if (depth == 0) {
+		modalViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+		[self presentModalViewController:modalViewController animated:YES];
+	} else {
+		modalViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
+		[self presentModalViewController:modalViewController animated:YES];
+	}
+}
+
+- (IBAction)dismissModal {
+	[self dismissModalViewControllerAnimated:YES];
+}
 
 @end
-
