@@ -6,7 +6,7 @@
 //  Copyright 2010 I Wonder Phone. All rights reserved.
 //
 
-#import "WLContainerController.h"
+#import "WLMultiContentContainerController.h"
 
 /**
  The WLSwitchController class implements a lightweight container controller that is intended to be used as a top tab bar controller - a UITabBarController with the tab bar on the top instead of bottom. However, the switch control is not a real tab bar as in UITabBarController but a UISegmentedControl, but the segments used as switch items are configured via the tabBarItem property of contained view controllers for convenience.
@@ -21,24 +21,8 @@
 
  Refer to the class reference of UITabBarController and UISegmentedControl.
  */
-@interface WLSwitchController : WLContainerController
+@interface WLSwitchController : WLMultiContentContainerController
 
-@property(nonatomic,readonly) UISegmentedControl *switchBar; ///< The switch bar associated with this controller.
-@property(nonatomic, copy) NSArray *viewControllers; ///< An array of the root view controllers displayed by the switch controller.
-@property(nonatomic, assign) UIViewController *selectedViewController; ///<The view controller associated with the currently selected switch item.
-@property(nonatomic) NSUInteger selectedIndex; ///< The index of the view controller associated with the currently selected switch item.
-
-
-
-/**
- Sets the root view controllers of the switch controller.
- 
- @param viewControllers The array of custom view controllers to display in the switch controller interface. The order of the view controllers in this array corresponds to the display order in the switch bar, with the controller at index 0 representing the left-most tab, the controller at index 1 the next tab to the right, and so on. It must be non-empty.
-
- @param animated If YES, the tab bar items for the view controllers are animated into position. If NO, changes to the tab bar items are reflected immediately.
- */
-- (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated;
-
-
+@property(nonatomic,strong, readonly) UISegmentedControl *switchBar; ///< The switch bar associated with this controller.
 
 @end

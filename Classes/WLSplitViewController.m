@@ -70,15 +70,24 @@ static void init(WLSplitViewController *self) {
 		_masterViewController = [viewControllers objectAtIndex:0];
 		_detailViewController = [viewControllers objectAtIndex:1];
 		
-		[oldMasterViewController willMoveToParentViewController:nil];
+		if (oldMasterViewController.parentViewController) {
+			[oldMasterViewController willMoveToParentViewController:nil];
+		}
 		[self addChildViewController:_masterViewController];
 		[oldDetailViewController willMoveToParentViewController:nil];
 		[self addChildViewController:_detailViewController];
-
+		
+		[_detailViewController didMoveToParentViewController:self];
+			[oldDetailViewController removeFromParentViewController];
+		[_masterViewController didMoveToParentViewController:self];
+		if (oldMasterViewController.parentViewController) {
+			[oldMasterViewController removeFromParentViewController];
+		}
+		
 		if (self.isViewLoaded) {
 			[oldDetailViewController.view removeFromSuperview];
 			[self.view addSubview:_detailViewController.view];
-
+			
 			if (!(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && _hidesMasterViewInPortrait)) {
 				[oldMasterViewController.view removeFromSuperview];				
 				[self.view addSubview:_masterViewController.view];
@@ -87,17 +96,12 @@ static void init(WLSplitViewController *self) {
 				[self hideMasterViewController];
 			}			
 		}
-		
-		[_detailViewController didMoveToParentViewController:self];
-		[oldDetailViewController removeFromParentViewController];
-		[_masterViewController didMoveToParentViewController:self];
-		[oldMasterViewController removeFromParentViewController];
-		
+
 		[self updateNavigationBarFrom:_masterViewController];
 		[self updateToolbarFrom:_masterViewController];
 
 		_viewControllers = [viewControllers copy];
-		_contentController = _masterViewController;
+		_contentController = _masterViewController;		
 	}
 }
 
@@ -165,8 +169,8 @@ static void init(WLSplitViewController *self) {
 	} else if (_hidesMasterViewInPortrait &&
 			   UIInterfaceOrientationIsPortrait(self.interfaceOrientation) &&
 			   UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-		[self showMasterViewController];
 		[self.view addSubview:_masterViewController.view];
+		[self showMasterViewController];
 	}
 }
 
@@ -283,6 +287,11 @@ static void init(WLSplitViewController *self) {
 #pragma mark - Popover handling
 
 - (void)hideMasterViewController {
+	if (_masterViewController.parentViewController) {
+		[_masterViewController willMoveToParentViewController:nil];
+		[_masterViewController removeFromParentViewController];
+	}
+	
 	if (_poController == nil) {
 		_poController = [[UIPopoverController alloc] initWithContentViewController:_masterViewController];
 	} else {
@@ -313,6 +322,9 @@ static void init(WLSplitViewController *self) {
 	if (_poController.popoverVisible) {
 		[_poController dismissPopoverAnimated:NO];
 	}
+	
+	[self addChildViewController:_masterViewController];
+	[_masterViewController didMoveToParentViewController:self];
 	
 	// Inform delegate that the _barButtonItem will become invalid.
 	if (_delegate && [_delegate respondsToSelector:@selector(splitViewController:willShowViewController:invalidatingBarButtonItem:)]) {

@@ -9,25 +9,16 @@
 #import "WLContainerController.h"
 
 
-@interface WLContainerController ()
-
-- (void)layoutBackgroundForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
-
-@end
-
-
-
 @implementation WLContainerController
 
 
 @synthesize contentController = _contentController;
+@synthesize backgroundView = _backgroundView;
 @synthesize contentInset = _contentInset;
 @synthesize inheritsTitleView = _inheritsTitleView;
 @synthesize inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem;
 @synthesize inheritsRightBarButtonItem = _inheritsRightBarButtonItem;
 @synthesize inheritsToolbarItems = _inheritsToolbarItems;
-@synthesize portraitBackgroundImage = _portraitBackgroundImage;
-@synthesize landscapeBackgroundImage = _landscapeBackgroundImage;
 
 
 - (id)init {
@@ -53,20 +44,20 @@
 #pragma mark - Content View management
 
 - (void)setContentController:(UIViewController *)contentController {
-	if (_contentController != contentController) {
-		[_contentController willMoveToParentViewController:nil];
-		[self addChildViewController:contentController];
-		if (self.isViewLoaded) {
-			[_contentController.view removeFromSuperview];
-			[self.view addSubview:contentController.view];
-		}
-		[contentController didMoveToParentViewController:self];	
-		[_contentController removeFromParentViewController];
-		
-		[self updateNavigationBarFrom:contentController];
-		[self updateToolbarFrom:contentController];
-		_contentController = contentController;
+	if (_contentController == contentController) return;
+
+	[_contentController willMoveToParentViewController:nil];
+	[self addChildViewController:contentController];
+	if (self.isViewLoaded) {
+		[_contentController.view removeFromSuperview];
+		[self.view addSubview:contentController.view];
 	}
+	[contentController didMoveToParentViewController:self];	
+	[_contentController removeFromParentViewController];
+	
+	[self updateNavigationBarFrom:contentController];
+	[self updateToolbarFrom:contentController];
+	_contentController = contentController;
 }
 
 
@@ -78,7 +69,7 @@
 	UIView *contentView = _contentController.view;
 	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;			
 	// Adjust the frame of the content view according to the insets.
-	contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, self.contentInset);
+	contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, _contentInset);
 }
 
 - (void)setContentInset:(UIEdgeInsets)insets {
@@ -86,6 +77,15 @@
 	[self.view setNeedsLayout];
 }
 
+- (void)setBackgroundView:(UIView *)backgroundView {
+	if (_backgroundView == backgroundView) return;
+	
+	[_backgroundView removeFromSuperview];
+	_backgroundView = backgroundView;
+	_backgroundView.frame = self.view.bounds;
+	_backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	[self.view insertSubview:_backgroundView atIndex:0];
+}
 
 #pragma mark - Update navigation bar and toolbar
 
@@ -174,10 +174,6 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	// Add background view.
-	_backgroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-	_backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	[self.view insertSubview:_backgroundView atIndex:0];
 	// Add content view.
 	if (self.contentView) {
 		[self.view addSubview:self.contentView];
@@ -185,27 +181,11 @@
 }
 
 
+
 #pragma mark - Rotation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return [_contentController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];	
-	[self layoutBackgroundForInterfaceOrientation:toInterfaceOrientation];
-}
-
-
-
-#pragma mark - Background
-
-- (void)layoutBackgroundForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-		_backgroundView.image = _portraitBackgroundImage;
-	} else {		
-		_backgroundView.image = _landscapeBackgroundImage;
-	}	
 }
 
 

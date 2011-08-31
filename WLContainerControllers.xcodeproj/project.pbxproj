@@ -22,9 +22,15 @@
 		C91E8B3912AC86310083E558 /* corner_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B3012AC86310083E558 /* corner_right@2x.png */; };
 		C91E8B3A12AC86310083E558 /* corner_top.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B3112AC86310083E558 /* corner_top.png */; };
 		C91E8B3B12AC86310083E558 /* corner_top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B3212AC86310083E558 /* corner_top@2x.png */; };
+		C9354F411406F703007F8CB0 /* WLTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9354F401406F703007F8CB0 /* WLTabBarController.m */; };
+		C9354F441406FB05007F8CB0 /* WLMultiContentContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9354F431406FB05007F8CB0 /* WLMultiContentContainerController.m */; };
 		C941FBF712A6EF5100FB1ADD /* WLSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */; };
 		C96012DF13ABD2DD005F871B /* NSObject+WLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C96012DE13ABD2DD005F871B /* NSObject+WLExtension.m */; };
 		C96012E213ABD338005F871B /* NSString+WLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C96012E113ABD338005F871B /* NSString+WLExtension.m */; };
+		C98D42B0140DCCDE00CE764C /* UIColor+WLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C98D42AF140DCCDE00CE764C /* UIColor+WLExtension.m */; };
+		C98D42B4140DCD3100CE764C /* WLBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C98D42B3140DCD3100CE764C /* WLBadgeView.m */; };
+		C98D42C5140DCDB300CE764C /* WLGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = C98D42C4140DCDB300CE764C /* WLGraphics.m */; };
+		C9CC1EEF1408405900FFCAFA /* WLTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C9CC1EEE1408405900FFCAFA /* WLTabBar.m */; };
 		C9D0AC9E11F0943000A84A80 /* WLSwitchController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9911F0943000A84A80 /* WLSwitchController.m */; };
 		C9D0AC9F11F0943000A84A80 /* WLContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9B11F0943000A84A80 /* WLContainerController.m */; };
 		C9D0ACA011F0943000A84A80 /* ContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9D11F0943000A84A80 /* ContentController.m */; };
@@ -56,12 +62,24 @@
 		C91E8B3012AC86310083E558 /* corner_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "corner_right@2x.png"; sourceTree = "<group>"; };
 		C91E8B3112AC86310083E558 /* corner_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = corner_top.png; sourceTree = "<group>"; };
 		C91E8B3212AC86310083E558 /* corner_top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "corner_top@2x.png"; sourceTree = "<group>"; };
+		C9354F3F1406F703007F8CB0 /* WLTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTabBarController.h; sourceTree = "<group>"; };
+		C9354F401406F703007F8CB0 /* WLTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTabBarController.m; sourceTree = "<group>"; };
+		C9354F421406FB05007F8CB0 /* WLMultiContentContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMultiContentContainerController.h; sourceTree = "<group>"; };
+		C9354F431406FB05007F8CB0 /* WLMultiContentContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMultiContentContainerController.m; sourceTree = "<group>"; };
 		C941FBF512A6EF5100FB1ADD /* WLSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSplitViewController.h; sourceTree = "<group>"; };
 		C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSplitViewController.m; sourceTree = "<group>"; };
 		C96012DD13ABD2DD005F871B /* NSObject+WLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+WLExtension.h"; path = "../../WLFoundation/NSObject+WLExtension.h"; sourceTree = "<group>"; };
 		C96012DE13ABD2DD005F871B /* NSObject+WLExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+WLExtension.m"; path = "../../WLFoundation/NSObject+WLExtension.m"; sourceTree = "<group>"; };
 		C96012E013ABD338005F871B /* NSString+WLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+WLExtension.h"; path = "../../WLFoundation/NSString+WLExtension.h"; sourceTree = "<group>"; };
 		C96012E113ABD338005F871B /* NSString+WLExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+WLExtension.m"; path = "../../WLFoundation/NSString+WLExtension.m"; sourceTree = "<group>"; };
+		C98D42AE140DCCDE00CE764C /* UIColor+WLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+WLExtension.h"; path = "../../WLUIKit/Classes/UIColor+WLExtension.h"; sourceTree = "<group>"; };
+		C98D42AF140DCCDE00CE764C /* UIColor+WLExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+WLExtension.m"; path = "../../WLUIKit/Classes/UIColor+WLExtension.m"; sourceTree = "<group>"; };
+		C98D42B2140DCD3100CE764C /* WLBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLBadgeView.h; path = ../../WLBadgeView/WLBadgeView/WLBadgeView.h; sourceTree = "<group>"; };
+		C98D42B3140DCD3100CE764C /* WLBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLBadgeView.m; path = ../../WLBadgeView/WLBadgeView/WLBadgeView.m; sourceTree = "<group>"; };
+		C98D42C3140DCDB300CE764C /* WLGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLGraphics.h; path = ../../WLUIKit/Classes/WLGraphics.h; sourceTree = "<group>"; };
+		C98D42C4140DCDB300CE764C /* WLGraphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLGraphics.m; path = ../../WLUIKit/Classes/WLGraphics.m; sourceTree = "<group>"; };
+		C9CC1EED1408405900FFCAFA /* WLTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLTabBar.h; path = ../../WLTabBar/WLTabBar/WLTabBar.h; sourceTree = "<group>"; };
+		C9CC1EEE1408405900FFCAFA /* WLTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLTabBar.m; path = ../../WLTabBar/WLTabBar/WLTabBar.m; sourceTree = "<group>"; };
 		C9D0AC9811F0943000A84A80 /* WLSwitchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSwitchController.h; sourceTree = "<group>"; };
 		C9D0AC9911F0943000A84A80 /* WLSwitchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSwitchController.m; sourceTree = "<group>"; };
 		C9D0AC9A11F0943000A84A80 /* WLContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLContainerController.h; sourceTree = "<group>"; };
@@ -172,6 +190,34 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		C98D42B1140DCCE700CE764C /* WLUIKit */ = {
+			isa = PBXGroup;
+			children = (
+				C98D42AE140DCCDE00CE764C /* UIColor+WLExtension.h */,
+				C98D42AF140DCCDE00CE764C /* UIColor+WLExtension.m */,
+				C98D42C3140DCDB300CE764C /* WLGraphics.h */,
+				C98D42C4140DCDB300CE764C /* WLGraphics.m */,
+			);
+			name = WLUIKit;
+			sourceTree = "<group>";
+		};
+		C98D42BD140DCD6700CE764C /* WLBadgeView */ = {
+			isa = PBXGroup;
+			children = (
+				C98D42B2140DCD3100CE764C /* WLBadgeView.h */,
+				C98D42B3140DCD3100CE764C /* WLBadgeView.m */,
+			);
+			name = WLBadgeView;
+			sourceTree = "<group>";
+		};
+		C98D42BE140DCD7F00CE764C /* External Libs */ = {
+			isa = PBXGroup;
+			children = (
+				C98D42BD140DCD6700CE764C /* WLBadgeView */,
+			);
+			name = "External Libs";
+			sourceTree = "<group>";
+		};
 		C9C633AC11F1997A00A09C37 /* WLFoundation */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,8 +233,20 @@
 			isa = PBXGroup;
 			children = (
 				C9C633AC11F1997A00A09C37 /* WLFoundation */,
+				C98D42B1140DCCE700CE764C /* WLUIKit */,
+				C9CC1EF01408406200FFCAFA /* WLTabBar */,
 			);
 			name = "External Libs";
+			sourceTree = "<group>";
+		};
+		C9CC1EF01408406200FFCAFA /* WLTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				C98D42BE140DCD7F00CE764C /* External Libs */,
+				C9CC1EED1408405900FFCAFA /* WLTabBar.h */,
+				C9CC1EEE1408405900FFCAFA /* WLTabBar.m */,
+			);
+			name = WLTabBar;
 			sourceTree = "<group>";
 		};
 		C9D0ACFD11F096C400A84A80 /* WLContainerControllers */ = {
@@ -196,10 +254,14 @@
 			children = (
 				C9D0AC9A11F0943000A84A80 /* WLContainerController.h */,
 				C9D0AC9B11F0943000A84A80 /* WLContainerController.m */,
+				C9354F421406FB05007F8CB0 /* WLMultiContentContainerController.h */,
+				C9354F431406FB05007F8CB0 /* WLMultiContentContainerController.m */,
 				C9D0AC9811F0943000A84A80 /* WLSwitchController.h */,
 				C9D0AC9911F0943000A84A80 /* WLSwitchController.m */,
 				C941FBF512A6EF5100FB1ADD /* WLSplitViewController.h */,
 				C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */,
+				C9354F3F1406F703007F8CB0 /* WLTabBarController.h */,
+				C9354F401406F703007F8CB0 /* WLTabBarController.m */,
 			);
 			name = WLContainerControllers;
 			sourceTree = "<group>";
@@ -307,6 +369,12 @@
 				C90BC48912D29CF2002D24F5 /* MasterViewController.m in Sources */,
 				C96012DF13ABD2DD005F871B /* NSObject+WLExtension.m in Sources */,
 				C96012E213ABD338005F871B /* NSString+WLExtension.m in Sources */,
+				C9354F411406F703007F8CB0 /* WLTabBarController.m in Sources */,
+				C9354F441406FB05007F8CB0 /* WLMultiContentContainerController.m in Sources */,
+				C9CC1EEF1408405900FFCAFA /* WLTabBar.m in Sources */,
+				C98D42B0140DCCDE00CE764C /* UIColor+WLExtension.m in Sources */,
+				C98D42B4140DCD3100CE764C /* WLBadgeView.m in Sources */,
+				C98D42C5140DCDB300CE764C /* WLGraphics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

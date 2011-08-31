@@ -14,12 +14,12 @@
 @interface WLContainerController : UIViewController {
 @protected
 	UIViewController *_contentController;
-	UIImageView *_backgroundView;
 }
 
 @property (nonatomic, retain) UIViewController *contentController; ///< The content controller managed by the container controller.
 @property (nonatomic, assign) UIEdgeInsets contentInset; ///< The distance that the content view is inset from the enclosing view.
 @property (nonatomic, readonly) UIView *contentView; ///< A shortcut to access the view of the content controller.
+@property (nonatomic, strong, readonly) UIView *backgroundView;
 @property (nonatomic, assign) BOOL inheritsTitleView; ///< A Boolean value indicating whether the container controller inherits the navigationItem.titleView property from the content controller. It has effect only when a new content controller is assigned.
 @property (nonatomic, assign) BOOL inheritsLeftBarButtonItem; ///< A Boolean value indicating whether the container controller inherits the navigationItem.leftBarButtonItem property from the content controller. It has effect only when a new content controller is assigned.
 @property (nonatomic, assign) BOOL inheritsRightBarButtonItem; ///< A Boolean value indicating whether the container controller inherits the navigationItem.rightBarButtonItem property from the content controller. It has effect only when a new content controller is assigned.
@@ -37,13 +37,6 @@
  
  */
 - (id)initWithContentController:(UIViewController *)contentController;
-
-
-/**
- Set background views.
- */
-@property (nonatomic, retain) UIImage *portraitBackgroundImage;
-@property (nonatomic, retain) UIImage *landscapeBackgroundImage;
 
 
 

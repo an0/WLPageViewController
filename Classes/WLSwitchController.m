@@ -21,62 +21,51 @@
 
 @implementation WLSwitchController
 
-@synthesize
-switchBar = _switchBar,
-viewControllers = _viewControllers,
-selectedViewController = _selectedViewController;
+@synthesize switchBar = _switchBar;
 
 
+static void _init(WLSwitchController *self) {
+	self.inheritsRightBarButtonItem = YES;
+	self.inheritsToolbarItems = YES;
+}
 
-- (id)init {
-	if ((self = [super init])) {
-		self.inheritsRightBarButtonItem = YES;
-		self.inheritsToolbarItems = YES;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		_init(self);
 	}
 	
 	return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if (self) {
+		_init(self);	
+	}
+	
+	return self;
+}
 
-#pragma mark - View events
+- (void)dealloc {
+	[self stopObservingTabBarItems:self.viewControllers];
+}
+
+
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Initially select the first controller is none is pre-selected.
-	if (self.selectedViewController == nil && [self.viewControllers count] > 0) {
-		self.selectedIndex = 0;
-	}
 	self.navigationItem.titleView = self.switchBar;
 }
 
 - (void)viewDidUnload {
-	DLog(@"viewDidUnload");
-	[self stopObservingTabBarItems:_viewControllers];
+	[self stopObservingTabBarItems:self.viewControllers];
 	
 	self.navigationItem.titleView = nil;
 	_switchBar = nil;
 	 
     [super viewDidUnload];
-}
-
-- (void)dealloc {
-	[self stopObservingTabBarItems:_viewControllers];
-}
-
-
-
-#pragma mark - Rotation support
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	BOOL result = YES;
-	for (UIViewController *controller in self.viewControllers) {
-		if (![controller shouldAutorotateToInterfaceOrientation:interfaceOrientation]) {
-			result = NO;
-			break;
-		}
-	}
-	
-    return result;
 }
 
 
@@ -116,16 +105,10 @@ selectedViewController = _selectedViewController;
 
 #pragma mark - Managing the View Controllers
 
-- (void)setViewControllers:(NSArray *)viewControllers {
-	[self setViewControllers:viewControllers animated:NO];
-}
-
 - (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated {
-	if ([_viewControllers isEqualToArray:viewControllers]) {
-		return;
-	}
+	if ([self.viewControllers isEqualToArray:viewControllers]) return;
 	
-	[self stopObservingTabBarItems:_viewControllers];
+	[self stopObservingTabBarItems:self.viewControllers];
 	
 	if (_switchBar) {
 		// Update the switch bar.
@@ -147,44 +130,7 @@ selectedViewController = _selectedViewController;
 		// Just leave _switchBar nil and depend on it lazy initialization.
 	}
 	
-	for (UIViewController *controller in _viewControllers) {
-		[controller willMoveToParentViewController:nil];
-		[controller removeFromParentViewController];
-	}
-	
-	for (UIViewController *controller in viewControllers) {
-		[self addChildViewController:controller];
-		[controller didMoveToParentViewController:self];
-	}
-	
-	// Update the selected view controller.
-	// Reuse the selectedIndex if possible.
-	UIViewController *controllerToSelect;
-	NSUInteger index;
-	if (self.selectedIndex < [viewControllers count]) {
-		index = self.selectedIndex;
-	} else {
-		index = 0;
-	}
-	controllerToSelect = [viewControllers objectAtIndex:index];
-	
-	// Must update the view controller array before the assignment of selected view controller because of the precondition that the selected view controller must be element of the view contronller array.
-	_viewControllers = [viewControllers copy];
-
-	self.selectedViewController = controllerToSelect;
-}
-
-- (void)setContentController:(UIViewController *)contentController {
-	if (_contentController != contentController) {
-		if (self.isViewLoaded) {
-			[_contentController.view removeFromSuperview];
-			[self.view addSubview:contentController.view];
-		}		
-		
-		[self updateNavigationBarFrom:contentController];
-		[self updateToolbarFrom:contentController];			
-		_contentController = contentController;
-	}
+	[super setViewControllers:viewControllers animated:animated];
 }
 
 
@@ -195,22 +141,9 @@ selectedViewController = _selectedViewController;
 }
 
 - (void)setSelectedViewController:(UIViewController *)viewController {
-	self.contentController = viewController;
-	_selectedViewController = viewController;
+	[super setSelectedViewController:viewController];
 	// Update the switch.
 	self.switchBar.selectedSegmentIndex = self.selectedIndex;
-}
-
-- (NSUInteger)selectedIndex {
-	if (self.viewControllers) {
-		return [self.viewControllers indexOfObject:self.selectedViewController];
-	} else {
-		return NSNotFound;
-	}
-}
-
-- (void)setSelectedIndex:(NSUInteger)index {	
-	self.selectedViewController = [self.viewControllers objectAtIndex:index];
 }
 
 
