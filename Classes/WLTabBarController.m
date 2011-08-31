@@ -155,11 +155,12 @@ static void _init(WLTabBarController *self) {
 - (void)presentSecondaryViewController:(UIViewController *)viewController {
 	[UIView animateWithDuration:0.2 animations:^{
 		CGRect offScreenFrame;
-		for (UIView *subview in self.view.subviews) {
-			offScreenFrame = subview.frame;
-			offScreenFrame.origin.y += self.view.bounds.size.height;
-			subview.frame = offScreenFrame;
-		}
+		offScreenFrame = self.contentView.frame;
+		offScreenFrame.origin.y += self.view.bounds.size.height;
+		self.contentView.frame = offScreenFrame;
+		offScreenFrame = _tabBar.frame;
+		offScreenFrame.origin.y += self.view.bounds.size.height;
+		_tabBar.frame = offScreenFrame;
 	} completion:^(BOOL finished) {
 		_secondaryViewController = viewController;
 		[self addChildViewController:_secondaryViewController];
@@ -186,11 +187,12 @@ static void _init(WLTabBarController *self) {
 		_secondaryViewController = nil;
 		[UIView animateWithDuration:0.2 animations:^{
 			CGRect onScreenFrame;
-			for (UIView *subview in self.view.subviews) {
-				onScreenFrame = subview.frame;
-				onScreenFrame.origin.y -= self.view.bounds.size.height;
-				subview.frame = onScreenFrame;
-			}
+			onScreenFrame = self.contentView.frame;
+			onScreenFrame.origin.y -= self.view.bounds.size.height;
+			self.contentView.frame = onScreenFrame;
+			onScreenFrame = _tabBar.frame;
+			onScreenFrame.origin.y -= self.view.bounds.size.height;
+			_tabBar.frame = onScreenFrame;			
 		}];
 	}];
 }

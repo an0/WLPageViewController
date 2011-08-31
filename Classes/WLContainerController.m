@@ -82,9 +82,11 @@
 	
 	[_backgroundView removeFromSuperview];
 	_backgroundView = backgroundView;
-	_backgroundView.frame = self.view.bounds;
 	_backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	[self.view insertSubview:_backgroundView atIndex:0];
+	if (self.isViewLoaded) {
+		_backgroundView.frame = self.view.bounds;
+		[self.view insertSubview:_backgroundView atIndex:0];
+	}
 }
 
 #pragma mark - Update navigation bar and toolbar
@@ -174,6 +176,12 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
+	// Addd background view.
+	if (_backgroundView) {
+		_backgroundView.frame = self.view.bounds;
+		[self.view insertSubview:_backgroundView atIndex:0];
+	}
+
 	// Add content view.
 	if (self.contentView) {
 		[self.view addSubview:self.contentView];
