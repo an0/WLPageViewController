@@ -19,27 +19,6 @@
 @synthesize customizableViewControllers = _customizableViewControllers;
 @synthesize secondaryViewController = _secondaryViewController;
 
-static void _init(WLTabBarController *self) {
-	self.inheritsRightBarButtonItem = YES;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-	if (self) {
-		_init(self);
-	}
-	
-	return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-	self = [super initWithCoder:aDecoder];
-	if (self) {
-		_init(self);	
-	}
-	
-	return self;
-}
 
 #pragma mark - View lifecycle
 
@@ -166,6 +145,7 @@ static void _init(WLTabBarController *self) {
 		[self addChildViewController:_secondaryViewController];
 		[self.view addSubview:_secondaryViewController.view];
 		[_secondaryViewController didMoveToParentViewController:self];
+		[self.contentView removeFromSuperview];
 		CGRect initFrame = self.view.bounds;
 		initFrame.origin.x -= initFrame.size.width;
 		_secondaryViewController.view.frame = initFrame;
@@ -185,6 +165,7 @@ static void _init(WLTabBarController *self) {
 		[_secondaryViewController.view removeFromSuperview];
 		[_secondaryViewController removeFromParentViewController];
 		_secondaryViewController = nil;
+		[self.view addSubview:self.contentView];
 		[UIView animateWithDuration:0.2 animations:^{
 			CGRect onScreenFrame;
 			onScreenFrame = self.contentView.frame;

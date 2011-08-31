@@ -15,6 +15,7 @@
 @synthesize contentController = _contentController;
 @synthesize backgroundView = _backgroundView;
 @synthesize contentInset = _contentInset;
+@synthesize inheritsTitle = _inheritsTitle;
 @synthesize inheritsTitleView = _inheritsTitleView;
 @synthesize inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem;
 @synthesize inheritsRightBarButtonItem = _inheritsRightBarButtonItem;
@@ -115,7 +116,12 @@
 	}
 	
 	
-		
+	if (_inheritsTitle) {
+		self.title = contentController.title;
+		self.navigationItem.title = contentController.navigationItem.title;
+		[contentController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
+		[contentController addObserver:self forKeyPath:@"navigationItem.title" options:NSKeyValueObservingOptionNew context:nil];
+	}		
 	if (_inheritsTitleView) {
 		self.navigationItem.titleView = contentController.navigationItem.titleView;
 		[contentController addObserver:self forKeyPath:@"navigationItem.titleView" options:NSKeyValueObservingOptionNew context:nil];
