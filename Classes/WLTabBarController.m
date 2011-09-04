@@ -122,6 +122,8 @@
 	}
 
 	UIView *contentView = _contentController.view;
+	if (contentView.superview != self.view) return;
+	
 	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	// Adjust the frame of the content view according to the insets and tab bar size.
 	CGRect contentFrame = self.view.bounds;
@@ -156,20 +158,33 @@
 #pragma mark - Secondary view controller presening/dismissing
 
 - (void)presentSecondaryViewController:(UIViewController *)viewController {
+	UIToolbar *toolbar = self.navigationController.toolbar;
 	[UIView animateWithDuration:0.2 animations:^{
 		CGRect offScreenFrame;
-		offScreenFrame = self.contentView.frame;
-		offScreenFrame.origin.y += self.view.bounds.size.height;
-		self.contentView.frame = offScreenFrame;
-		offScreenFrame = _tabBar.frame;
-		offScreenFrame.origin.y += self.view.bounds.size.height;
-		_tabBar.frame = offScreenFrame;
+		if (toolbar) {
+			offScreenFrame = self.contentView.frame;
+			offScreenFrame.origin.y += CGRectGetMaxY(toolbar.frame);
+			self.contentView.frame = offScreenFrame;
+			offScreenFrame = toolbar.frame;
+			offScreenFrame.origin.y += CGRectGetMaxY(toolbar.frame);
+			toolbar.frame = offScreenFrame;
+		} else {
+			offScreenFrame = self.contentView.frame;
+			offScreenFrame.origin.y += self.view.bounds.size.height;
+			self.contentView.frame = offScreenFrame;
+			offScreenFrame = _tabBar.frame;
+			offScreenFrame.origin.y += self.view.bounds.size.height;
+			_tabBar.frame = offScreenFrame;
+		}
 	} completion:^(BOOL finished) {
 		_secondaryViewController = viewController;
 		[self addChildViewController:_secondaryViewController];
 		[self.view addSubview:_secondaryViewController.view];
 		[_secondaryViewController didMoveToParentViewController:self];
 		[self.contentView removeFromSuperview];
+		if (toolbar) {
+			self.navigationController.toolbarHidden = YES;
+		}
 		CGRect initFrame = self.view.bounds;
 		initFrame.origin.x -= initFrame.size.width;
 		_secondaryViewController.view.frame = initFrame;
@@ -190,14 +205,12 @@
 		[_secondaryViewController removeFromParentViewController];
 		_secondaryViewController = nil;
 		[self.view addSubview:self.contentView];
+		UIToolbar *toolbar = self.navigationController.toolbar;
 		[UIView animateWithDuration:0.2 animations:^{
-			CGRect onScreenFrame;
-			onScreenFrame = self.contentView.frame;
-			onScreenFrame.origin.y -= self.view.bounds.size.height;
-			self.contentView.frame = onScreenFrame;
-			onScreenFrame = _tabBar.frame;
-			onScreenFrame.origin.y -= self.view.bounds.size.height;
-			_tabBar.frame = onScreenFrame;			
+			if (toolbar) {
+				self.navigationController.toolbarHidden = NO;
+			}
+			[self.view layoutIfNeeded];
 		}];
 	}];
 }
