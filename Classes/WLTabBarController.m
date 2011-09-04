@@ -22,23 +22,26 @@
 
 #pragma mark - View lifecycle
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.view addSubview:self.tabBar];
+	if (self.navigationController) {
+		UIBarButtonItem *tabBar = [[UIBarButtonItem alloc] initWithCustomView:self.tabBar];
+		self.toolbarItems = [NSArray arrayWithObject:tabBar];
+	} else {
+		[self.view addSubview:self.tabBar];
+	}
 }
 
 - (void)viewDidUnload
 {
     _tabBar = nil;
     [super viewDidUnload];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self.navigationController setToolbarHidden:NO animated:animated];
 }
 
 
@@ -101,19 +104,40 @@
 - (void)viewWillLayoutSubviews {
 	_secondaryViewController.view.frame = self.view.bounds;
 	
-	CGRect tabBarFrame = self.view.bounds;
-	tabBarFrame.size.height = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? kTabBarHeightPortrait : kTabBarHeightLandscape;
-	tabBarFrame.origin.y = CGRectGetMaxY(self.view.bounds) - tabBarFrame.size.height + CGRectGetMaxY(_secondaryViewController.view.frame);
-	_tabBar.frame = tabBarFrame;
-	_tabBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+	if (self.navigationController.toolbar) {
+		CGRect tabBarFrame = self.navigationController.toolbar.bounds;
+		CGRect oldTabBarFrame = _tabBar.frame;
+		_tabBar.frame = tabBarFrame;
+		// FIXME: when frame is changed, layoutSubviews should be called automatically, why not here?
+		if (!CGRectEqualToRect(oldTabBarFrame, tabBarFrame)) {
+			[_tabBar setNeedsLayout];
+		}
+		_tabBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;	
+	} else {
+		CGRect tabBarFrame = self.view.bounds;
+		tabBarFrame.size.height = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? kTabBarHeightPortrait : kTabBarHeightLandscape;
+		tabBarFrame.origin.y = CGRectGetMaxY(self.view.bounds) - tabBarFrame.size.height + CGRectGetMaxY(_secondaryViewController.view.frame);
+		_tabBar.frame = tabBarFrame;
+		_tabBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;	
+	}
 
 	UIView *contentView = _contentController.view;
 	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	// Adjust the frame of the content view according to the insets and tab bar size.
 	CGRect contentFrame = self.view.bounds;
 	contentFrame.origin.y = CGRectGetMaxY(_secondaryViewController.view.frame);
-	contentFrame.size.height -= self.tabBar.frame.size.height;
+	if (_tabBar.superview == contentView.superview) {
+		contentFrame.size.height -= self.tabBar.frame.size.height;
+	}
 	contentView.frame = UIEdgeInsetsInsetRect(contentFrame, self.contentInset);
+	
+	// Adjust contentInset and scrollIndicatorInsets for scroll view if container controller is on navigation stack and toolbar is shown.
+	if (self.navigationController.toolbar && !self.navigationController.toolbar.hidden && [contentView isKindOfClass:[UIScrollView class]]) {
+		CGRect contentFrame = contentView.frame;
+		CGRect toolbarFrame = [self.view convertRect:self.navigationController.toolbar.frame fromView:self.navigationController.toolbar.superview];
+		CGRect intersection = CGRectIntersection(contentFrame, toolbarFrame);
+		((UIScrollView *)contentView).scrollIndicatorInsets = ((UIScrollView *)contentView).contentInset = UIEdgeInsetsMake(0, 0, intersection.size.height, 0);
+	}
 }
 
 

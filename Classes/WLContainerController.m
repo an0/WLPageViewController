@@ -71,6 +71,14 @@
 	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;			
 	// Adjust the frame of the content view according to the insets.
 	contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, _contentInset);
+	
+	// Adjust contentInset and scrollIndicatorInsets for scroll view if container controller is on navigation stack and toolbar is shown.
+	if (self.navigationController.toolbar && !self.navigationController.toolbar.hidden && [contentView isKindOfClass:[UIScrollView class]]) {
+		CGRect contentFrame = contentView.frame;
+		CGRect toolbarFrame = [self.view convertRect:self.navigationController.toolbar.frame fromView:self.navigationController.toolbar.superview];
+		CGRect intersection = CGRectIntersection(contentFrame, toolbarFrame);
+		((UIScrollView *)contentView).scrollIndicatorInsets = ((UIScrollView *)contentView).contentInset = UIEdgeInsetsMake(0, 0, intersection.size.height, 0);
+	}
 }
 
 - (void)setContentInset:(UIEdgeInsets)insets {
