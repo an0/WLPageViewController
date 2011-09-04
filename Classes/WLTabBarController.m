@@ -210,7 +210,7 @@
 			if (toolbar) {
 				self.navigationController.toolbarHidden = NO;
 			}
-			[self.view layoutIfNeeded];
+			[self.view layoutIfNeeded]; // Reuse the normal layout algorithm.
 		}];
 	}];
 }
