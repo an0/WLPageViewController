@@ -106,12 +106,7 @@
 	
 	if (self.navigationController.toolbar) {
 		CGRect tabBarFrame = self.navigationController.toolbar.bounds;
-		CGRect oldTabBarFrame = _tabBar.frame;
 		_tabBar.frame = tabBarFrame;
-		// FIXME: when frame is changed, layoutSubviews should be called automatically, why not here?
-		if (!CGRectEqualToRect(oldTabBarFrame, tabBarFrame)) {
-			[_tabBar setNeedsLayout];
-		}
 		_tabBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;	
 	} else {
 		CGRect tabBarFrame = self.view.bounds;

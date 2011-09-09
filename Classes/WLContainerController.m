@@ -156,10 +156,10 @@
 
 	if (_inheritsToolbarItems) {
 		if ([contentController.toolbarItems count] > 0) {
-			self.navigationController.toolbarHidden = NO;
+			[self.navigationController setToolbarHidden:NO animated:YES];
 			[self setToolbarItems:contentController.toolbarItems animated:YES];
 		} else {
-			self.navigationController.toolbarHidden = YES;
+			[self.navigationController setToolbarHidden:YES animated:YES];
 			[self setToolbarItems:nil];
 		}
 
@@ -174,11 +174,16 @@
 			value = nil;
 		}
 		
-		if ([keyPath isEqualToString:@"toolbarItems"]) {
-			self.navigationController.toolbarHidden = ([value count] == 0);
-		}
-
-		[self setValue:value forKeyPath:keyPath];
+		if ([keyPath isEqualToString:@"navigationItem.leftBarButtonItem"]) {
+			[self.navigationItem setLeftBarButtonItem:value animated:YES];
+		} else if ([keyPath isEqualToString:@"navigationItem.rightBarButtonItem"]) {
+			[self.navigationItem setRightBarButtonItem:value animated:YES];
+		} else {
+			if ([keyPath isEqualToString:@"toolbarItems"]) {
+				[self.navigationController setToolbarHidden:([value count] == 0) animated:YES];
+			}
+			[self setValue:value forKeyPath:keyPath];
+		}		
 	}	
 }
 
