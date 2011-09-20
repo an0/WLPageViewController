@@ -24,6 +24,7 @@
 		C91E8B3B12AC86310083E558 /* corner_top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B3212AC86310083E558 /* corner_top@2x.png */; };
 		C9354F411406F703007F8CB0 /* WLTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9354F401406F703007F8CB0 /* WLTabBarController.m */; };
 		C9354F441406FB05007F8CB0 /* WLMultiContentContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9354F431406FB05007F8CB0 /* WLMultiContentContainerController.m */; };
+		C93EB03914283D4E00891C18 /* Block+WLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C93EB03814283D4E00891C18 /* Block+WLExtension.m */; };
 		C941FBF712A6EF5100FB1ADD /* WLSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */; };
 		C96012DF13ABD2DD005F871B /* NSObject+WLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C96012DE13ABD2DD005F871B /* NSObject+WLExtension.m */; };
 		C96012E213ABD338005F871B /* NSString+WLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C96012E113ABD338005F871B /* NSString+WLExtension.m */; };
@@ -66,6 +67,8 @@
 		C9354F401406F703007F8CB0 /* WLTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTabBarController.m; sourceTree = "<group>"; };
 		C9354F421406FB05007F8CB0 /* WLMultiContentContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMultiContentContainerController.h; sourceTree = "<group>"; };
 		C9354F431406FB05007F8CB0 /* WLMultiContentContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMultiContentContainerController.m; sourceTree = "<group>"; };
+		C93EB03714283D4E00891C18 /* Block+WLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Block+WLExtension.h"; path = "../../WLFoundation/Block+WLExtension.h"; sourceTree = "<group>"; };
+		C93EB03814283D4E00891C18 /* Block+WLExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Block+WLExtension.m"; path = "../../WLFoundation/Block+WLExtension.m"; sourceTree = "<group>"; };
 		C941FBF512A6EF5100FB1ADD /* WLSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSplitViewController.h; sourceTree = "<group>"; };
 		C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSplitViewController.m; sourceTree = "<group>"; };
 		C96012DD13ABD2DD005F871B /* NSObject+WLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+WLExtension.h"; path = "../../WLFoundation/NSObject+WLExtension.h"; sourceTree = "<group>"; };
@@ -225,6 +228,8 @@
 				C96012DE13ABD2DD005F871B /* NSObject+WLExtension.m */,
 				C96012E013ABD338005F871B /* NSString+WLExtension.h */,
 				C96012E113ABD338005F871B /* NSString+WLExtension.m */,
+				C93EB03714283D4E00891C18 /* Block+WLExtension.h */,
+				C93EB03814283D4E00891C18 /* Block+WLExtension.m */,
 			);
 			name = WLFoundation;
 			sourceTree = "<group>";
@@ -375,6 +380,7 @@
 				C98D42B0140DCCDE00CE764C /* UIColor+WLExtension.m in Sources */,
 				C98D42B4140DCD3100CE764C /* WLBadgeView.m in Sources */,
 				C98D42C5140DCDB300CE764C /* WLGraphics.m in Sources */,
+				C93EB03914283D4E00891C18 /* Block+WLExtension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

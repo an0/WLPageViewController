@@ -12,11 +12,12 @@
 #define kTabBarHeightLandscape 34
 
 
+
+
 @implementation WLTabBarController
 
 @synthesize delegate = _delegate;
 @synthesize tabBar = _tabBar;
-@synthesize customizableViewControllers = _customizableViewControllers;
 @synthesize secondaryViewController = _secondaryViewController;
 
 
@@ -50,7 +51,7 @@
 
 - (WLTabBar *)tabBar {
 	if (_tabBar == nil) {
-		NSMutableArray *items = [NSMutableArray arrayWithCapacity:[self.viewControllers count]];
+		NSMutableArray *items = [NSMutableArray arrayWithCapacity:self.viewControllers.count];
 		for (UIViewController *controller in self.viewControllers) {
 			[items addObject:controller.tabBarItem];
 		}
@@ -73,7 +74,7 @@
 	
 	if (_tabBar) {
 		// Update the tab bar.
-		NSMutableArray *items = [NSMutableArray arrayWithCapacity:[viewControllers count]];
+		NSMutableArray *items = [NSMutableArray arrayWithCapacity:viewControllers.count];
 		for (UIViewController *controller in viewControllers) {
 			[items addObject:controller.tabBarItem];
 		}
@@ -84,6 +85,28 @@
 	}
 	
 	[super setViewControllers:viewControllers animated:animated];
+}
+
+- (BOOL)replaceViewControllerAtIndex:(NSUInteger)index withViewController:(UIViewController *)newViewController {
+	if ([super replaceViewControllerAtIndex:index withViewController:newViewController]) {
+		if (_tabBar != nil && newViewController.tabBarItem != [_tabBar.items objectAtIndex:index]) {
+			[_tabBar replaceItemAtIndex:index withItem:newViewController.tabBarItem];
+		}
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+- (BOOL)exchangeViewControllerAtIndex:(NSUInteger)index1 withViewControllerAtIndex:(NSUInteger)index2 {
+	if ([super exchangeViewControllerAtIndex:index1 withViewControllerAtIndex:index2]) {
+		if (_tabBar != nil && ((UIViewController *)[self.viewControllers objectAtIndex:index1]).tabBarItem != [_tabBar.items objectAtIndex:index1]) {
+			[_tabBar exchangeItemAtIndex:index1 withItemAtIndex:index2];
+		}
+		return YES;
+	} else {
+		return NO;
+	}
 }
 
 
@@ -142,12 +165,41 @@
 #pragma mark - WLTabBarDelegate
 
 - (void)tabBar:(WLTabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-	for (UIViewController *vc in self.viewControllers) {
-		if (vc.tabBarItem == item) {
-			self.selectedViewController = vc;
-		}
+	NSUInteger index = [tabBar.items indexOfObjectIdenticalTo:item];
+	UIViewController *vc = [self.viewControllers objectAtIndex:index];
+	if (vc.tabBarItem == item) {
+		self.selectedViewController = vc;
 	}
 }
+
+- (void)tabBar:(WLTabBar *)tabBar willBeginCustomizingItem:(UITabBarItem *)item {
+	if ([_delegate respondsToSelector:@selector(tabBarController:willBeginCustomizingViewController:)]) {
+		UIViewController *viewController = [self.viewControllers objectAtIndex:[tabBar.items indexOfObjectIdenticalTo:item]];
+		[_delegate tabBarController:self willBeginCustomizingViewController:viewController];
+	}
+}
+
+- (void)tabBar:(WLTabBar *)tabBar didBeginCustomizingItem:(UITabBarItem *)item {
+	
+}
+
+- (void)tabBar:(WLTabBar *)tabBar willEndCustomizingItem:(UITabBarItem *)item newItem:(UITabBarItem *)newItem {
+	if ([_delegate respondsToSelector:@selector(tabBarController:willEndCustomizingViewController:newViewController:)]) {
+		UIViewController *viewController = [self.viewControllers objectAtIndex:[tabBar.items indexOfObjectIdenticalTo:item]];
+		UIViewController *newViewController = [self.viewControllers objectAtIndex:[tabBar.items indexOfObjectIdenticalTo:newItem]];
+		[_delegate tabBarController:self willEndCustomizingViewController:viewController newViewController:newViewController];
+	}	
+}
+
+- (void)tabBar:(WLTabBar *)tabBar didEndCustomizingItem:(UITabBarItem *)item newItem:(UITabBarItem *)newItem {
+	[self exchangeViewControllerAtIndex:[tabBar.items indexOfObjectIdenticalTo:item] withViewControllerAtIndex:[tabBar.items indexOfObjectIdenticalTo:newItem]];
+	if ([_delegate respondsToSelector:@selector(tabBarController:didEndCustomizingViewController:newViewController:)]) {
+		UIViewController *viewController = [self.viewControllers objectAtIndex:[tabBar.items indexOfObjectIdenticalTo:item]];
+		UIViewController *newViewController = [self.viewControllers objectAtIndex:[tabBar.items indexOfObjectIdenticalTo:newItem]];
+		[_delegate tabBarController:self didEndCustomizingViewController:viewController newViewController:newViewController];
+	}	
+}
+
 
 
 #pragma mark - Secondary view controller presening/dismissing

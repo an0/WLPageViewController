@@ -8,7 +8,10 @@
 
 #import "WLMultiContentContainerController.h"
 
-@implementation WLMultiContentContainerController
+@implementation WLMultiContentContainerController {
+@private
+	NSMutableArray *_viewControllers;
+}
 
 @synthesize viewControllers = _viewControllers;
 @synthesize selectedViewController = _selectedViewController;
@@ -81,10 +84,47 @@
 	controllerToSelect = [viewControllers objectAtIndex:index];
 	
 	// Must update the view controller array before the assignment of selected view controller because of the precondition that the selected view controller must be element of the view contronller array.
-	_viewControllers = [viewControllers copy];
+	_viewControllers = [viewControllers mutableCopy];
 	
 	self.selectedViewController = controllerToSelect;
 }
+
+- (BOOL)replaceViewControllerAtIndex:(NSUInteger)index withViewController:(UIViewController *)newViewController {
+	UIViewController *viewController = [_viewControllers objectAtIndex:index];
+	if (viewController == newViewController) return NO;
+	
+	[viewController willMoveToParentViewController:nil];
+	[viewController removeFromParentViewController];
+	
+	[self addChildViewController:newViewController];
+	[newViewController didMoveToParentViewController:self];
+	
+	[_viewControllers replaceObjectAtIndex:index withObject:newViewController];
+	
+	// Update the selected view controller if viewController is currently selected.
+	if (self.selectedViewController == viewController) {
+		self.selectedViewController = newViewController;
+	}
+	
+	return YES;
+}
+
+- (BOOL)exchangeViewControllerAtIndex:(NSUInteger)index1 withViewControllerAtIndex:(NSUInteger)index2 {
+	if (index1 == index2) return NO;
+	
+	UIViewController *viewController1 = [_viewControllers objectAtIndex:index1];
+	UIViewController *viewController2 = [_viewControllers objectAtIndex:index2];
+	UIViewController *selectedViewController = self.selectedViewController;
+	[_viewControllers exchangeObjectAtIndex:index1 withObjectAtIndex:index2];
+	if (selectedViewController == viewController1) {
+		self.selectedViewController = viewController2;
+	} else if (selectedViewController == viewController2) {
+		self.selectedViewController = viewController1;
+	}
+	
+	return YES;
+}
+
 
 
 #pragma mark - Managing the Selected View Controller

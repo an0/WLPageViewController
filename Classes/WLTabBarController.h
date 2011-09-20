@@ -15,9 +15,9 @@
 
 - (BOOL)tabBarController:(WLTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController;
 - (void)tabBarController:(WLTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController;
-- (void)tabBarController:(WLTabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray *)viewControllers;
-- (void)tabBarController:(WLTabBarController *)tabBarController willEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed;
-- (void)tabBarController:(WLTabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed;
+- (void)tabBarController:(WLTabBarController *)tabBarController willBeginCustomizingViewController:(UIViewController *)viewController;
+- (void)tabBarController:(WLTabBarController *)tabBarController willEndCustomizingViewController:(UIViewController *)viewController newViewController:(UIViewController *)newViewController;
+- (void)tabBarController:(WLTabBarController *)tabBarController didEndCustomizingViewController:(UIViewController *)viewController newViewController:(UIViewController *)newViewController;
 
 @end
 
@@ -26,8 +26,10 @@
 
 @property(nonatomic, weak) id<WLTabBarControllerDelegate> delegate;
 @property(nonatomic, strong, readonly) WLTabBar *tabBar;
-@property(nonatomic, copy) NSArray *customizableViewControllers;
 @property(nonatomic, strong, readonly) UIViewController *secondaryViewController;
+
+- (BOOL)replaceViewControllerAtIndex:(NSUInteger)index withViewController:(UIViewController *)newViewController;
+- (BOOL)exchangeViewControllerAtIndex:(NSUInteger)index1 withViewControllerAtIndex:(NSUInteger)index2; // Exchange view controllers, keep selectedIndex not selectedViewController.
 
 - (void)presentSecondaryViewController:(UIViewController *)viewController;
 - (void)dismissSecondaryViewController;

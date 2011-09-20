@@ -25,6 +25,7 @@
  @param animated If YES, the tab bar items for the view controllers are animated into position. If NO, changes to the tab bar items are reflected immediately.
  */
 - (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated;
-
+- (BOOL)replaceViewControllerAtIndex:(NSUInteger)index withViewController:(UIViewController *)newViewController;
+- (BOOL)exchangeViewControllerAtIndex:(NSUInteger)index1 withViewControllerAtIndex:(NSUInteger)index2; // Exchange view controllers, keep selectedIndex not selectedViewController.
 
 @end
