@@ -116,8 +116,8 @@
 - (void)setSelectedViewController:(UIViewController *)viewController {
 	if (self.selectedViewController == viewController) return;
 	
-	_tabBar.selectedItem = viewController.tabBarItem;
 	[super setSelectedViewController:viewController];
+	_tabBar.selectedItem = viewController.tabBarItem;
 }
 
 
