@@ -14,6 +14,8 @@
 @interface WLContainerController : UIViewController {
 @protected
 	UIViewController *_contentController;
+	BOOL _isVisible;
+	BOOL _toolbarHidden;
 }
 
 @property (nonatomic, retain) UIViewController *contentController; ///< The content controller managed by the container controller.

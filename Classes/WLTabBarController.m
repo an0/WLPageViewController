@@ -23,6 +23,14 @@
 
 #pragma mark - View lifecycle
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		_toolbarHidden = NO;
+	}
+	return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,12 +47,6 @@
     _tabBar = nil;
     [super viewDidUnload];
 }
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	[self.navigationController setToolbarHidden:NO animated:animated];
-}
-
 
 
 #pragma mark - Accessing the Tab Bar Controller Properties

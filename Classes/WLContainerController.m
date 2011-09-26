@@ -9,6 +9,7 @@
 #import "WLContainerController.h"
 
 
+
 @implementation WLContainerController
 
 
@@ -28,6 +29,7 @@
 
 - (id)initWithContentController:(UIViewController *)contentController {
 	if ((self = [super init])) {
+		_toolbarHidden = YES;
 		self.contentController = contentController;
 	}
 	return self;
@@ -156,10 +158,16 @@
 
 	if (_inheritsToolbarItems) {
 		if ([contentController.toolbarItems count] > 0) {
-			[self.navigationController setToolbarHidden:NO animated:YES];
+			_toolbarHidden = NO;
+			if (_isVisible) {
+				[self.navigationController setToolbarHidden:_toolbarHidden animated:YES];
+			}
 			[self setToolbarItems:contentController.toolbarItems animated:YES];
 		} else {
-			[self.navigationController setToolbarHidden:YES animated:YES];
+			_toolbarHidden = YES;
+			if (_isVisible) {
+				[self.navigationController setToolbarHidden:_toolbarHidden animated:YES];
+			}
 			[self setToolbarItems:nil];
 		}
 
@@ -180,7 +188,10 @@
 			[self.navigationItem setRightBarButtonItem:value animated:YES];
 		} else {
 			if ([keyPath isEqualToString:@"toolbarItems"]) {
-				[self.navigationController setToolbarHidden:([value count] == 0) animated:YES];
+				_toolbarHidden = ([value count] == 0);
+				if (_isVisible) {
+					[self.navigationController setToolbarHidden:_toolbarHidden animated:YES];
+				}
 			}
 			[self setValue:value forKeyPath:keyPath];
 		}		
@@ -205,6 +216,32 @@
 	if (self.contentView) {
 		[self.view addSubview:self.contentView];
 	}
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	
+	if (self.navigationController != nil && _toolbarHidden != self.navigationController.toolbarHidden) {
+		[self.navigationController setToolbarHidden:_toolbarHidden animated:animated];
+	}
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	_isVisible = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	
+	if (self.navigationController != nil && _toolbarHidden != self.navigationController.toolbarHidden) {
+		_toolbarHidden = self.navigationController.toolbarHidden;
+	}
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	_isVisible = NO;
 }
 
 
