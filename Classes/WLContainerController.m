@@ -23,13 +23,25 @@
 @synthesize inheritsToolbarItems = _inheritsToolbarItems;
 
 
-- (id)init {
-	return [self initWithContentController:nil];
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		_toolbarHidden = YES;
+	}
+	return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if (self) {
+		_toolbarHidden = YES;
+	}
+	return self;
 }
 
 - (id)initWithContentController:(UIViewController *)contentController {
-	if ((self = [super init])) {
-		_toolbarHidden = YES;
+	self = [self initWithNibName:nil bundle:nil];
+	if (self) {
 		self.contentController = contentController;
 	}
 	return self;
