@@ -123,9 +123,7 @@
 
 #pragma mark - Managing the Selected View Controller
 
-- (void)setSelectedViewController:(UIViewController *)viewController {
-	if (self.selectedViewController == viewController) return;
-	
+- (void)setSelectedViewController:(UIViewController *)viewController {	
 	[super setSelectedViewController:viewController];
 	_tabBar.selectedItem = viewController.tabBarItem;
 }
@@ -178,7 +176,9 @@
 	NSUInteger index = [tabBar.items indexOfObjectIdenticalTo:item];
 	UIViewController *vc = [self.viewControllers objectAtIndex:index];
 	if (vc.tabBarItem == item) {
-		self.selectedViewController = vc;
+		if (self.selectedViewController != vc) {
+			self.selectedViewController = vc;
+		}
 	}
 }
 
