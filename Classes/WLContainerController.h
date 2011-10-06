@@ -42,7 +42,6 @@
 - (id)initWithContentController:(UIViewController *)contentController;
 
 
-
 #pragma mark -
 #pragma mark Protected methods
 

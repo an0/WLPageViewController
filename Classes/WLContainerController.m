@@ -8,6 +8,11 @@
 
 #import "WLContainerController.h"
 
+@interface WLContainerController ()
+- (void)unregisterKVOForNavigationBar;
+- (void)unregisterKVOForToolbar;
+@end
+
 
 
 @implementation WLContainerController
@@ -48,12 +53,57 @@
 }
 
 - (void)dealloc {
-	// Stop the observation.
-	[self updateNavigationBarFrom:nil];
-	[self updateToolbarFrom:nil];
+	[self unregisterKVOForNavigationBar];
+	[self unregisterKVOForToolbar];
 }
 
+- (void)unregisterKVOForNavigationBar {
+	// Removing observer throws NSException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"title"];
+	}
+	@catch (NSException *exception) {
+		
+	}
+	
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.title"];
+	}
+	@catch (NSException *exception) {
+		
+	}
+	
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.titleView"];
+	}
+	@catch (NSException * e) {
+		//		DLog(@"%@: %@", [e class], e);
+	}
+	
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItem"];
+	}
+	@catch (NSException * e) {
+		//		DLog(@"%@: %@", [e class], e);
+	}
+	
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItem"];
+	}
+	@catch (NSException * e) {
+		//		DLog(@"%@: %@", [e class], e);
+	}
+}
 
+- (void)unregisterKVOForToolbar {
+	// Removing observer throws NSRangeException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"toolbarItems"];
+	}
+	@catch (NSException * e) {
+		//		DLog(@"%@: %@", [e class], e);
+	}
+}
 
 
 #pragma mark - Content View management
@@ -115,28 +165,7 @@
 #pragma mark - Update navigation bar and toolbar
 
 - (void)updateNavigationBarFrom:(UIViewController *)contentController {
-	// Removing observer throws NSException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
-	@try {
-		[_contentController removeObserver:self forKeyPath:@"navigationItem.titleView"];
-	}
-	@catch (NSException * e) {
-//		DLog(@"%@: %@", [e class], e);
-	}
-	
-	@try {
-		[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItem"];
-	}
-	@catch (NSException * e) {
-//		DLog(@"%@: %@", [e class], e);
-	}
-
-	@try {
-		[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItem"];
-	}
-	@catch (NSException * e) {
-//		DLog(@"%@: %@", [e class], e);
-	}
-	
+	[self unregisterKVOForNavigationBar];
 	
 	if (_inheritsTitle) {
 		self.title = contentController.title;
@@ -149,36 +178,29 @@
 		[contentController addObserver:self forKeyPath:@"navigationItem.titleView" options:NSKeyValueObservingOptionNew context:nil];
 	}
 	if (_inheritsLeftBarButtonItem) {
-		[self.navigationItem setLeftBarButtonItem:contentController.navigationItem.leftBarButtonItem animated:YES];
+		[self.navigationItem setLeftBarButtonItem:contentController.navigationItem.leftBarButtonItem animated:_isVisible];
 		[contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
 	}
 	if (_inheritsRightBarButtonItem) {
-		[self.navigationItem setRightBarButtonItem:contentController.navigationItem.rightBarButtonItem animated:YES];
+		[self.navigationItem setRightBarButtonItem:contentController.navigationItem.rightBarButtonItem animated:_isVisible];
 		[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
 	}	
 }
 
 - (void)updateToolbarFrom:(UIViewController *)contentController {
-	// Removing observer throws NSRangeException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
-	@try {
-		[_contentController removeObserver:self forKeyPath:@"toolbarItems"];
-	}
-	@catch (NSException * e) {
-//		DLog(@"%@: %@", [e class], e);
-	}
-
+	[self unregisterKVOForToolbar];
 
 	if (_inheritsToolbarItems) {
 		if ([contentController.toolbarItems count] > 0) {
 			_toolbarHidden = NO;
 			if (_isVisible) {
-				[self.navigationController setToolbarHidden:_toolbarHidden animated:YES];
+				[self.navigationController setToolbarHidden:_toolbarHidden animated:_isVisible];
 			}
-			[self setToolbarItems:contentController.toolbarItems animated:YES];
+			[self setToolbarItems:contentController.toolbarItems animated:_isVisible];
 		} else {
 			_toolbarHidden = YES;
 			if (_isVisible) {
-				[self.navigationController setToolbarHidden:_toolbarHidden animated:YES];
+				[self.navigationController setToolbarHidden:_toolbarHidden animated:_isVisible];
 			}
 			[self setToolbarItems:nil];
 		}
@@ -195,14 +217,14 @@
 		}
 		
 		if ([keyPath isEqualToString:@"navigationItem.leftBarButtonItem"]) {
-			[self.navigationItem setLeftBarButtonItem:value animated:YES];
+			[self.navigationItem setLeftBarButtonItem:value animated:_isVisible];
 		} else if ([keyPath isEqualToString:@"navigationItem.rightBarButtonItem"]) {
-			[self.navigationItem setRightBarButtonItem:value animated:YES];
+			[self.navigationItem setRightBarButtonItem:value animated:_isVisible];
 		} else {
 			if ([keyPath isEqualToString:@"toolbarItems"]) {
 				_toolbarHidden = ([value count] == 0);
 				if (_isVisible) {
-					[self.navigationController setToolbarHidden:_toolbarHidden animated:YES];
+					[self.navigationController setToolbarHidden:_toolbarHidden animated:_isVisible];
 				}
 			}
 			[self setValue:value forKeyPath:keyPath];
