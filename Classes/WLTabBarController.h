@@ -31,7 +31,7 @@
 - (BOOL)replaceViewControllerAtIndex:(NSUInteger)index withViewController:(UIViewController *)newViewController;
 - (BOOL)exchangeViewControllerAtIndex:(NSUInteger)index1 withViewControllerAtIndex:(NSUInteger)index2; // Exchange view controllers, keep selectedIndex not selectedViewController.
 
-- (void)presentSecondaryViewController:(UIViewController *)viewController;
-- (void)dismissSecondaryViewController;
+- (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)dismissSecondaryViewControllerAnimated:(BOOL)animated;
 
 @end

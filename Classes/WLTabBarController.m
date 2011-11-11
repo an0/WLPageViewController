@@ -132,7 +132,7 @@
 
 #pragma mark - Managing the Content View
 
-- (void)viewWillLayoutSubviews {
+- (void)_layoutSubviews {
 	_secondaryViewController.view.frame = self.view.bounds;
 	
 	if (self.navigationController.toolbar) {
@@ -146,7 +146,7 @@
 		_tabBar.frame = tabBarFrame;
 		_tabBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;	
 	}
-
+	
 	UIView *contentView = _contentController.view;
 	if (contentView.superview != self.view) return;
 	
@@ -166,6 +166,10 @@
 		CGRect intersection = CGRectIntersection(contentFrame, toolbarFrame);
 		((UIScrollView *)contentView).scrollIndicatorInsets = ((UIScrollView *)contentView).contentInset = UIEdgeInsetsMake(0, 0, intersection.size.height, 0);
 	}
+}
+
+- (void)viewWillLayoutSubviews {
+	[self _layoutSubviews];
 }
 
 
@@ -214,9 +218,10 @@
 
 #pragma mark - Secondary view controller presening/dismissing
 
-- (void)presentSecondaryViewController:(UIViewController *)viewController {
+- (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated {
 	UIToolbar *toolbar = self.navigationController.toolbar;
-	[UIView animateWithDuration:0.2 animations:^{
+	
+	void (^animations)(void) = ^{
 		CGRect offScreenFrame;
 		if (toolbar) {
 			offScreenFrame = self.contentView.frame;
@@ -233,7 +238,9 @@
 			offScreenFrame.origin.y += self.view.bounds.size.height;
 			_tabBar.frame = offScreenFrame;
 		}
-	} completion:^(BOOL finished) {
+	};
+	
+	void (^completion)(BOOL finished) = ^(BOOL finished) {
 		_secondaryViewController = viewController;
 		[self addChildViewController:_secondaryViewController];
 		[self.view addSubview:_secondaryViewController.view];
@@ -245,31 +252,61 @@
 		CGRect initFrame = self.view.bounds;
 		initFrame.origin.x -= initFrame.size.width;
 		_secondaryViewController.view.frame = initFrame;
-		[UIView animateWithDuration:0.2 animations:^{
+		if (animated) {
+			[UIView animateWithDuration:(animated ? 0.2 : 0) animations:^{
+				_secondaryViewController.view.frame = self.view.bounds;
+			}];
+		} else {
 			_secondaryViewController.view.frame = self.view.bounds;
-		}];
-	}];
+		}
+	};
+	
+	if (animated) {
+		[UIView animateWithDuration:0.2 animations:animations completion:completion];
+	} else {
+		animations();
+		completion(NO);
+	}
 }
 
-- (void)dismissSecondaryViewController {
+- (void)dismissSecondaryViewControllerAnimated:(BOOL)animated {
 	[_secondaryViewController willMoveToParentViewController:nil];
-	[UIView animateWithDuration:0.2 animations:^{
+
+	void (^animations)(void) = ^{
 		CGRect offScreenFrame = self.view.bounds;
 		offScreenFrame.origin.x -= offScreenFrame.size.width;
 		_secondaryViewController.view.frame = offScreenFrame;
-	} completion:^(BOOL finished) {
+	};
+	
+	void (^completion)(BOOL finished) = ^(BOOL finished) {
 		[_secondaryViewController.view removeFromSuperview];
 		[_secondaryViewController removeFromParentViewController];
 		_secondaryViewController = nil;
 		[self.view addSubview:self.contentView];
 		UIToolbar *toolbar = self.navigationController.toolbar;
-		[UIView animateWithDuration:0.2 animations:^{
+		if (animated) {
+			[UIView animateWithDuration:(animated ? 0.2 : 0) animations:^{
+				if (toolbar) {
+					self.navigationController.toolbarHidden = NO;
+				}
+				// Reuse the normal layout algorithm.
+				[self _layoutSubviews];
+			}];
+		} else {
 			if (toolbar) {
 				self.navigationController.toolbarHidden = NO;
 			}
-			[self.view layoutIfNeeded]; // Reuse the normal layout algorithm.
-		}];
-	}];
+			// Reuse the normal layout algorithm.
+			[self _layoutSubviews];			
+		}
+	};
+		
+	if (animated) {
+		[UIView animateWithDuration:0.2 animations:animations completion:completion];
+	} else {
+		animations();
+		completion(NO);
+	}
 }
 
 @end
