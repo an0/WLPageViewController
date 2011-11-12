@@ -186,6 +186,20 @@
 	}
 }
 
+- (void)tabBar:(WLTabBar *)tabBar didTapTabForSelectedItem:(UITabBarItem *)item {
+	if ([_delegate respondsToSelector:@selector(tabBarController:didTapTabForSelectedViewController:)]) {
+		[_delegate tabBarController:self didTapTabForSelectedViewController:self.selectedViewController];
+	}
+}
+
+- (void)tabBar:(WLTabBar *)tabBar didDoubleTapTabForItem:(UITabBarItem *)item {
+	if ([_delegate respondsToSelector:@selector(tabBarController:didDoubleTapTabForViewController:)]) {
+		NSUInteger index = [tabBar.items indexOfObjectIdenticalTo:item];
+		UIViewController *vc = [self.viewControllers objectAtIndex:index];
+		[_delegate tabBarController:self didDoubleTapTabForViewController:vc];
+	}
+}
+
 - (void)tabBar:(WLTabBar *)tabBar willBeginCustomizingItem:(UITabBarItem *)item {
 	if ([_delegate respondsToSelector:@selector(tabBarController:willBeginCustomizingViewController:)]) {
 		UIViewController *viewController = [self.viewControllers objectAtIndex:[tabBar.items indexOfObjectIdenticalTo:item]];

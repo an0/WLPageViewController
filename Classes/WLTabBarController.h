@@ -12,9 +12,11 @@
 @class WLTabBarController;
 
 @protocol WLTabBarControllerDelegate <NSObject>
-
+@optional
 - (BOOL)tabBarController:(WLTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController;
 - (void)tabBarController:(WLTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController;
+- (void)tabBarController:(WLTabBarController *)tabBarController didTapTabForSelectedViewController:(UIViewController *)viewController;
+- (void)tabBarController:(WLTabBarController *)tabBarController didDoubleTapTabForViewController:(UIViewController *)viewController;
 - (void)tabBarController:(WLTabBarController *)tabBarController willBeginCustomizingViewController:(UIViewController *)viewController;
 - (void)tabBarController:(WLTabBarController *)tabBarController willEndCustomizingViewController:(UIViewController *)viewController newViewController:(UIViewController *)newViewController;
 - (void)tabBarController:(WLTabBarController *)tabBarController didEndCustomizingViewController:(UIViewController *)viewController newViewController:(UIViewController *)newViewController;
