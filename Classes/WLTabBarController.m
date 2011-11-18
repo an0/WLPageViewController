@@ -41,19 +41,25 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
 	if (self.navigationController) {
 		UIBarButtonItem *tabBar = [[UIBarButtonItem alloc] initWithCustomView:self.tabBar];
 		self.toolbarItems = [NSArray arrayWithObject:tabBar];
 	} else {
 		[self.view addSubview:self.tabBar];
 	}
+	
+	[super viewDidLoad];
 }
 
 - (void)viewDidUnload
 {
     _tabBar = nil;
     [super viewDidUnload];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 
@@ -132,11 +138,13 @@
 
 #pragma mark - Managing the Content View
 
-- (void)_layoutSubviews {
+- (void)layoutContentView:(UIView *)contentView {
 	_secondaryViewController.view.frame = self.view.bounds;
+	_secondaryViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	
-	if (self.navigationController.toolbar) {
-		CGRect tabBarFrame = self.navigationController.toolbar.bounds;
+	UIToolbar *toolbar = self.navigationController.toolbar;
+	if (toolbar) {
+		CGRect tabBarFrame = toolbar.bounds;
 		_tabBar.frame = tabBarFrame;
 		_tabBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;	
 	} else {
@@ -147,7 +155,6 @@
 		_tabBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;	
 	}
 	
-	UIView *contentView = _contentController.view;
 	if (contentView.superview != self.view) return;
 	
 	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -159,17 +166,16 @@
 	}
 	contentView.frame = UIEdgeInsetsInsetRect(contentFrame, self.contentInset);
 	
-	// Adjust contentInset and scrollIndicatorInsets for scroll view if container controller is on navigation stack and toolbar is shown.
-	if (self.navigationController.toolbar && !self.navigationController.toolbar.hidden && [contentView isKindOfClass:[UIScrollView class]]) {
-		CGRect contentFrame = contentView.frame;
-		CGRect toolbarFrame = [self.view convertRect:self.navigationController.toolbar.frame fromView:self.navigationController.toolbar.superview];
-		CGRect intersection = CGRectIntersection(contentFrame, toolbarFrame);
-		((UIScrollView *)contentView).scrollIndicatorInsets = ((UIScrollView *)contentView).contentInset = UIEdgeInsetsMake(0, 0, intersection.size.height, 0);
+	// Adjust contentInset and scrollIndicatorInsets for scroll view if container controller is on navigation stack and a translucent toolbar is shown.
+	if (toolbar &&
+		!toolbar.hidden &&
+		toolbar.translucent &&
+		[contentView isKindOfClass:[UIScrollView class]]) {
+		CGRect toolbarFrame = [self.view convertRect:toolbar.frame fromView:toolbar.superview];
+		CGFloat bottomInset = (toolbarFrame.size.height - self.contentInset.bottom);
+		if (bottomInset < 0) bottomInset = 0;
+		((UIScrollView *)contentView).scrollIndicatorInsets = ((UIScrollView *)contentView).contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
 	}
-}
-
-- (void)viewWillLayoutSubviews {
-	[self _layoutSubviews];
 }
 
 
@@ -303,15 +309,13 @@
 				if (toolbar) {
 					self.navigationController.toolbarHidden = NO;
 				}
-				// Reuse the normal layout algorithm.
-				[self _layoutSubviews];
+				[self layoutContentView:self.contentView];
 			}];
 		} else {
 			if (toolbar) {
 				self.navigationController.toolbarHidden = NO;
 			}
-			// Reuse the normal layout algorithm.
-			[self _layoutSubviews];			
+			[self layoutContentView:self.contentView];
 		}
 	};
 		

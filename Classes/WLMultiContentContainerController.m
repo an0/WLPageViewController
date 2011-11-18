@@ -16,6 +16,7 @@
 @synthesize viewControllers = _viewControllers;
 @synthesize selectedViewController = _selectedViewController;
 
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
@@ -46,8 +47,13 @@
 	if (_contentController == contentController) return;
 	
 	if (self.isViewLoaded) {
-		[_contentController.view removeFromSuperview];
-		[self.view addSubview:contentController.view];
+		if (_contentController.view.superview == self.view) {
+			[_contentController.view removeFromSuperview];
+		}
+		if (contentController.view.superview != self.view) {
+			[self.view addSubview:contentController.view];
+			[self layoutContentView:contentController.view];
+		}
 	}
 	
 	[self updateNavigationBarFrom:contentController];
@@ -123,6 +129,15 @@
 	}
 	
 	return YES;
+}
+
+- (void)addViewController:(UIViewController *)viewController {
+	if (!_viewControllers) _viewControllers = [NSMutableArray arrayWithObject:viewController];
+	else [_viewControllers addObject:viewController];
+}
+
+- (void)removeViewController:(UIViewController *)viewController {
+	[_viewControllers removeObject:viewController];
 }
 
 

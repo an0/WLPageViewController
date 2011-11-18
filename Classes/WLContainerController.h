@@ -29,24 +29,13 @@
 @property (nonatomic, assign) BOOL inheritsToolbarItems; ///< A Boolean value indicating whether the container controller inherits the toolbarItems property from the content controller. It has effect only when a new content controller is assigned. Notice: WLContainerController will change navigationBarController.toolbarHidden, so its parent view controller may have to restore navigationBarController.toolbarHidden after poping it.
 		   
 
-/**
- Initializes and returns a newly created container controller.
- 
- This is a convenience method for initializing the receiver and embed a view controller in it.
- 
- @param contentController The view controller that is contained in the container controller.
- 
- @return The initialized container controller object or nil if there was a problem initializing the object.
- 
- */
-- (id)initWithContentController:(UIViewController *)contentController;
-
 
 #pragma mark -
 #pragma mark Protected methods
 
 - (void)updateNavigationBarFrom:(UIViewController *)contentController;
 - (void)updateToolbarFrom:(UIViewController *)contentController;
+- (void)layoutContentView:(UIView *)contentView;
 
 @end
 

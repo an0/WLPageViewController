@@ -6,11 +6,13 @@
 //  Copyright 2010 I Wonder Phone. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "WLNavigationController.h"
 
 
 @interface ContentController : UIViewController {
 
 }
+
+@property (nonatomic, strong) WLNavigationController *vavigationController;
 
 @end

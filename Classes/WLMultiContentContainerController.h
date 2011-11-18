@@ -28,4 +28,8 @@
 - (BOOL)replaceViewControllerAtIndex:(NSUInteger)index withViewController:(UIViewController *)newViewController;
 - (BOOL)exchangeViewControllerAtIndex:(NSUInteger)index1 withViewControllerAtIndex:(NSUInteger)index2; // Exchange view controllers, keep selectedIndex not selectedViewController.
 
+// These two methods only do view controller management, no view configuration.
+- (void)addViewController:(UIViewController *)viewController;
+- (void)removeViewController:(UIViewController *)viewController;
+
 @end

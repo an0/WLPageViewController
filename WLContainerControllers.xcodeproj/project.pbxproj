@@ -31,6 +31,7 @@
 		C98D42B0140DCCDE00CE764C /* UIColor+WLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C98D42AF140DCCDE00CE764C /* UIColor+WLExtension.m */; };
 		C98D42B4140DCD3100CE764C /* WLBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C98D42B3140DCD3100CE764C /* WLBadgeView.m */; };
 		C98D42C5140DCDB300CE764C /* WLGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = C98D42C4140DCDB300CE764C /* WLGraphics.m */; };
+		C9BB90ED147430D7002BC3B3 /* WLNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9BB90EC147430D7002BC3B3 /* WLNavigationController.m */; };
 		C9CC1EEF1408405900FFCAFA /* WLTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C9CC1EEE1408405900FFCAFA /* WLTabBar.m */; };
 		C9D0AC9E11F0943000A84A80 /* WLSwitchController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9911F0943000A84A80 /* WLSwitchController.m */; };
 		C9D0AC9F11F0943000A84A80 /* WLContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9B11F0943000A84A80 /* WLContainerController.m */; };
@@ -81,6 +82,8 @@
 		C98D42B3140DCD3100CE764C /* WLBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLBadgeView.m; path = ../../WLBadgeView/WLBadgeView/WLBadgeView.m; sourceTree = "<group>"; };
 		C98D42C3140DCDB300CE764C /* WLGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLGraphics.h; path = ../../WLUIKit/Classes/WLGraphics.h; sourceTree = "<group>"; };
 		C98D42C4140DCDB300CE764C /* WLGraphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLGraphics.m; path = ../../WLUIKit/Classes/WLGraphics.m; sourceTree = "<group>"; };
+		C9BB90EB147430D7002BC3B3 /* WLNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLNavigationController.h; sourceTree = "<group>"; };
+		C9BB90EC147430D7002BC3B3 /* WLNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLNavigationController.m; sourceTree = "<group>"; };
 		C9CC1EED1408405900FFCAFA /* WLTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLTabBar.h; path = ../../WLTabBar/WLTabBar/WLTabBar.h; sourceTree = "<group>"; };
 		C9CC1EEE1408405900FFCAFA /* WLTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLTabBar.m; path = ../../WLTabBar/WLTabBar/WLTabBar.m; sourceTree = "<group>"; };
 		C9D0AC9811F0943000A84A80 /* WLSwitchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSwitchController.h; sourceTree = "<group>"; };
@@ -267,6 +270,8 @@
 				C941FBF612A6EF5100FB1ADD /* WLSplitViewController.m */,
 				C9354F3F1406F703007F8CB0 /* WLTabBarController.h */,
 				C9354F401406F703007F8CB0 /* WLTabBarController.m */,
+				C9BB90EB147430D7002BC3B3 /* WLNavigationController.h */,
+				C9BB90EC147430D7002BC3B3 /* WLNavigationController.m */,
 			);
 			name = WLContainerControllers;
 			sourceTree = "<group>";
@@ -381,6 +386,7 @@
 				C98D42B4140DCD3100CE764C /* WLBadgeView.m in Sources */,
 				C98D42C5140DCDB300CE764C /* WLGraphics.m in Sources */,
 				C93EB03914283D4E00891C18 /* Block+WLExtension.m in Sources */,
+				C9BB90ED147430D7002BC3B3 /* WLNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
