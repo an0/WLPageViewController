@@ -14,6 +14,7 @@
 @interface WLContainerController : UIViewController {
 @protected
 	UIViewController *_contentController;
+	UIViewController *_secondaryViewController;
 	BOOL _isVisible;
 	BOOL _toolbarHidden;
 }
@@ -28,6 +29,11 @@
 @property (nonatomic, assign) BOOL inheritsRightBarButtonItem; ///< A Boolean value indicating whether the container controller inherits the navigationItem.rightBarButtonItem property from the content controller. It has effect only when a new content controller is assigned.
 @property (nonatomic, assign) BOOL inheritsToolbarItems; ///< A Boolean value indicating whether the container controller inherits the toolbarItems property from the content controller. It has effect only when a new content controller is assigned. Notice: WLContainerController will change navigationBarController.toolbarHidden, so its parent view controller may have to restore navigationBarController.toolbarHidden after poping it.
 		   
+@property(nonatomic, strong, readonly) UIViewController *secondaryViewController;
+
+
+- (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)dismissSecondaryViewControllerAnimated:(BOOL)animated;
 
 
 #pragma mark -

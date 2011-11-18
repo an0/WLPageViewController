@@ -28,12 +28,8 @@
 
 @property(nonatomic, weak) id<WLTabBarControllerDelegate> delegate;
 @property(nonatomic, strong, readonly) WLTabBar *tabBar;
-@property(nonatomic, strong, readonly) UIViewController *secondaryViewController;
 
 - (BOOL)replaceViewControllerAtIndex:(NSUInteger)index withViewController:(UIViewController *)newViewController;
 - (BOOL)exchangeViewControllerAtIndex:(NSUInteger)index1 withViewControllerAtIndex:(NSUInteger)index2; // Exchange view controllers, keep selectedIndex not selectedViewController.
-
-- (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated;
-- (void)dismissSecondaryViewControllerAnimated:(BOOL)animated;
 
 @end

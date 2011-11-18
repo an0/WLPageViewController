@@ -36,6 +36,10 @@
 		}
 	}
 	
+	if (_secondaryViewController) {
+		result = result && [_secondaryViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+	}
+	
     return result;
 }
 

@@ -18,7 +18,6 @@
 
 @synthesize delegate = _delegate;
 @synthesize tabBar = _tabBar;
-@synthesize secondaryViewController = _secondaryViewController;
 
 
 #pragma mark - View lifecycle
@@ -244,15 +243,17 @@
 	void (^animations)(void) = ^{
 		CGRect offScreenFrame;
 		if (toolbar) {
+			CGFloat offset = CGRectGetMaxY([self.view convertRect:toolbar.frame fromView:toolbar.superview]);
 			offScreenFrame = self.contentView.frame;
-			offScreenFrame.origin.y += CGRectGetMaxY(toolbar.frame);
+			offScreenFrame.origin.y += offset;
 			self.contentView.frame = offScreenFrame;
 			offScreenFrame = toolbar.frame;
-			offScreenFrame.origin.y += CGRectGetMaxY(toolbar.frame);
+			offScreenFrame.origin.y += offset;
 			toolbar.frame = offScreenFrame;
 		} else {
+			CGFloat offset = CGRectGetMaxY([self.view convertRect:_tabBar.frame fromView:toolbar.superview]);
 			offScreenFrame = self.contentView.frame;
-			offScreenFrame.origin.y += self.view.bounds.size.height;
+			offScreenFrame.origin.y += offset;
 			self.contentView.frame = offScreenFrame;
 			offScreenFrame = _tabBar.frame;
 			offScreenFrame.origin.y += self.view.bounds.size.height;
@@ -289,42 +290,6 @@
 	}
 }
 
-- (void)dismissSecondaryViewControllerAnimated:(BOOL)animated {
-	[_secondaryViewController willMoveToParentViewController:nil];
 
-	void (^animations)(void) = ^{
-		CGRect offScreenFrame = self.view.bounds;
-		offScreenFrame.origin.x -= offScreenFrame.size.width;
-		_secondaryViewController.view.frame = offScreenFrame;
-	};
-	
-	void (^completion)(BOOL finished) = ^(BOOL finished) {
-		[_secondaryViewController.view removeFromSuperview];
-		[_secondaryViewController removeFromParentViewController];
-		_secondaryViewController = nil;
-		[self.view addSubview:self.contentView];
-		UIToolbar *toolbar = self.navigationController.toolbar;
-		if (animated) {
-			[UIView animateWithDuration:(animated ? 0.2 : 0) animations:^{
-				if (toolbar) {
-					self.navigationController.toolbarHidden = NO;
-				}
-				[self layoutContentView:self.contentView];
-			}];
-		} else {
-			if (toolbar) {
-				self.navigationController.toolbarHidden = NO;
-			}
-			[self layoutContentView:self.contentView];
-		}
-	};
-		
-	if (animated) {
-		[UIView animateWithDuration:0.2 animations:animations completion:completion];
-	} else {
-		animations();
-		completion(NO);
-	}
-}
 
 @end

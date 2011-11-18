@@ -26,6 +26,7 @@
 @synthesize inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem;
 @synthesize inheritsRightBarButtonItem = _inheritsRightBarButtonItem;
 @synthesize inheritsToolbarItems = _inheritsToolbarItems;
+@synthesize secondaryViewController = _secondaryViewController;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -284,12 +285,104 @@
 #pragma mark - Rotation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return [_contentController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+	BOOL result = [_contentController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+	if (_secondaryViewController) {
+		result = result && [_secondaryViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+	}
+	return result;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	[self layoutContentView:self.contentView];
 }
+
+
+
+#pragma mark - Secondary view controller presening/dismissing
+
+- (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated {
+	UIToolbar *toolbar = self.navigationController.toolbar;
+	
+	void (^animations)(void) = ^{
+		CGRect offScreenFrame;
+		if (toolbar) {
+			CGFloat offset = CGRectGetMaxY([self.view convertRect:toolbar.frame fromView:toolbar.superview]);
+			offScreenFrame = self.contentView.frame;
+			offScreenFrame.origin.y += offset;
+			self.contentView.frame = offScreenFrame;
+			offScreenFrame = toolbar.frame;
+			offScreenFrame.origin.y += offset;
+			toolbar.frame = offScreenFrame;
+		}
+	};
+	
+	void (^completion)(BOOL finished) = ^(BOOL finished) {
+		_secondaryViewController = viewController;
+		[self addChildViewController:_secondaryViewController];
+		[self.view addSubview:_secondaryViewController.view];
+		[_secondaryViewController didMoveToParentViewController:self];
+		[self.contentView removeFromSuperview];
+		if (toolbar) {
+			self.navigationController.toolbarHidden = YES;
+		}
+		CGRect initFrame = self.view.bounds;
+		initFrame.origin.x -= initFrame.size.width;
+		_secondaryViewController.view.frame = initFrame;
+		if (animated) {
+			[UIView animateWithDuration:(animated ? 0.2 : 0) animations:^{
+				_secondaryViewController.view.frame = self.view.bounds;
+			}];
+		} else {
+			_secondaryViewController.view.frame = self.view.bounds;
+		}
+	};
+	
+	if (animated) {
+		[UIView animateWithDuration:0.2 animations:animations completion:completion];
+	} else {
+		animations();
+		completion(NO);
+	}
+}
+
+- (void)dismissSecondaryViewControllerAnimated:(BOOL)animated {
+	[_secondaryViewController willMoveToParentViewController:nil];
+	
+	void (^animations)(void) = ^{
+		CGRect offScreenFrame = self.view.bounds;
+		offScreenFrame.origin.x -= offScreenFrame.size.width;
+		_secondaryViewController.view.frame = offScreenFrame;
+	};
+	
+	void (^completion)(BOOL finished) = ^(BOOL finished) {
+		[_secondaryViewController.view removeFromSuperview];
+		[_secondaryViewController removeFromParentViewController];
+		_secondaryViewController = nil;
+		[self.view addSubview:self.contentView];
+		UIToolbar *toolbar = self.navigationController.toolbar;
+		if (animated) {
+			[UIView animateWithDuration:(animated ? 0.2 : 0) animations:^{
+				if (toolbar) {
+					self.navigationController.toolbarHidden = NO;
+				}
+				[self layoutContentView:self.contentView];
+			}];
+		} else {
+			if (toolbar) {
+				self.navigationController.toolbarHidden = NO;
+			}
+			[self layoutContentView:self.contentView];
+		}
+	};
+	
+	if (animated) {
+		[UIView animateWithDuration:0.2 animations:animations completion:completion];
+	} else {
+		animations();
+		completion(NO);
+	}
+}
+
 
 
 @end
