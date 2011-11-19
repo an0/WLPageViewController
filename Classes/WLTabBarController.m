@@ -164,17 +164,6 @@
 		contentFrame.size.height -= self.tabBar.frame.size.height;
 	}
 	contentView.frame = UIEdgeInsetsInsetRect(contentFrame, self.contentInset);
-	
-	// Adjust contentInset and scrollIndicatorInsets for scroll view if container controller is on navigation stack and a translucent toolbar is shown.
-	if (toolbar &&
-		!toolbar.hidden &&
-		toolbar.translucent &&
-		[contentView isKindOfClass:[UIScrollView class]]) {
-		CGRect toolbarFrame = [self.view convertRect:toolbar.frame fromView:toolbar.superview];
-		CGFloat bottomInset = (toolbarFrame.size.height - self.contentInset.bottom);
-		if (bottomInset < 0) bottomInset = 0;
-		((UIScrollView *)contentView).scrollIndicatorInsets = ((UIScrollView *)contentView).contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
-	}
 }
 
 
