@@ -25,6 +25,7 @@
 @synthesize inheritsTitleView = _inheritsTitleView;
 @synthesize inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem;
 @synthesize inheritsRightBarButtonItem = _inheritsRightBarButtonItem;
+@synthesize inheritsBackBarButtonItem = _inheritsBackBarButtonItem;
 @synthesize inheritsToolbarItems = _inheritsToolbarItems;
 @synthesize secondaryViewController = _secondaryViewController;
 
@@ -82,6 +83,13 @@
 	
 	@try {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItem"];
+	}
+	@catch (NSException * e) {
+		//		DLog(@"%@: %@", [e class], e);
+	}
+	
+	@try {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.backBarButtonItem"];
 	}
 	@catch (NSException * e) {
 		//		DLog(@"%@: %@", [e class], e);
@@ -187,7 +195,11 @@
 	if (_inheritsRightBarButtonItem) {
 		[self.navigationItem setRightBarButtonItem:contentController.navigationItem.rightBarButtonItem animated:_isVisible];
 		[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
-	}	
+	}
+	if (_inheritsBackBarButtonItem) {
+		[self.navigationItem setBackBarButtonItem:contentController.navigationItem.backBarButtonItem];
+		[contentController addObserver:self forKeyPath:@"navigationItem.backBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
+	}
 }
 
 - (void)updateToolbarFrom:(UIViewController *)contentController {
@@ -223,6 +235,8 @@
 			[self.navigationItem setLeftBarButtonItem:value animated:_isVisible];
 		} else if ([keyPath isEqualToString:@"navigationItem.rightBarButtonItem"]) {
 			[self.navigationItem setRightBarButtonItem:value animated:_isVisible];
+		} else if ([keyPath isEqualToString:@"navigationItem.backBarButtonItem"]) {
+			[self.navigationItem setBackBarButtonItem:value];
 		} else {
 			if ([keyPath isEqualToString:@"toolbarItems"]) {
 				_toolbarHidden = ([value count] == 0);

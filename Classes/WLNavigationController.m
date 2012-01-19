@@ -15,6 +15,7 @@
 	if (self) {
 		self.inheritsTitle = YES;
 		self.inheritsRightBarButtonItem = YES;
+		self.inheritsBackBarButtonItem = YES;
 		self.inheritsToolbarItems = YES;
 		self.viewControllers = [NSArray arrayWithObject:rootViewController];
 		if ([rootViewController respondsToSelector:@selector(setVavigationController:)]) {
