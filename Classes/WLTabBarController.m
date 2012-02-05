@@ -9,7 +9,7 @@
 #import "WLTabBarController.h"
 
 #define kTabBarHeightPortrait 44
-#define kTabBarHeightLandscape 34
+#define kTabBarHeightLandscape 32
 
 
 
