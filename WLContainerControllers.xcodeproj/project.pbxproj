@@ -12,6 +12,13 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
+		C90A16B514EA44D300E29D8D /* WLPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A16B414EA44D300E29D8D /* WLPageViewController.m */; };
+		C90A16C014EA451A00E29D8D /* WLPageViewControllerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A16B714EA451A00E29D8D /* WLPageViewControllerAppDelegate.m */; };
+		C90A16C114EA451A00E29D8D /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A16B914EA451A00E29D8D /* RootViewController.m */; };
+		C90A16C214EA451A00E29D8D /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A16BB14EA451A00E29D8D /* DataViewController.m */; };
+		C90A16C314EA451A00E29D8D /* ModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A16BD14EA451A00E29D8D /* ModelController.m */; };
+		C90A16C414EA451A00E29D8D /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C90A16BE14EA451A00E29D8D /* RootViewController.xib */; };
+		C90A16C514EA451A00E29D8D /* DataViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C90A16BF14EA451A00E29D8D /* DataViewController.xib */; };
 		C90BC36C12D291EE002D24F5 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90BC36B12D291EE002D24F5 /* DetailViewController.m */; };
 		C90BC48912D29CF2002D24F5 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90BC48812D29CF2002D24F5 /* MasterViewController.m */; };
 		C91E8B3412AC86310083E558 /* corner_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = C91E8B2B12AC86310083E558 /* corner_bottom.png */; };
@@ -52,6 +59,18 @@
 		28A0AAE50D9B0CCF005BE974 /* WLContainerControllers_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLContainerControllers_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* WLContainerControllers-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WLContainerControllers-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		C90A16B314EA44D300E29D8D /* WLPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPageViewController.h; sourceTree = "<group>"; };
+		C90A16B414EA44D300E29D8D /* WLPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPageViewController.m; sourceTree = "<group>"; };
+		C90A16B614EA451A00E29D8D /* WLPageViewControllerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPageViewControllerAppDelegate.h; sourceTree = "<group>"; };
+		C90A16B714EA451A00E29D8D /* WLPageViewControllerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPageViewControllerAppDelegate.m; sourceTree = "<group>"; };
+		C90A16B814EA451A00E29D8D /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		C90A16B914EA451A00E29D8D /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		C90A16BA14EA451A00E29D8D /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
+		C90A16BB14EA451A00E29D8D /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
+		C90A16BC14EA451A00E29D8D /* ModelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelController.h; sourceTree = "<group>"; };
+		C90A16BD14EA451A00E29D8D /* ModelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelController.m; sourceTree = "<group>"; };
+		C90A16BE14EA451A00E29D8D /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
+		C90A16BF14EA451A00E29D8D /* DataViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataViewController.xib; sourceTree = "<group>"; };
 		C90BC36A12D291EE002D24F5 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		C90BC36B12D291EE002D24F5 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		C90BC48712D29CF2002D24F5 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
@@ -125,6 +144,7 @@
 				C90BC48812D29CF2002D24F5 /* MasterViewController.m */,
 				C90BC36A12D291EE002D24F5 /* DetailViewController.h */,
 				C90BC36B12D291EE002D24F5 /* DetailViewController.m */,
+				C90A16C614EA452000E29D8D /* WLPageViewControllerApp */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -179,6 +199,23 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C90A16C614EA452000E29D8D /* WLPageViewControllerApp */ = {
+			isa = PBXGroup;
+			children = (
+				C90A16B614EA451A00E29D8D /* WLPageViewControllerAppDelegate.h */,
+				C90A16B714EA451A00E29D8D /* WLPageViewControllerAppDelegate.m */,
+				C90A16B814EA451A00E29D8D /* RootViewController.h */,
+				C90A16B914EA451A00E29D8D /* RootViewController.m */,
+				C90A16BA14EA451A00E29D8D /* DataViewController.h */,
+				C90A16BB14EA451A00E29D8D /* DataViewController.m */,
+				C90A16BC14EA451A00E29D8D /* ModelController.h */,
+				C90A16BD14EA451A00E29D8D /* ModelController.m */,
+				C90A16BE14EA451A00E29D8D /* RootViewController.xib */,
+				C90A16BF14EA451A00E29D8D /* DataViewController.xib */,
+			);
+			name = WLPageViewControllerApp;
 			sourceTree = "<group>";
 		};
 		C91E8B2912AC86310083E558 /* Images */ = {
@@ -272,6 +309,8 @@
 				C9354F401406F703007F8CB0 /* WLTabBarController.m */,
 				C9BB90EB147430D7002BC3B3 /* WLNavigationController.h */,
 				C9BB90EC147430D7002BC3B3 /* WLNavigationController.m */,
+				C90A16B314EA44D300E29D8D /* WLPageViewController.h */,
+				C90A16B414EA44D300E29D8D /* WLPageViewController.m */,
 			);
 			name = WLContainerControllers;
 			sourceTree = "<group>";
@@ -343,6 +382,8 @@
 				C91E8B3A12AC86310083E558 /* corner_top.png in Resources */,
 				C91E8B3B12AC86310083E558 /* corner_top@2x.png in Resources */,
 				C9E36F3213DE1179002013C9 /* DetailViewController.xib in Resources */,
+				C90A16C414EA451A00E29D8D /* RootViewController.xib in Resources */,
+				C90A16C514EA451A00E29D8D /* DataViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +428,11 @@
 				C98D42C5140DCDB300CE764C /* WLGraphics.m in Sources */,
 				C93EB03914283D4E00891C18 /* Block+WLExtension.m in Sources */,
 				C9BB90ED147430D7002BC3B3 /* WLNavigationController.m in Sources */,
+				C90A16B514EA44D300E29D8D /* WLPageViewController.m in Sources */,
+				C90A16C014EA451A00E29D8D /* WLPageViewControllerAppDelegate.m in Sources */,
+				C90A16C114EA451A00E29D8D /* RootViewController.m in Sources */,
+				C90A16C214EA451A00E29D8D /* DataViewController.m in Sources */,
+				C90A16C314EA451A00E29D8D /* ModelController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
