@@ -28,6 +28,8 @@
 @synthesize inheritsBackBarButtonItem = _inheritsBackBarButtonItem;
 @synthesize inheritsToolbarItems = _inheritsToolbarItems;
 @synthesize secondaryViewController = _secondaryViewController;
+@synthesize isPresentingSecondaryViewController = _isPresentingSecondaryViewController;
+@synthesize isDismissingSecondaryViewController = _isDismissingSecondaryViewController;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -317,6 +319,7 @@
 #pragma mark - Secondary view controller presening/dismissing
 
 - (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated {
+	_isPresentingSecondaryViewController = YES;
 	UIToolbar *toolbar = self.navigationController.toolbar;
 	
 	void (^animations)(void) = ^{
@@ -351,6 +354,7 @@
 		} else {
 			_secondaryViewController.view.frame = self.view.bounds;
 		}
+		_isPresentingSecondaryViewController = NO;
 	};
 	
 	if (animated) {
@@ -362,6 +366,7 @@
 }
 
 - (void)dismissSecondaryViewControllerAnimated:(BOOL)animated {
+	_isDismissingSecondaryViewController = YES;
 	[_secondaryViewController willMoveToParentViewController:nil];
 	
 	void (^animations)(void) = ^{
@@ -389,6 +394,7 @@
 			}
 			[self layoutContentView:self.contentView];
 		}
+		_isDismissingSecondaryViewController = NO;
 	};
 	
 	if (animated) {

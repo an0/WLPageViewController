@@ -17,6 +17,8 @@
 	UIViewController *_secondaryViewController;
 	BOOL _isVisible;
 	BOOL _toolbarHidden;
+	BOOL _isPresentingSecondaryViewController;
+	BOOL _isDismissingSecondaryViewController;
 }
 
 @property (nonatomic, retain) UIViewController *contentController; ///< The content controller managed by the container controller.
@@ -31,7 +33,8 @@
 @property (nonatomic, assign) BOOL inheritsToolbarItems; ///< A Boolean value indicating whether the container controller inherits the toolbarItems property from the content controller. It has effect only when a new content controller is assigned. Notice: WLContainerController will change navigationBarController.toolbarHidden, so its parent view controller may have to restore navigationBarController.toolbarHidden after poping it.
 		   
 @property(nonatomic, strong, readonly) UIViewController *secondaryViewController;
-
+@property(nonatomic, readonly) BOOL isPresentingSecondaryViewController;
+@property(nonatomic, readonly) BOOL isDismissingSecondaryViewController;
 
 - (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)dismissSecondaryViewControllerAnimated:(BOOL)animated;

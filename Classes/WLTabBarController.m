@@ -227,6 +227,7 @@
 #pragma mark - Secondary view controller presening/dismissing
 
 - (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated {
+	_isPresentingSecondaryViewController = YES;
 	UIToolbar *toolbar = self.navigationController.toolbar;
 	
 	void (^animations)(void) = ^{
@@ -269,6 +270,7 @@
 		} else {
 			_secondaryViewController.view.frame = self.view.bounds;
 		}
+		_isPresentingSecondaryViewController = NO;
 	};
 	
 	if (animated) {
