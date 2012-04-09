@@ -38,7 +38,8 @@
 
 @protocol WLPageViewControllerDelegate <NSObject>
 @optional
-- (void)pageViewController:(WLPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewController:(UIViewController *)previousViewController transitionCompleted:(BOOL)completed;
+- (void)pageViewController:(WLPageViewController *)pageViewController willBeginPagingViewController:(UIViewController *)viewController;
+- (void)pageViewController:(WLPageViewController *)pageViewController didEndPagingViewController:(UIViewController *)viewController;
 
 @end
 

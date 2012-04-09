@@ -244,6 +244,7 @@
 
 - (void)pagingDidEnd
 {	
+	UIViewController *oldContentController = _contentController;
 	CGPoint center = _contentController.view.center;
 	CGRect bounds = self.view.bounds;
 	if (center.x > CGRectGetMaxX(bounds) && _previousViewController != nil) { // Land in the previous page.
@@ -256,14 +257,18 @@
 		self.contentController = _nextViewController;
 		_nextViewController = nil;
 		[self switchTitleViews];
-	}	
+	}
+	
+	if ([_delegate respondsToSelector:@selector(pageViewController:didEndPagingViewController:)]) {
+		[_delegate pageViewController:self didEndPagingViewController:oldContentController];
+	}
 }
 
 
 
 #pragma Gesture handling
 
-- (IBAction)pan:(UIPanGestureRecognizer *)gestureRecognizer {
+- (IBAction)pan:(UIPanGestureRecognizer *)gestureRecognizer {		
 	CGPoint translation = [gestureRecognizer translationInView:self.view];
 	CGRect bounds = self.view.bounds;
 	CGPoint boundsCenter = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
@@ -272,7 +277,11 @@
 	CGFloat pageWidth = bounds.size.width;
 	CGFloat pageOffset = center.x - boundsCenter.x;
 
-	if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+	if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+		if ([_delegate respondsToSelector:@selector(pageViewController:willBeginPagingViewController:)]) {
+			[_delegate pageViewController:self willBeginPagingViewController:_contentController];
+		}
+	} else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
 		if (center.x < boundsCenter.x) {
 			if (_nextViewController == nil) {
 				_nextViewController = [self loadNextPage];
@@ -388,6 +397,10 @@
 {
 	if (gestureRecognizer.state != UIGestureRecognizerStateRecognized) return;
 		
+	if ([_delegate respondsToSelector:@selector(pageViewController:willBeginPagingViewController:)]) {
+		[_delegate pageViewController:self willBeginPagingViewController:_contentController];
+	}
+
 	UIView *view = gestureRecognizer.view;
 	CGPoint location = [gestureRecognizer locationInView:view];
 	

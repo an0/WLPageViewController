@@ -381,19 +381,12 @@
 		_secondaryViewController = nil;
 		[self.view addSubview:self.contentView];
 		UIToolbar *toolbar = self.navigationController.toolbar;
-		if (animated) {
-			[UIView animateWithDuration:(animated ? 0.2 : 0) animations:^{
-				if (toolbar) {
-					self.navigationController.toolbarHidden = NO;
-				}
-				[self layoutContentView:self.contentView];
-			}];
-		} else {
+		[UIView animateWithDuration:0.2 * animated animations:^{
 			if (toolbar) {
 				self.navigationController.toolbarHidden = NO;
 			}
 			[self layoutContentView:self.contentView];
-		}
+		}];
 		_isDismissingSecondaryViewController = NO;
 	};
 	
