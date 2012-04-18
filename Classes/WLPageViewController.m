@@ -45,6 +45,7 @@
 - (id)initWithViewController:(UIViewController *)viewController {
 	self = [super init];
 	if (self) {
+		self.inheritsTitle = YES;
 		self.inheritsToolbarItems = YES;
 		self.inheritsRightBarButtonItem = YES;
 		self.contentController = viewController;
