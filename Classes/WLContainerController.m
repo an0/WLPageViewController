@@ -260,7 +260,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	// Addd background view.
+	// Add background view.
 	if (_backgroundView) {
 		_backgroundView.frame = self.view.bounds;
 		[self.view insertSubview:_backgroundView atIndex:0];
