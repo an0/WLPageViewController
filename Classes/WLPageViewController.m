@@ -25,7 +25,6 @@
 - (IBAction)pan:(UIPanGestureRecognizer *)gestureRecognizer;
 - (IBAction)turnPage:(UITapGestureRecognizer *)gestureRecognizer;
 - (UIView *)setupSubTitleViewWith:(UIViewController *)viewController;
-- (void)updateFrontTitleViewWith:(UIViewController *)viewController;
 - (void)updateBackTitleViewWith:(UIViewController *)viewController;
 - (void)switchTitleViews;
 - (void)pagingDidEnd;
@@ -71,7 +70,10 @@
 	
 	// Init navigation bar title view.
 	self.navigationItem.titleView = [[UIView alloc] init];
-	[self updateFrontTitleViewWith:_contentController];
+	[_frontTitleView removeFromSuperview];
+	_frontTitleView = [self setupSubTitleViewWith:_contentController];
+	self.navigationItem.titleView.bounds = _frontTitleView.frame;
+	[self.navigationItem.titleView addSubview:_frontTitleView];
 }
 
 - (void)viewDidUnload
@@ -211,23 +213,11 @@
 	return subTitleView;
 }
 
-- (void)updateFrontTitleViewWith:(UIViewController *)viewController {
-	[_frontTitleView removeFromSuperview];
-	_frontTitleView = [self setupSubTitleViewWith:viewController];
-	// Center title view.
-	CGRect titleFrame = _frontTitleView.frame;
-	_backTitleView.center = _frontTitleView.center;
-	self.navigationItem.titleView.bounds = titleFrame;
-	[self.navigationItem.titleView addSubview:_frontTitleView];
-}
-
 - (void)updateBackTitleViewWith:(UIViewController *)viewController {
 	[_backTitleView removeFromSuperview];
 	_backTitleView = [self setupSubTitleViewWith:viewController];
 	// Center title view.
-	CGRect titleFrame = _backTitleView.frame;
-	_frontTitleView.center = _backTitleView.center;
-	self.navigationItem.titleView.bounds = titleFrame;
+	_backTitleView.center = _frontTitleView.center;
 	[self.navigationItem.titleView addSubview:_backTitleView];
 }
 
@@ -237,6 +227,7 @@
 	_frontTitleView.alpha = 1;
 	_backTitleView = tempTitleView;
 	_backTitleView.alpha = 0;
+	self.navigationItem.titleView.bounds = _frontTitleView.frame;
 }
 
 
