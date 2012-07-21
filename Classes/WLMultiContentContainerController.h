@@ -11,7 +11,6 @@
 @interface WLMultiContentContainerController : WLContainerController
 
 @property(nonatomic, copy) NSArray *viewControllers;
-- (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated;
 @property(nonatomic, assign) UIViewController *selectedViewController;
 @property(nonatomic) NSUInteger selectedIndex;
 
