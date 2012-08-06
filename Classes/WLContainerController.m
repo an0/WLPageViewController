@@ -139,20 +139,6 @@
 	return self.contentController.view;
 }
 
-// Adjust contentInset and scrollIndicatorInsets for scroll view if container controller is on navigation stack and translucent toolbar is shown or hidden.
-- (void)adjustInsetsForContentView:(UIView *)contentView {
-	UIToolbar *toolbar = self.navigationController.toolbar;
-	if (toolbar && toolbar.translucent && [contentView isKindOfClass:[UIScrollView class]]) {
-		if (_toolbarHidden || toolbar.hidden) {
-			((UIScrollView *)contentView).scrollIndicatorInsets = ((UIScrollView *)contentView).contentInset = UIEdgeInsetsZero;
-		} else {
-			CGFloat bottomInset = (toolbar.frame.size.height - self.contentInset.bottom);
-			if (bottomInset < 0) bottomInset = 0;
-			((UIScrollView *)contentView).scrollIndicatorInsets = ((UIScrollView *)contentView).contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
-		}
-	}
-}
-
 - (void)layoutContentView:(UIView *)contentView {
 	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;			
 	// Adjust the frame of the content view according to the insets.
