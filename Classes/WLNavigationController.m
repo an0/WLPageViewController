@@ -18,9 +18,6 @@
 		self.inheritsBackBarButtonItem = YES;
 		self.inheritsToolbarItems = YES;
 		self.viewControllers = [NSArray arrayWithObject:rootViewController];
-		if ([rootViewController respondsToSelector:@selector(setVavigationController:)]) {
-			[rootViewController performSelector:@selector(setVavigationController:) withObject:self];
-		}
 	}
 	return self;
 }
@@ -46,9 +43,6 @@
 	UIViewController *topViewController = self.topViewController;
 
 	void (^completion)(BOOL finished) = ^(BOOL finished) {
-		if ([viewController respondsToSelector:@selector(setVavigationController:)]) {
-			[viewController performSelector:@selector(setVavigationController:) withObject:self];
-		}
 		[self addViewController:viewController];
 		self.selectedViewController = viewController;
 	};
@@ -119,12 +113,6 @@
 		} completion:completion];
 	} else {
 		completion(NO);
-	}
-
-	for (UIViewController *pvc in popedViewController) {
-		if ([pvc respondsToSelector:@selector(setVavigationController:)]) {
-			[pvc performSelector:@selector(setVavigationController:) withObject:nil];
-		}
 	}
 	
 	return popedViewController;
