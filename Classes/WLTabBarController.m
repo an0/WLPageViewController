@@ -216,11 +216,11 @@
 - (void)tabBar:(WLTabBar *)tabBar didEndCustomizingItem:(UITabBarItem *)item newItem:(UITabBarItem *)newItem {
 	NSUInteger index1 = [tabBar.items indexOfObjectIdenticalTo:item];
 	if (index1 == NSNotFound) {
-		ALog(@"%@\n%@", tabBar.items, item);
+		DDLogError(@"%@\n%@", tabBar.items, item);
 	}
 	NSUInteger index2 = [tabBar.items indexOfObjectIdenticalTo:newItem];
 	if (index2 == NSNotFound) {
-		ALog(@"%@\n%@", tabBar.items, newItem);
+		DDLogError(@"%@\n%@", tabBar.items, newItem);
 	}
 	[self exchangeViewControllerAtIndex:index1 withViewControllerAtIndex:index2];
 	if ([_delegate respondsToSelector:@selector(tabBarController:didEndCustomizingViewController:newViewController:)]) {

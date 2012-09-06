@@ -74,28 +74,28 @@
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.titleView"];
 	}
 	@catch (NSException * e) {
-		//		DLog(@"%@: %@", [e class], e);
+
 	}
 	
 	@try {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItem"];
 	}
 	@catch (NSException * e) {
-		//		DLog(@"%@: %@", [e class], e);
+
 	}
 	
 	@try {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItem"];
 	}
 	@catch (NSException * e) {
-		//		DLog(@"%@: %@", [e class], e);
+
 	}
 	
 	@try {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.backBarButtonItem"];
 	}
 	@catch (NSException * e) {
-		//		DLog(@"%@: %@", [e class], e);
+
 	}
 }
 
@@ -105,7 +105,7 @@
 		[_contentController removeObserver:self forKeyPath:@"toolbarItems"];
 	}
 	@catch (NSException * e) {
-		//		DLog(@"%@: %@", [e class], e);
+
 	}
 }
 
