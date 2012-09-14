@@ -54,6 +54,13 @@
 	[self unregisterKVOForToolbar];
 }
 
+- (void)didReceiveMemoryWarning {
+	if (self.view.window == nil) {
+		self.view = nil;
+	}
+	[super didReceiveMemoryWarning];
+}
+
 - (void)unregisterKVOForNavigationBar {
 	// Removing observer throws NSException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
 	@try {
@@ -292,6 +299,22 @@
 		result = result && [_secondaryViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 	}
 	return result;
+}
+
+- (BOOL)shouldAutorotate {
+	BOOL result = [_contentController shouldAutorotate];
+	if (_secondaryViewController) {
+		result = result && [_secondaryViewController shouldAutorotate];
+	}
+	return result;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	NSUInteger mask = [_contentController supportedInterfaceOrientations];
+	if (_secondaryViewController) {
+		mask &= [_secondaryViewController supportedInterfaceOrientations];
+	}
+	return mask;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {

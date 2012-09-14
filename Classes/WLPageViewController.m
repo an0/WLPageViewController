@@ -76,18 +76,12 @@
 	[self.navigationItem.titleView addSubview:_frontTitleView];
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-	
-	_frontTitleView = nil;
-	_backTitleView = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (void)didReceiveMemoryWarning {
+	if (self.view.window == nil) {
+		_frontTitleView = nil;
+		_backTitleView = nil;
+	}
+	[super didReceiveMemoryWarning];
 }
 
 

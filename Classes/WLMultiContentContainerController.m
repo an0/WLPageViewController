@@ -31,8 +31,7 @@
 	BOOL result = YES;
 	for (UIViewController *controller in _viewControllers) {
 		if (![controller shouldAutorotateToInterfaceOrientation:interfaceOrientation]) {
-			result = NO;
-			break;
+			return NO;
 		}
 	}
 	
@@ -43,6 +42,33 @@
     return result;
 }
 
+- (BOOL)shouldAutorotate {
+	BOOL result = YES;
+	for (UIViewController *controller in _viewControllers) {
+		if (![controller shouldAutorotate]) {
+			return NO;
+		}
+	}
+
+	if (_secondaryViewController) {
+		result = result && [_secondaryViewController shouldAutorotate];
+	}
+
+    return result;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	NSUInteger mask = UIInterfaceOrientationMaskAll;
+	for (UIViewController *controller in _viewControllers) {
+		mask &= [controller supportedInterfaceOrientations];
+	}
+
+	if (_secondaryViewController) {
+		mask &= [_secondaryViewController supportedInterfaceOrientations];
+	}
+	
+	return mask;
+}
 
 
 #pragma mark - Managing the View Controllers

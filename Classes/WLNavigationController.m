@@ -38,13 +38,13 @@
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
 	[self addChildViewController:viewController];
-	[viewController didMoveToParentViewController:self];
-		
+
 	UIViewController *topViewController = self.topViewController;
 
 	void (^completion)(BOOL finished) = ^(BOOL finished) {
 		[self addViewController:viewController];
 		self.selectedViewController = viewController;
+		[viewController didMoveToParentViewController:self];
 	};
 	
 	if (self.isViewLoaded && animated) {
@@ -88,13 +88,16 @@
 	
 	NSArray *popedViewController = [self.viewControllers subarrayWithRange:NSMakeRange(indexOfViewController + 1, indexOfTopViewController - indexOfViewController)];
 	
-	UIViewController *topViewController = self.topViewController;
-	[topViewController willMoveToParentViewController:nil];
-	
+	[popedViewController enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UIViewController *vc, NSUInteger idx, BOOL *stop) {
+		[vc willMoveToParentViewController:nil];
+	}];
+
 	void (^completion)(BOOL finished) = ^(BOOL finished) {
 		self.selectedViewController = viewController;
-		[self removeViewController:topViewController];
-		[topViewController removeFromParentViewController];
+		[popedViewController enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UIViewController *vc, NSUInteger idx, BOOL *stop) {
+			[self removeViewController:vc];
+			[vc removeFromParentViewController];
+		}];
 	};
 	
 	if (self.isViewLoaded && animated) {
@@ -105,6 +108,7 @@
 
 		[UIView transitionWithView:self.view duration:0.2 options:0 animations:^{
 			[self layoutContentView:viewController.view];
+			UIViewController *topViewController = self.topViewController;
 			if (topViewController) {
 				CGPoint bottomCenter = topViewController.view.center;
 				bottomCenter.y += self.view.bounds.size.height;

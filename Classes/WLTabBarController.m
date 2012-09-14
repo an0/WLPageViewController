@@ -50,16 +50,13 @@
 	[super viewDidLoad];
 }
 
-- (void)viewDidUnload
-{
-    _tabBar = nil;
-    [super viewDidUnload];
+- (void)didReceiveMemoryWarning {
+	if (self.view.window == nil) {
+		_tabBar = nil;
+	}
+	[super didReceiveMemoryWarning];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
 
 
 #pragma mark - Accessing the Tab Bar Controller Properties
