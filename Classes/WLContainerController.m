@@ -56,6 +56,7 @@
 
 - (void)didReceiveMemoryWarning {
 	if (self.view.window == nil) {
+		self.toolbarItems = nil;
 		self.view = nil;
 	}
 	[super didReceiveMemoryWarning];
