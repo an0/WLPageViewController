@@ -16,7 +16,6 @@
 
 @implementation WLTabBarController
 
-@synthesize delegate = _delegate;
 @synthesize tabBar = _tabBar;
 
 
@@ -50,6 +49,20 @@
 	[super viewDidLoad];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+
+	// !!!: Must postpone tab bar setup till now to allow customization in viewDidLoad of subclasses.
+	if (self.tabBar.items.count == 0 && self.viewControllers.count != 0) {
+		NSMutableArray *items = [NSMutableArray arrayWithCapacity:self.viewControllers.count];
+		for (UIViewController *controller in self.viewControllers) {
+			[items addObject:controller.tabBarItem];
+		}
+		self.tabBar.items = items;
+		self.tabBar.selectedItem = self.selectedViewController.tabBarItem;
+	}
+}
+
 - (void)didReceiveMemoryWarning {
 	if (self.view.window == nil) {
 		_tabBar = nil;
@@ -63,15 +76,8 @@
 
 - (WLTabBar *)tabBar {
 	if (_tabBar == nil) {
-		NSMutableArray *items = [NSMutableArray arrayWithCapacity:self.viewControllers.count];
-		for (UIViewController *controller in self.viewControllers) {
-			[items addObject:controller.tabBarItem];
-		}
-		
-		_tabBar = [[WLTabBar alloc] init];
+		_tabBar = [WLTabBar new];
 		_tabBar.delegate = self;
-		_tabBar.items = items;
-		_tabBar.selectedItem = self.selectedViewController.tabBarItem;
 	}
 	
 	return _tabBar;
