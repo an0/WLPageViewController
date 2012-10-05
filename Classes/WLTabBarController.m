@@ -64,7 +64,7 @@
 }
 
 - (void)didReceiveMemoryWarning {
-	if (self.view.window == nil) {
+	if (self.isViewLoaded && self.view.window == nil) {
 		_tabBar = nil;
 	}
 	[super didReceiveMemoryWarning];
