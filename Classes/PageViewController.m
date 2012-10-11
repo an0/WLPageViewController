@@ -1,22 +1,22 @@
 //
-//  RootViewController.m
+//  PageViewController.m
 //  WLPageViewController
 //
 //  Created by Ling Wang on 7/7/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "RootViewController.h"
+#import "PageViewController.h"
 
 #import "ModelController.h"
 
 #import "DataViewController.h"
 
-@interface RootViewController ()
+@interface PageViewController ()
 @property (readonly, strong, nonatomic) ModelController *modelController;
 @end
 
-@implementation RootViewController
+@implementation PageViewController
 
 @synthesize pageViewController = _pageViewController;
 @synthesize modelController = _modelController;

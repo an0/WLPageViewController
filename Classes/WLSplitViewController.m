@@ -13,6 +13,7 @@
 
 - (void)hideMasterViewController;
 - (void)showMasterViewController;
+- (void)setBackgroundForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 
 @end
 
@@ -90,7 +91,6 @@ static void init(WLSplitViewController *self) {
 			
 			if (!(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && _hidesMasterViewInPortrait)) {
 				[oldMasterViewController.view removeFromSuperview];				
-				[self.view addSubview:_masterViewController.view];
 				[self showMasterViewController];
 			} else {
 				[self hideMasterViewController];
@@ -115,41 +115,26 @@ static void init(WLSplitViewController *self) {
 	[super viewDidLoad];
 	
 	self.view.backgroundColor = [UIColor blackColor];
-	
+	self.backgroundView = [UIImageView new];
+
 	if (!_viewControllers) return;
 	
 	[self.view addSubview:_detailViewController.view];
-
-	if (!(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && _hidesMasterViewInPortrait)) {
-		[self.view addSubview:_masterViewController.view];
-	} else {
-		// Initial delegate message.
-		[self hideMasterViewController];
-	}
 }
 
 - (void)viewDidUnload {
-	DLog(@"viewDidUnload");
 	_poController = nil;
 	_barButtonItem = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	DLog(@"viewWillAppear");
-	[super viewWillAppear:animated];
-	
-	if (!(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && _hidesMasterViewInPortrait)) {
-		if (_masterViewController.view.superview != self.view) {
-			[self.view addSubview:_masterViewController.view];
-		}
-		if (!_isMasterViewShown) {
-			[self showMasterViewController];
-		}
-	} else {
-		if (_isMasterViewShown) {
-			[self hideMasterViewController];
-		}
-	}	
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+
+	if (_hidesMasterViewInPortrait &&
+		UIInterfaceOrientationIsPortrait(self.interfaceOrientation) &&
+		_masterViewController.view.superview == self.view) {
+		[_masterViewController.view removeFromSuperview];
+	}
 }
 
 
@@ -161,27 +146,11 @@ static void init(WLSplitViewController *self) {
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	
-	if (_hidesMasterViewInPortrait &&
-		UIInterfaceOrientationIsLandscape(self.interfaceOrientation) &&
-		UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
-		[self hideMasterViewController];
-	} else if (_hidesMasterViewInPortrait &&
-			   UIInterfaceOrientationIsPortrait(self.interfaceOrientation) &&
-			   UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-		[self.view addSubview:_masterViewController.view];
-		[self showMasterViewController];
-	}
-}
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
-	[super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
-	
 	if (_poController.popoverVisible) {
 		[_poController dismissPopoverAnimated:NO];
 	}
 }
-
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
@@ -192,17 +161,36 @@ static void init(WLSplitViewController *self) {
 	}	
 }
 
+- (void)setBackgroundForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+	if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+		((UIImageView *)self.backgroundView).image = _portraitBackgroundImage;
+	} else {
+		((UIImageView *)self.backgroundView).image = _landscapeBackgroundImage;
+	}
+}
 
 
 
 #pragma mark - Layout views
 
 - (void)viewWillLayoutSubviews {
+	if (_hidesMasterViewInPortrait &&
+		UIInterfaceOrientationIsPortrait(self.interfaceOrientation) &&
+		_isMasterViewShown) {
+		[self hideMasterViewController];
+	} else if (_hidesMasterViewInPortrait &&
+			   UIInterfaceOrientationIsLandscape(self.interfaceOrientation) &&
+			   !_isMasterViewShown) {
+		[self showMasterViewController];
+	}
+
 	UIView *masterView = _masterViewController.view;
 	UIView *detailView = _detailViewController.view;
 	UIView *leadingCorner = nil;
 	UIView *trailingCorner = nil;
-	
+
+	[self setBackgroundForInterfaceOrientation:self.interfaceOrientation];
+
 	// Adjust the frame of the content view according to the insets.
 	CGRect wholeFrame = UIEdgeInsetsInsetRect(self.view.bounds, self.contentInset);
 	
@@ -322,10 +310,16 @@ static void init(WLSplitViewController *self) {
 	if (_poController.popoverVisible) {
 		[_poController dismissPopoverAnimated:NO];
 	}
-	
-	[self addChildViewController:_masterViewController];
-	[_masterViewController didMoveToParentViewController:self];
-	
+
+	if (_masterViewController.parentViewController != self) {
+		[self addChildViewController:_masterViewController];
+		[_masterViewController didMoveToParentViewController:self];
+	}
+
+	if (_masterViewController.view != self.view) {
+		[self.view addSubview:_masterViewController.view];
+	}
+
 	// Inform delegate that the _barButtonItem will become invalid.
 	if (_delegate && [_delegate respondsToSelector:@selector(splitViewController:willShowViewController:invalidatingBarButtonItem:)]) {
 		[(id <WLSplitViewControllerDelegate>)_delegate splitViewController:self 

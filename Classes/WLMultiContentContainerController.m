@@ -82,7 +82,6 @@
 		}
 		if (contentController.view.superview != self.view) {
 			[self.view addSubview:contentController.view];
-			[self layoutContentView:contentController.view];
 		}
 	}
 	

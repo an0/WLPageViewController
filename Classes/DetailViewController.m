@@ -51,7 +51,7 @@
 #pragma mark Split view support
 
 - (void)splitViewController: (WLSplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController: (UIPopoverController*)pc {
-    NSLog(@"willHideViewController");
+    DLog(@"willHideViewController");
     barButtonItem.title = @"Root List";
     NSMutableArray *items = [[toolbar items] mutableCopy];
     [items insertObject:barButtonItem atIndex:0];
@@ -62,9 +62,9 @@
 
 // Called when the view is shown again in the split view, invalidating the button and popover controller.
 - (void)splitViewController: (WLSplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-    NSLog(@"willShowViewController");
+    DLog(@"willShowViewController");
     NSMutableArray *items = [[toolbar items] mutableCopy];
-    [items removeObjectAtIndex:0];
+    [items removeObjectIdenticalTo:barButtonItem];
     [toolbar setItems:items animated:YES];
     self.popoverController = nil;
 }
@@ -78,16 +78,6 @@
     return YES;
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	NSLog(@"d%d: will rotate", depth);
-	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	NSLog(@"d%d: did rotate", depth);
-	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-}
-
 
 
 #pragma mark -
@@ -95,38 +85,13 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	NSLog(@"d%d: viewDidLoad", depth);
     [super viewDidLoad];
 	if (depth > 0) {
 		self.detailItem = [NSString stringWithFormat:@"Modal %d", depth];
 	}
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	NSLog(@"d%d: viewWillAppear", depth);
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"d%d: viewDidAppear", depth);
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	NSLog(@"d%d: viewWillDisapper", depth);
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	NSLog(@"d%d: viewDidDisappear", depth);
-    [super viewDidDisappear:animated];
-}
-
-
 - (void)viewDidUnload {
-	NSLog(@"d%d: viewDidUnload", depth);
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
     self.popoverController = nil;
 }
 
@@ -135,20 +100,19 @@
 #pragma mark Button actions
 
 - (IBAction)showModal {
-	
 	DetailViewController *modalViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
 	modalViewController.depth = depth + 1;
 	if (depth == 0) {
 		modalViewController.modalPresentationStyle = UIModalPresentationFullScreen;
-		[self presentModalViewController:modalViewController animated:YES];
+		[self presentViewController:modalViewController animated:YES completion:nil];
 	} else {
 		modalViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
-		[self presentModalViewController:modalViewController animated:YES];
+		[self presentViewController:modalViewController animated:YES completion:nil];
 	}
 }
 
 - (IBAction)dismissModal {
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

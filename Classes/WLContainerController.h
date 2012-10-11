@@ -18,6 +18,7 @@
 	BOOL _toolbarHidden;
 	BOOL _isPresentingSecondaryViewController;
 	BOOL _isDismissingSecondaryViewController;
+	BOOL _isTransitioningContentView;
 }
 
 @property (nonatomic, retain) UIViewController *contentController; ///< The content controller managed by the container controller.

@@ -131,7 +131,6 @@
 		}
 		if (contentController.view.superview != self.view) {
 			[self.view addSubview:contentController.view];
-			[self layoutContentView:contentController.view];
 		}
 	}
 	[contentController didMoveToParentViewController:self];	
@@ -154,6 +153,8 @@
 }
 
 - (void)setContentInset:(UIEdgeInsets)insets {
+	if (UIEdgeInsetsEqualToEdgeInsets(insets, _contentInset)) return;
+
 	_contentInset = insets;
 	[self.view setNeedsLayout];
 }
@@ -163,12 +164,24 @@
 	
 	[_backgroundView removeFromSuperview];
 	_backgroundView = backgroundView;
-	_backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	if (self.isViewLoaded) {
-		_backgroundView.frame = self.view.bounds;
-		[self.view insertSubview:_backgroundView atIndex:0];
+	if (_backgroundView) {
+		_backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		if (self.isViewLoaded) {
+			_backgroundView.frame = self.view.bounds;
+			[self.view insertSubview:_backgroundView atIndex:0];
+		}
 	}
 }
+
+- (void)viewWillLayoutSubviews {
+	[super viewWillLayoutSubviews];
+	if (!_isTransitioningContentView) {
+		[self layoutContentView:self.contentView];
+	}
+}
+
+
+
 
 #pragma mark - Update navigation bar and toolbar
 
@@ -263,7 +276,6 @@
 	// Add content view.
 	if (self.contentView) {
 		[self.view addSubview:self.contentView];
-		[self layoutContentView:self.contentView];
 	}
 }
 
@@ -318,9 +330,6 @@
 	return mask;
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	[self layoutContentView:self.contentView];
-}
 
 
 

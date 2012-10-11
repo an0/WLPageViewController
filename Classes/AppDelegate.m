@@ -1,12 +1,12 @@
 //
-//  WLContainerControllersAppDelegate.m
+//  AppDelegate.m
 //  WLContainerControllers
 //
 //  Created by Wang Ling on 7/16/10.
 //  Copyright I Wonder Phone 2010. All rights reserved.
 //
 
-#import "WLContainerControllersAppDelegate.h"
+#import "AppDelegate.h"
 #import "WLSwitchController.h"
 #import "WLSplitViewController.h"
 #import "WLTabBarController.h"
@@ -14,11 +14,12 @@
 #import "ContentController.h"
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "PageViewController.h"
 
-@implementation WLContainerControllersAppDelegate
-
-@synthesize window;
-@synthesize navigationController;
+@implementation AppDelegate {
+	MasterViewController *_masterViewController;
+	DetailViewController *_detailViewController;
+}
 
 
 #pragma mark -
@@ -27,32 +28,33 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     // Override point for customization after application launch.
-	ContentController *aViewController = [[ContentController alloc] initWithNibName:@"AViewController" bundle:nil];
-	aViewController.title = @"Seg A";
-	ContentController *bViewController = [[ContentController alloc] initWithNibName:@"BViewController" bundle:nil];
-	bViewController.title = @"Seg B";
+//	ContentController *aViewController = [[ContentController alloc] initWithNibName:@"AViewController" bundle:nil];
+//	aViewController.title = @"Seg A";
+//	ContentController *bViewController = [[ContentController alloc] initWithNibName:@"BViewController" bundle:nil];
+//	bViewController.title = @"Seg B";
 
 //	WLSwitchController *switchController = [[WLSwitchController alloc] init];
 //	switchController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
 //	[navigationController pushViewController:switchController animated:NO];
-	
-//	MasterViewController *masterViewController = [[MasterViewController alloc] initWithStyle:UITableViewStylePlain];	
-//	DetailViewController *detailViewController = [[DetailViewController alloc] init];
+
+//	_masterViewController = [[MasterViewController alloc] initWithStyle:UITableViewStylePlain];
+//	_detailViewController = [[DetailViewController alloc] init];
 //	WLSplitViewController *splitViewController = [[WLSplitViewController alloc] init];
 //	splitViewController.showsSplitLine = NO;
-//	splitViewController.delegate = self;
-//	splitViewController.viewControllers = [NSArray arrayWithObjects:masterViewController, detailViewController, nil];
-//	[navigationController pushViewController:splitViewController animated:NO];
-	
-	WLTabBarController *tabBarController = [[WLTabBarController alloc] init];
-	tabBarController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
-	navigationController.viewControllers = [NSArray arrayWithObject:tabBarController];
+//	splitViewController.delegate = _detailViewController;
+//	splitViewController.viewControllers = [NSArray arrayWithObjects:_masterViewController, _detailViewController, nil];
+
+//	WLTabBarController *tabBarController = [[WLTabBarController alloc] init];
+//	tabBarController.viewControllers = [NSArray arrayWithObjects:aViewController, bViewController, nil];
+//	navigationController.viewControllers = [NSArray arrayWithObject:tabBarController];
 
 //	WLNavigationController *navController = [[WLNavigationController alloc] initWithRootViewController:aViewController];
-	
 
-    window.rootViewController = navigationController;
-    [window makeKeyAndVisible];
+	PageViewController *papeViewController = [PageViewController new];
+	
+	_window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	_window.rootViewController = papeViewController;
+	[_window makeKeyAndVisible];
 
     return YES;
 }
@@ -69,12 +71,12 @@
 - (void)splitViewController:(WLSplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc {
 	DLog(@"willHideViewController");
 	barButtonItem.title = @"Master";
-	navigationController.topViewController.navigationItem.leftBarButtonItem = barButtonItem;
+	_detailViewController.navigationItem.leftBarButtonItem = barButtonItem;
 }
 
 - (void)splitViewController:(WLSplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)button {
 	DLog(@"willShowViewController");
-	navigationController.topViewController.navigationItem.leftBarButtonItem = nil;	
+	_detailViewController.navigationItem.leftBarButtonItem = nil;	
 }
 
 @end

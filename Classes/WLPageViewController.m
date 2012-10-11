@@ -94,7 +94,6 @@
 	if (self.isViewLoaded) {
 		if (contentController.view.superview != self.view) {
 			[self.view addSubview:contentController.view];
-			[self layoutContentView:contentController.view];
 		}
 		[self unloadInvisiblePages];
 	}
@@ -244,7 +243,9 @@
 		_nextViewController = nil;
 		[self switchTitleViews];
 	}
-	
+
+	_isTransitioningContentView = NO;
+
 	if ([_delegate respondsToSelector:@selector(pageViewController:didEndPagingViewController:)]) {
 		[_delegate pageViewController:self didEndPagingViewController:oldContentController];
 	}
@@ -252,9 +253,11 @@
 
 
 
-#pragma Gesture handling
+#pragma mark Gesture handling
 
-- (IBAction)pan:(UIPanGestureRecognizer *)gestureRecognizer {		
+- (IBAction)pan:(UIPanGestureRecognizer *)gestureRecognizer {
+	_isTransitioningContentView = YES;
+
 	CGPoint translation = [gestureRecognizer translationInView:self.view];
 	CGRect bounds = self.view.bounds;
 	CGPoint boundsCenter = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
@@ -382,6 +385,8 @@
 - (IBAction)turnPage:(UITapGestureRecognizer *)gestureRecognizer
 {
 	if (gestureRecognizer.state != UIGestureRecognizerStateRecognized) return;
+
+	_isTransitioningContentView = YES;
 		
 	if ([_delegate respondsToSelector:@selector(pageViewController:willBeginPagingViewController:)]) {
 		[_delegate pageViewController:self willBeginPagingViewController:_contentController];

@@ -35,6 +35,9 @@
 
 @property (nonatomic, assign) BOOL showsSplitLine; ///< The flag indicating whether to show split line. The default is YES.
 
+@property (nonatomic, strong) UIImage *portraitBackgroundImage;
+@property (nonatomic, strong) UIImage *landscapeBackgroundImage;
+
 @property (nonatomic, assign) BOOL hidesMasterViewInPortrait; ///< The flag indicating whether to hide master view in portrait. The default is YES.
 
 @property (nonatomic, assign) IBOutlet id <WLSplitViewControllerDelegate> delegate; ///< The delegate you want to receive split view controller messages.
