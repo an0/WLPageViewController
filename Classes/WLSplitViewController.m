@@ -9,7 +9,9 @@
 #import "WLSplitViewController.h"
 
 
-@interface WLSplitViewController ()
+@interface WLSplitViewController () {
+	BOOL _initHideDone;
+}
 
 - (void)hideMasterViewController;
 - (void)showMasterViewController;
@@ -176,8 +178,9 @@ static void init(WLSplitViewController *self) {
 - (void)viewWillLayoutSubviews {
 	if (_hidesMasterViewInPortrait &&
 		UIInterfaceOrientationIsPortrait(self.interfaceOrientation) &&
-		_isMasterViewShown) {
+		(_isMasterViewShown || !_initHideDone)) {
 		[self hideMasterViewController];
+		_initHideDone = YES;
 	} else if (_hidesMasterViewInPortrait &&
 			   UIInterfaceOrientationIsLandscape(self.interfaceOrientation) &&
 			   !_isMasterViewShown) {
