@@ -249,7 +249,7 @@
 			[self.navigationItem setBackBarButtonItem:value];
 		} else {
 			if ([keyPath isEqualToString:@"toolbarItems"]) {
-				_toolbarHidden = ([value count] == 0);
+				_toolbarHidden = ([(NSArray *)value count] == 0);
 				if (_isViewVisible) {
 					[self.navigationController setToolbarHidden:_toolbarHidden animated:_isViewVisible];
 				}
