@@ -61,14 +61,15 @@ static void _init(WLSwitchController *self) {
 	self.navigationItem.titleView = self.switchBar;
 }
 
-- (void)viewDidUnload {
-	[self stopObservingTabBarItems:self.viewControllers];
-	
-	self.navigationItem.titleView = nil;
-	_switchBar = nil;
-	 
-    [super viewDidUnload];
+- (void)didReceiveMemoryWarning {
+	if (self.isViewLoaded && self.view.window == nil) {
+		[self stopObservingTabBarItems:self.viewControllers];
+		self.navigationItem.titleView = nil;
+		_switchBar = nil;
+	}
+	[super didReceiveMemoryWarning];
 }
+
 
 
 

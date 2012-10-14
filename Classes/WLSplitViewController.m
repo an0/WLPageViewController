@@ -124,9 +124,12 @@ static void init(WLSplitViewController *self) {
 	[self.view addSubview:_detailViewController.view];
 }
 
-- (void)viewDidUnload {
-	_poController = nil;
-	_barButtonItem = nil;
+- (void)didReceiveMemoryWarning {
+	if (self.isViewLoaded && self.view.window == nil) {
+		_poController = nil;
+		_barButtonItem = nil;
+	}
+	[super didReceiveMemoryWarning];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
