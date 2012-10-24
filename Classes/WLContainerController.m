@@ -400,7 +400,7 @@
 		UIToolbar *toolbar = self.navigationController.toolbar;
 		[UIView animateWithDuration:0.2 * animated animations:^{
 			if (toolbar) {
-				self.navigationController.toolbarHidden = NO;
+				self.navigationController.toolbarHidden = _toolbarHidden;
 			}
 			[self layoutContentView:self.contentView];
 		}];
