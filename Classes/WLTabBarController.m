@@ -21,27 +21,12 @@
 
 #pragma mark - View lifecycle
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-	if (self) {
-		_toolbarHidden = NO;
-	}
-	return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-	self = [super initWithCoder:aDecoder];
-	if (self) {
-		_toolbarHidden = NO;
-	}
-	return self;
-}
-
 - (void)viewDidLoad
 {
 	if (self.navigationController) {
 		UIBarButtonItem *tabBar = [[UIBarButtonItem alloc] initWithCustomView:self.tabBar];
 		self.toolbarItems = [NSArray arrayWithObject:tabBar];
+		self.navigationController.toolbarHidden = NO;
 	} else {
 		[self.view addSubview:self.tabBar];
 	}
@@ -90,18 +75,12 @@
 - (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated {
 	if ([self.viewControllers isEqualToArray:viewControllers]) return;
 	
-	if (_tabBar) {
-		// Update the tab bar.
-		NSMutableArray *items = [NSMutableArray arrayWithCapacity:viewControllers.count];
-		for (UIViewController *controller in viewControllers) {
-			[items addObject:controller.tabBarItem];
-		}
-
-		[_tabBar setItems:items animated:animated];
-	} else {
-		// Just leave _tabBar nil and depend on it lazy initialization.
+	// Update the tab bar.
+	NSMutableArray *items = [NSMutableArray arrayWithCapacity:viewControllers.count];
+	for (UIViewController *controller in viewControllers) {
+		[items addObject:controller.tabBarItem];
 	}
-	
+	[self.tabBar setItems:items animated:animated];
 	[super setViewControllers:viewControllers animated:animated];
 }
 
@@ -141,9 +120,6 @@
 #pragma mark - Managing the Content View
 
 - (void)layoutContentView:(UIView *)contentView {
-	_secondaryViewController.view.frame = self.view.bounds;
-	_secondaryViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	
 	UIToolbar *toolbar = self.navigationController.toolbar;
 	if (toolbar) {
 		CGRect tabBarFrame = toolbar.bounds;
@@ -152,7 +128,7 @@
 	} else {
 		CGRect tabBarFrame = self.view.bounds;
 		tabBarFrame.size.height = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? kTabBarHeightPortrait : kTabBarHeightLandscape;
-		tabBarFrame.origin.y = CGRectGetMaxY(self.view.bounds) - tabBarFrame.size.height + CGRectGetMaxY(_secondaryViewController.view.frame);
+		tabBarFrame.origin.y = CGRectGetMaxY(self.view.bounds) - tabBarFrame.size.height;
 		_tabBar.frame = tabBarFrame;
 		_tabBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;	
 	}
@@ -162,7 +138,6 @@
 	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	// Adjust the frame of the content view according to the insets and tab bar size.
 	CGRect contentFrame = self.view.bounds;
-	contentFrame.origin.y = CGRectGetMaxY(_secondaryViewController.view.frame);
 	if (_tabBar.superview == contentView.superview) {
 		contentFrame.size.height -= self.tabBar.frame.size.height;
 	}
@@ -225,65 +200,6 @@
 		UIViewController *newViewController = [self.viewControllers objectAtIndex:[tabBar.items indexOfObjectIdenticalTo:newItem]];
 		[_delegate tabBarController:self didEndCustomizingViewController:viewController newViewController:newViewController];
 	}	
-}
-
-
-
-#pragma mark - Secondary view controller presening/dismissing
-
-- (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated {
-	_isPresentingSecondaryViewController = YES;
-	UIToolbar *toolbar = self.navigationController.toolbar;
-	
-	void (^animations)(void) = ^{
-		CGRect offScreenFrame;
-		if (toolbar) {
-			CGFloat offset = CGRectGetMaxY([self.view convertRect:toolbar.frame fromView:toolbar.superview]);
-			offScreenFrame = self.contentView.frame;
-			offScreenFrame.origin.y += offset;
-			self.contentView.frame = offScreenFrame;
-			offScreenFrame = toolbar.frame;
-			offScreenFrame.origin.y += offset;
-			toolbar.frame = offScreenFrame;
-		} else {
-			CGFloat offset = CGRectGetMaxY([self.view convertRect:_tabBar.frame fromView:toolbar.superview]);
-			offScreenFrame = self.contentView.frame;
-			offScreenFrame.origin.y += offset;
-			self.contentView.frame = offScreenFrame;
-			offScreenFrame = _tabBar.frame;
-			offScreenFrame.origin.y += self.view.bounds.size.height;
-			_tabBar.frame = offScreenFrame;
-		}
-	};
-	
-	void (^completion)(BOOL finished) = ^(BOOL finished) {
-		_secondaryViewController = viewController;
-		[self addChildViewController:_secondaryViewController];
-		[self.view addSubview:_secondaryViewController.view];
-		[_secondaryViewController didMoveToParentViewController:self];
-		[self.contentView removeFromSuperview];
-		if (toolbar) {
-			self.navigationController.toolbarHidden = YES;
-		}
-		CGRect initFrame = self.view.bounds;
-		initFrame.origin.x -= initFrame.size.width;
-		_secondaryViewController.view.frame = initFrame;
-		if (animated) {
-			[UIView animateWithDuration:(animated ? 0.2 : 0) animations:^{
-				_secondaryViewController.view.frame = self.view.bounds;
-			}];
-		} else {
-			_secondaryViewController.view.frame = self.view.bounds;
-		}
-		_isPresentingSecondaryViewController = NO;
-	};
-	
-	if (animated) {
-		[UIView animateWithDuration:0.2 animations:animations completion:completion];
-	} else {
-		animations();
-		completion(NO);
-	}
 }
 
 
