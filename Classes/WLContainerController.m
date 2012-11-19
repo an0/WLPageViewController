@@ -18,37 +18,6 @@
 @implementation WLContainerController
 
 
-@synthesize contentController = _contentController;
-@synthesize backgroundView = _backgroundView;
-@synthesize contentInset = _contentInset;
-@synthesize inheritsTitle = _inheritsTitle;
-@synthesize inheritsTitleView = _inheritsTitleView;
-@synthesize inheritsLeftBarButtonItem = _inheritsLeftBarButtonItem;
-@synthesize inheritsRightBarButtonItem = _inheritsRightBarButtonItem;
-@synthesize inheritsBackBarButtonItem = _inheritsBackBarButtonItem;
-@synthesize inheritsToolbarItems = _inheritsToolbarItems;
-@synthesize isViewVisible = _isViewVisible;
-@synthesize secondaryViewController = _secondaryViewController;
-@synthesize isPresentingSecondaryViewController = _isPresentingSecondaryViewController;
-@synthesize isDismissingSecondaryViewController = _isDismissingSecondaryViewController;
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-	if (self) {
-		_toolbarHidden = YES;
-	}
-	return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-	self = [super initWithCoder:aDecoder];
-	if (self) {
-		_toolbarHidden = YES;
-	}
-	return self;
-}
-
 - (void)dealloc {
 	[self unregisterKVOForNavigationBar];
 	[self unregisterKVOForToolbar];
@@ -123,6 +92,11 @@
 - (void)setContentController:(UIViewController *)contentController {
 	if (_contentController == contentController) return;
 
+	if (self.isViewLoaded) {
+		[self updateNavigationBarFrom:contentController];
+		[self updateToolbarFrom:contentController];
+	}
+
 	[_contentController willMoveToParentViewController:nil];
 	[self addChildViewController:contentController];
 	if (self.isViewLoaded) {
@@ -136,8 +110,6 @@
 	[contentController didMoveToParentViewController:self];	
 	[_contentController removeFromParentViewController];
 	
-	[self updateNavigationBarFrom:contentController];
-	[self updateToolbarFrom:contentController];
 	_contentController = contentController;
 }
 
@@ -217,15 +189,13 @@
 
 	if (_inheritsToolbarItems) {
 		if ([contentController.toolbarItems count] > 0) {
-			_toolbarHidden = NO;
 			if (_isViewVisible) {
-				[self.navigationController setToolbarHidden:_toolbarHidden animated:_isViewVisible];
+				[self.navigationController setToolbarHidden:NO animated:_isViewVisible];
 			}
 			[self setToolbarItems:contentController.toolbarItems animated:_isViewVisible];
 		} else {
-			_toolbarHidden = YES;
 			if (_isViewVisible) {
-				[self.navigationController setToolbarHidden:_toolbarHidden animated:_isViewVisible];
+				[self.navigationController setToolbarHidden:YES animated:_isViewVisible];
 			}
 			[self setToolbarItems:nil];
 		}
@@ -249,9 +219,8 @@
 			[self.navigationItem setBackBarButtonItem:value];
 		} else {
 			if ([keyPath isEqualToString:@"toolbarItems"]) {
-				_toolbarHidden = ([(NSArray *)value count] == 0);
 				if (_isViewVisible) {
-					[self.navigationController setToolbarHidden:_toolbarHidden animated:_isViewVisible];
+					[self.navigationController setToolbarHidden:([(NSArray *)value count] == 0) animated:_isViewVisible];
 				}
 			}
 			[self setValue:value forKeyPath:keyPath];
@@ -266,7 +235,11 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	
+
+	// Update bar items.
+	[self updateNavigationBarFrom:_contentController];
+	[self updateToolbarFrom:_contentController];
+
 	// Add background view.
 	if (_backgroundView) {
 		_backgroundView.frame = self.view.bounds;
@@ -279,14 +252,6 @@
 	}
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	
-	if (self.navigationController != nil && _toolbarHidden != self.navigationController.toolbarHidden) {
-		[self.navigationController setToolbarHidden:_toolbarHidden animated:animated];
-	}
-}
-
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	_isViewVisible = YES;
@@ -294,10 +259,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	
-	if (self.navigationController != nil && _toolbarHidden != self.navigationController.toolbarHidden) {
-		_toolbarHidden = self.navigationController.toolbarHidden;
-	}
 	
 	_isViewVisible = NO;
 }
@@ -307,112 +268,15 @@
 #pragma mark - Rotation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	BOOL result = [_contentController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-	if (_secondaryViewController) {
-		result = result && [_secondaryViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-	}
-	return result;
+	return [_contentController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 
 - (BOOL)shouldAutorotate {
-	BOOL result = [_contentController shouldAutorotate];
-	if (_secondaryViewController) {
-		result = result && [_secondaryViewController shouldAutorotate];
-	}
-	return result;
+	return [_contentController shouldAutorotate];
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-	NSUInteger mask = [_contentController supportedInterfaceOrientations];
-	if (_secondaryViewController) {
-		mask &= [_secondaryViewController supportedInterfaceOrientations];
-	}
-	return mask;
-}
-
-
-
-
-#pragma mark - Secondary view controller presening/dismissing
-
-- (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated {
-	_isPresentingSecondaryViewController = YES;
-	UIToolbar *toolbar = self.navigationController.toolbar;
-	
-	void (^animations)(void) = ^{
-		CGRect offScreenFrame;
-		if (toolbar) {
-			CGFloat offset = CGRectGetMaxY([self.view convertRect:toolbar.frame fromView:toolbar.superview]);
-			offScreenFrame = self.contentView.frame;
-			offScreenFrame.origin.y += offset;
-			self.contentView.frame = offScreenFrame;
-			offScreenFrame = toolbar.frame;
-			offScreenFrame.origin.y += offset;
-			toolbar.frame = offScreenFrame;
-		}
-	};
-	
-	void (^completion)(BOOL finished) = ^(BOOL finished) {
-		_secondaryViewController = viewController;
-		[self addChildViewController:_secondaryViewController];
-		[self.view addSubview:_secondaryViewController.view];
-		[_secondaryViewController didMoveToParentViewController:self];
-		[self.contentView removeFromSuperview];
-		if (toolbar) {
-			self.navigationController.toolbarHidden = YES;
-		}
-		CGRect initFrame = self.view.bounds;
-		initFrame.origin.x -= initFrame.size.width;
-		_secondaryViewController.view.frame = initFrame;
-		if (animated) {
-			[UIView animateWithDuration:(animated ? 0.2 : 0) animations:^{
-				_secondaryViewController.view.frame = self.view.bounds;
-			}];
-		} else {
-			_secondaryViewController.view.frame = self.view.bounds;
-		}
-		_isPresentingSecondaryViewController = NO;
-	};
-	
-	if (animated) {
-		[UIView animateWithDuration:0.2 animations:animations completion:completion];
-	} else {
-		animations();
-		completion(NO);
-	}
-}
-
-- (void)dismissSecondaryViewControllerAnimated:(BOOL)animated {
-	_isDismissingSecondaryViewController = YES;
-	[_secondaryViewController willMoveToParentViewController:nil];
-	
-	void (^animations)(void) = ^{
-		CGRect offScreenFrame = self.view.bounds;
-		offScreenFrame.origin.x -= offScreenFrame.size.width;
-		_secondaryViewController.view.frame = offScreenFrame;
-	};
-	
-	void (^completion)(BOOL finished) = ^(BOOL finished) {
-		[_secondaryViewController.view removeFromSuperview];
-		[_secondaryViewController removeFromParentViewController];
-		_secondaryViewController = nil;
-		[self.view addSubview:self.contentView];
-		UIToolbar *toolbar = self.navigationController.toolbar;
-		[UIView animateWithDuration:0.2 * animated animations:^{
-			if (toolbar) {
-				self.navigationController.toolbarHidden = _toolbarHidden;
-			}
-			[self layoutContentView:self.contentView];
-		}];
-		_isDismissingSecondaryViewController = NO;
-	};
-	
-	if (animated) {
-		[UIView animateWithDuration:0.2 animations:animations completion:completion];
-	} else {
-		animations();
-		completion(NO);
-	}
+	return [_contentController supportedInterfaceOrientations];
 }
 
 

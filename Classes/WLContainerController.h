@@ -14,10 +14,6 @@
 @interface WLContainerController : UIViewController {
 @protected
 	UIViewController *_contentController;
-	UIViewController *_secondaryViewController;
-	BOOL _toolbarHidden;
-	BOOL _isPresentingSecondaryViewController;
-	BOOL _isDismissingSecondaryViewController;
 	BOOL _isTransitioningContentView;
 }
 
@@ -33,14 +29,6 @@
 @property (nonatomic, assign) BOOL inheritsToolbarItems; ///< A Boolean value indicating whether the container controller inherits the toolbarItems property from the content controller. It has effect only when a new content controller is assigned. Notice: WLContainerController will change navigationBarController.toolbarHidden, so its parent view controller may have to restore navigationBarController.toolbarHidden after poping it.
 
 @property (nonatomic, readonly) BOOL isViewVisible;
-		   
-@property(nonatomic, strong, readonly) UIViewController *secondaryViewController;
-@property(nonatomic, readonly) BOOL isPresentingSecondaryViewController;
-@property(nonatomic, readonly) BOOL isDismissingSecondaryViewController;
-
-- (void)presentSecondaryViewController:(UIViewController *)viewController animated:(BOOL)animated;
-- (void)dismissSecondaryViewControllerAnimated:(BOOL)animated;
-
 
 #pragma mark -
 #pragma mark Protected methods

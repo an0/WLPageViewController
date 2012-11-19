@@ -34,11 +34,7 @@
 			return NO;
 		}
 	}
-	
-	if (_secondaryViewController) {
-		result = result && [_secondaryViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-	}
-	
+		
     return result;
 }
 
@@ -50,10 +46,6 @@
 		}
 	}
 
-	if (_secondaryViewController) {
-		result = result && [_secondaryViewController shouldAutorotate];
-	}
-
     return result;
 }
 
@@ -63,10 +55,6 @@
 		mask &= [controller supportedInterfaceOrientations];
 	}
 
-	if (_secondaryViewController) {
-		mask &= [_secondaryViewController supportedInterfaceOrientations];
-	}
-	
 	return mask;
 }
 
@@ -77,6 +65,10 @@
 	if (_contentController == contentController) return;
 	
 	if (self.isViewLoaded) {
+		// FIXME: nav bar & toolbar updating must go before content view updating, otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
+		[self updateNavigationBarFrom:contentController];
+		[self updateToolbarFrom:contentController];
+		
 		if (_contentController.view.superview == self.view) {
 			[_contentController.view removeFromSuperview];
 		}
@@ -85,8 +77,6 @@
 		}
 	}
 	
-	[self updateNavigationBarFrom:contentController];
-	[self updateToolbarFrom:contentController];
 	_contentController = contentController;
 }
 

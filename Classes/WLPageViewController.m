@@ -44,9 +44,6 @@
 - (id)initWithViewController:(UIViewController *)viewController {
 	self = [super init];
 	if (self) {
-		self.inheritsTitle = YES;
-		self.inheritsToolbarItems = YES;
-		self.inheritsRightBarButtonItem = YES;
 		self.contentController = viewController;
 	}
 	return self;
@@ -89,7 +86,12 @@
 
 - (void)setContentController:(UIViewController *)contentController {
 	if (_contentController == contentController) return;
-	
+
+	if (self.isViewLoaded) {
+		[self updateNavigationBarFrom:contentController];
+		[self updateToolbarFrom:contentController];
+	}
+
 	[self addChildViewController:contentController];
 	if (self.isViewLoaded) {
 		if (contentController.view.superview != self.view) {
@@ -99,8 +101,6 @@
 	}
 	[contentController didMoveToParentViewController:self];	
 	
-	[self updateNavigationBarFrom:contentController];
-	[self updateToolbarFrom:contentController];
 	_contentController = contentController;
 }
 
