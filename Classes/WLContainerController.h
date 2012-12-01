@@ -33,6 +33,8 @@
 #pragma mark -
 #pragma mark Protected methods
 
+- (void)unregisterKVOForNavigationBar;
+- (void)unregisterKVOForToolbar;
 - (void)updateNavigationBarFrom:(UIViewController *)contentController;
 - (void)updateToolbarFrom:(UIViewController *)contentController;
 - (void)layoutContentView:(UIView *)contentView;

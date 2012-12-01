@@ -8,9 +8,14 @@
 
 #import "WLContainerController.h"
 
-@interface WLContainerController ()
-- (void)unregisterKVOForNavigationBar;
-- (void)unregisterKVOForToolbar;
+@interface WLContainerController () {
+	BOOL _observesTitle;
+	BOOL _observesTitleView;
+	BOOL _observesLeftButtonItem;
+	BOOL _observesRightButtonItem;
+	BOOL _observesBackButtonItem;
+	BOOL _observesToolbarItems;
+}
 @end
 
 
@@ -32,57 +37,37 @@
 }
 
 - (void)unregisterKVOForNavigationBar {
-	// Removing observer throws NSException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
-	@try {
+	if (_observesTitle) {
 		[_contentController removeObserver:self forKeyPath:@"title"];
-	}
-	@catch (NSException *exception) {
-		
-	}
-	
-	@try {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.title"];
+		_observesTitle = NO;
 	}
-	@catch (NSException *exception) {
-		
-	}
-	
-	@try {
+
+	if (_observesTitleView) {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.titleView"];
+		_observesTitleView = NO;
 	}
-	@catch (NSException * e) {
 
-	}
-	
-	@try {
+	if (_observesLeftButtonItem) {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItem"];
+		_observesLeftButtonItem = NO;
 	}
-	@catch (NSException * e) {
 
-	}
-	
-	@try {
+	if (_observesRightButtonItem) {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItem"];
+		_observesRightButtonItem = NO;
 	}
-	@catch (NSException * e) {
 
-	}
-	
-	@try {
+	if (_observesBackButtonItem) {
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.backBarButtonItem"];
-	}
-	@catch (NSException * e) {
-
+		_observesBackButtonItem = NO;
 	}
 }
 
 - (void)unregisterKVOForToolbar {
-	// Removing observer throws NSRangeException if it is not a registered observer, but there is no way to query whether it is or not so I have to try removing anyhow.
-	@try {
+	if (_observesToolbarItems) {
 		[_contentController removeObserver:self forKeyPath:@"toolbarItems"];
-	}
-	@catch (NSException * e) {
-
+		_observesToolbarItems = NO;
 	}
 }
 
@@ -91,6 +76,9 @@
 
 - (void)setContentController:(UIViewController *)contentController {
 	if (_contentController == contentController) return;
+
+	[self unregisterKVOForNavigationBar];
+	[self unregisterKVOForToolbar];
 
 	if (self.isViewLoaded) {
 		[self updateNavigationBarFrom:contentController];
@@ -158,35 +146,51 @@
 #pragma mark - Update navigation bar and toolbar
 
 - (void)updateNavigationBarFrom:(UIViewController *)contentController {
-	[self unregisterKVOForNavigationBar];
-	
 	if (_inheritsTitle) {
 		self.title = contentController.title;
 		self.navigationItem.title = contentController.navigationItem.title;
 		[contentController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
-		[contentController addObserver:self forKeyPath:@"navigationItem.title" options:NSKeyValueObservingOptionNew context:nil];
-	}		
+
+		if (!_observesTitle) {
+			[contentController addObserver:self forKeyPath:@"navigationItem.title" options:NSKeyValueObservingOptionNew context:nil];
+			_observesTitle = YES;
+		}
+	}
 	if (_inheritsTitleView) {
 		self.navigationItem.titleView = contentController.navigationItem.titleView;
-		[contentController addObserver:self forKeyPath:@"navigationItem.titleView" options:NSKeyValueObservingOptionNew context:nil];
+
+		if (!_observesTitleView) {
+			[contentController addObserver:self forKeyPath:@"navigationItem.titleView" options:NSKeyValueObservingOptionNew context:nil];
+			_observesTitleView = YES;
+		}
 	}
 	if (_inheritsLeftBarButtonItem) {
 		[self.navigationItem setLeftBarButtonItem:contentController.navigationItem.leftBarButtonItem animated:_isViewVisible];
-		[contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
+
+		if (!_observesLeftButtonItem) {
+			[contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
+			_observesLeftButtonItem = YES;
+		}
 	}
 	if (_inheritsRightBarButtonItem) {
 		[self.navigationItem setRightBarButtonItem:contentController.navigationItem.rightBarButtonItem animated:_isViewVisible];
-		[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
+
+		if (!_observesRightButtonItem) {
+			[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
+			_observesRightButtonItem = YES;
+		}
 	}
 	if (_inheritsBackBarButtonItem) {
 		[self.navigationItem setBackBarButtonItem:contentController.navigationItem.backBarButtonItem];
-		[contentController addObserver:self forKeyPath:@"navigationItem.backBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
+
+		if (!_observesBackButtonItem) {
+			[contentController addObserver:self forKeyPath:@"navigationItem.backBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
+			_observesBackButtonItem = YES;
+		}
 	}
 }
 
 - (void)updateToolbarFrom:(UIViewController *)contentController {
-	[self unregisterKVOForToolbar];
-
 	if (_inheritsToolbarItems) {
 		if ([contentController.toolbarItems count] > 0) {
 			if (_isViewVisible) {
@@ -200,8 +204,11 @@
 			[self setToolbarItems:nil];
 		}
 
-		[contentController addObserver:self forKeyPath:@"toolbarItems" options:NSKeyValueObservingOptionNew context:nil];
-	}	
+		if (!_observesToolbarItems) {
+			[contentController addObserver:self forKeyPath:@"toolbarItems" options:NSKeyValueObservingOptionNew context:nil];
+			_observesToolbarItems = YES;
+		}
+	}
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

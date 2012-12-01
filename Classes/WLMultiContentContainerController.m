@@ -63,9 +63,12 @@
 
 - (void)setContentController:(UIViewController *)contentController {
 	if (_contentController == contentController) return;
-	
+
+	[self unregisterKVOForNavigationBar];
+	[self unregisterKVOForToolbar];
+
 	if (self.isViewLoaded) {
-		// FIXME: nav bar & toolbar updating must go before content view updating, otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
+		// !!!: nav bar & toolbar updating must go before content view updating, otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
 		[self updateNavigationBarFrom:contentController];
 		[self updateToolbarFrom:contentController];
 		

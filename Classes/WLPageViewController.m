@@ -87,6 +87,9 @@
 - (void)setContentController:(UIViewController *)contentController {
 	if (_contentController == contentController) return;
 
+	[self unregisterKVOForNavigationBar];
+	[self unregisterKVOForToolbar];
+
 	if (self.isViewLoaded) {
 		[self updateNavigationBarFrom:contentController];
 		[self updateToolbarFrom:contentController];
