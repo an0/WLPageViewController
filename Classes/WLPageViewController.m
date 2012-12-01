@@ -388,8 +388,6 @@
 - (IBAction)turnPage:(UITapGestureRecognizer *)gestureRecognizer
 {
 	if (gestureRecognizer.state != UIGestureRecognizerStateRecognized) return;
-
-	_isTransitioningContentView = YES;
 		
 	if ([_delegate respondsToSelector:@selector(pageViewController:willBeginPagingViewController:)]) {
 		[_delegate pageViewController:self willBeginPagingViewController:_contentController];
@@ -402,43 +400,55 @@
 	
 	// Tap on left margin, turn backward.
 	if (location.x < CGRectGetMinX(view.bounds) + TAP_MARGIN) {
-		_previousViewController = [self loadPreviousPage];
-		if (_previousViewController) {
-			CGPoint center = _contentController.view.center;
-			CGPoint previousViewCenter = _previousViewController.view.center;
-			CGPoint translation = CGPointMake(center.x - previousViewCenter.x, center.y - previousViewCenter.y);
-			CGPoint newCenter = CGPointMake(center.x + translation.x, center.y + translation.y);
-			[UIView animateWithDuration:kPagingAnimationDuration animations:^(void) {
-				_contentController.view.center = newCenter;
-				_previousViewController.view.center = center;
-				_frontTitleView.alpha = 0;
-				_backTitleView.alpha = 1;
-			} completion:^(BOOL finished) {
-				if (finished) {
-					[self pagingDidEnd];
-				}
-			}];
-		}
+		[self turnBackward];
 	}
 	// Tap on right margin, turn forward.
 	else if (location.x > CGRectGetMaxX(view.bounds) - TAP_MARGIN) {
-		_nextViewController = [self loadNextPage];;
-		if (_nextViewController) {
-			CGPoint center = _contentController.view.center;
-			CGPoint nextViewCenter = _nextViewController.view.center;
-			CGPoint translation = CGPointMake(center.x - nextViewCenter.x, center.y - nextViewCenter.y);
-			CGPoint newCenter = CGPointMake(center.x + translation.x, center.y + translation.y);
-			[UIView animateWithDuration:kPagingAnimationDuration animations:^(void) {
-				_contentController.view.center = newCenter;
-				_nextViewController.view.center = center;
-				_frontTitleView.alpha = 0;
-				_backTitleView.alpha = 1;
-			} completion:^(BOOL finished) {
-				if (finished) {
-					[self pagingDidEnd];
-				}
-			}];
-		}
+		[self turnForward];
+	}
+}
+
+- (void)turnForward {
+	_isTransitioningContentView = YES;
+
+	_nextViewController = [self loadNextPage];;
+	if (_nextViewController) {
+		CGPoint center = _contentController.view.center;
+		CGPoint nextViewCenter = _nextViewController.view.center;
+		CGPoint translation = CGPointMake(center.x - nextViewCenter.x, center.y - nextViewCenter.y);
+		CGPoint newCenter = CGPointMake(center.x + translation.x, center.y + translation.y);
+		[UIView animateWithDuration:kPagingAnimationDuration animations:^(void) {
+			_contentController.view.center = newCenter;
+			_nextViewController.view.center = center;
+			_frontTitleView.alpha = 0;
+			_backTitleView.alpha = 1;
+		} completion:^(BOOL finished) {
+			if (finished) {
+				[self pagingDidEnd];
+			}
+		}];
+	}
+}
+
+- (void)turnBackward {
+	_isTransitioningContentView = YES;
+
+	_previousViewController = [self loadPreviousPage];
+	if (_previousViewController) {
+		CGPoint center = _contentController.view.center;
+		CGPoint previousViewCenter = _previousViewController.view.center;
+		CGPoint translation = CGPointMake(center.x - previousViewCenter.x, center.y - previousViewCenter.y);
+		CGPoint newCenter = CGPointMake(center.x + translation.x, center.y + translation.y);
+		[UIView animateWithDuration:kPagingAnimationDuration animations:^(void) {
+			_contentController.view.center = newCenter;
+			_previousViewController.view.center = center;
+			_frontTitleView.alpha = 0;
+			_backTitleView.alpha = 1;
+		} completion:^(BOOL finished) {
+			if (finished) {
+				[self pagingDidEnd];
+			}
+		}];
 	}
 }
 

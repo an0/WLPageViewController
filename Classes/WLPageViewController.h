@@ -16,6 +16,9 @@
 
 #pragma mark Creating Page View Controllers
 - (id)initWithViewController:(UIViewController *)viewController;
+- (void)turnForward;
+- (void)turnBackward;
+
 @property(nonatomic, weak) id <WLPageViewControllerDataSource> dataSource;
 @property(nonatomic, weak) id <WLPageViewControllerDelegate> delegate;
 
