@@ -201,7 +201,7 @@
 		NSValue *shadowOffset = [_titleTextAttributes objectForKey:UITextAttributeTextShadowOffset];
 		if (shadowOffset) titleLabel.shadowOffset = [shadowOffset CGSizeValue];
 		titleLabel.text = viewController.navigationItem.title;
-		titleLabel.textAlignment = UITextAlignmentCenter;
+		titleLabel.textAlignment = NSTextAlignmentCenter;
 		titleLabel.backgroundColor = [UIColor clearColor];
 		subTitleView = titleLabel;
 	}

@@ -145,8 +145,8 @@ static void init(WLSplitViewController *self) {
 
 #pragma mark - Rotation support
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (_masterViewController == nil ? YES : [_masterViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation]) && (_detailViewController == nil ? YES : [_detailViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation]);
+- (NSUInteger)supportedInterfaceOrientations {
+    return (_masterViewController == nil ? UIInterfaceOrientationMaskAll : _masterViewController.supportedInterfaceOrientations) & (_detailViewController == nil ? UIInterfaceOrientationMaskAll : _detailViewController.supportedInterfaceOrientations);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {

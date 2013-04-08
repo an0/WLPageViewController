@@ -274,10 +274,6 @@
 
 #pragma mark - Rotation support
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return [_contentController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-}
-
 - (BOOL)shouldAutorotate {
 	return [_contentController shouldAutorotate];
 }

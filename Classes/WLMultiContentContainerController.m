@@ -27,17 +27,6 @@
 	}
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	BOOL result = YES;
-	for (UIViewController *controller in _viewControllers) {
-		if (![controller shouldAutorotateToInterfaceOrientation:interfaceOrientation]) {
-			return NO;
-		}
-	}
-		
-    return result;
-}
-
 - (BOOL)shouldAutorotate {
 	BOOL result = YES;
 	for (UIViewController *controller in _viewControllers) {
