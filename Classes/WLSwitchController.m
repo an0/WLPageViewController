@@ -10,7 +10,7 @@
 #import "NSString+WLExtension.h"
 
 
-@interface WLSwitchController ()
+@interface WLSwitchController () <UIViewControllerRestoration>
 
 // Track the item to update segment in real time.
 - (void)startObservingTabBarItem:(UIViewController *)viewController;
@@ -27,6 +27,7 @@
 
 
 static void _init(WLSwitchController *self) {
+	self.restorationClass = [self class];
 	self.inheritsRightBarButtonItem = YES;
 	self.inheritsToolbarItems = YES;
 }
@@ -72,6 +73,15 @@ static void _init(WLSwitchController *self) {
 
 
 
+#pragma mark - State Preservation and Restoration
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
+	WLSwitchController *viewController = [[self alloc] init];
+	viewController.restorationIdentifier = [identifierComponents lastObject];
+	return viewController;
+}
+
+
 
 
 #pragma mark - Switch bar
@@ -91,6 +101,7 @@ static void _init(WLSwitchController *self) {
 		
 		_switchBar = [[UISegmentedControl alloc] initWithItems:items];
 		_switchBar.segmentedControlStyle = UISegmentedControlStyleBar;
+		_switchBar.apportionsSegmentWidthsByContent = YES;
 		[_switchBar addTarget:self action:@selector(switchView:) forControlEvents:UIControlEventValueChanged];
 		_switchBar.autoresizingMask = UIViewAutoresizingNone;
 	}
@@ -121,8 +132,9 @@ static void _init(WLSwitchController *self) {
 				[_switchBar insertSegmentWithImage:controller.tabBarItem.image atIndex:0 animated:animated];
 			} else {
 				[_switchBar insertSegmentWithTitle:controller.tabBarItem.title atIndex:0 animated:animated];
-			}			
-		}		
+			}
+		}
+		[_switchBar sizeToFit];
 	} else {
 		// Just leave _switchBar nil and depend on it lazy initialization.
 	}

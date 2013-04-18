@@ -76,6 +76,7 @@
 
 - (void)setContentController:(UIViewController *)contentController {
 	if (_contentController == contentController) return;
+	if (contentController == nil) return;
 
 	[self unregisterKVOForNavigationBar];
 	[self unregisterKVOForToolbar];
@@ -244,8 +245,10 @@
 	[super viewDidLoad];
 
 	// Update bar items.
-	[self updateNavigationBarFrom:_contentController];
-	[self updateToolbarFrom:_contentController];
+	if (_contentController) {
+		[self updateNavigationBarFrom:_contentController];
+		[self updateToolbarFrom:_contentController];
+	}
 
 	// Add background view.
 	if (_backgroundView) {
@@ -280,6 +283,47 @@
 
 - (NSUInteger)supportedInterfaceOrientations {
 	return [_contentController supportedInterfaceOrientations];
+}
+
+
+
+#pragma mark - State Preservation and Restoration
+
+#define kStateKeyTitle @"title"
+#define kStateKeyContentViewController @"content_view_controller"
+#define kStateKeyContentInset @"content_inset"
+#define kStateKeyInheritsTitle @"inherits_title"
+#define kStateKeyInheritsTitleView @"inherits_title_view"
+#define kStateKeyInheritsLeftBarButtonItem @"inherits_left_bar_button_item"
+#define kStateKeyInheritsRightBarButtonItem @"inherits_right_bar_button_item"
+#define kStateKeyInheritsBackBarButtonItem @"inherits_back_bar_button_item"
+#define kStateKeyInheritsToolbarItems @"inherits_toolbar_items"
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+	[super encodeRestorableStateWithCoder:coder];
+
+	[coder encodeObject:self.title forKey:kStateKeyTitle];
+	[coder encodeObject:self.contentController forKey:kStateKeyContentViewController];
+	[coder encodeUIEdgeInsets:self.contentInset forKey:kStateKeyContentInset];
+	[coder encodeBool:self.inheritsTitle forKey:kStateKeyInheritsTitle];
+	[coder encodeBool:self.inheritsTitleView forKey:kStateKeyInheritsTitleView];
+	[coder encodeBool:self.inheritsLeftBarButtonItem forKey:kStateKeyInheritsLeftBarButtonItem];
+	[coder encodeBool:self.inheritsRightBarButtonItem forKey:kStateKeyInheritsRightBarButtonItem];
+	[coder encodeBool:self.inheritsBackBarButtonItem forKey:kStateKeyInheritsBackBarButtonItem];
+	[coder encodeBool:self.inheritsToolbarItems forKey:kStateKeyInheritsToolbarItems];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+	[super decodeRestorableStateWithCoder:coder];
+
+	self.inheritsTitle = [coder decodeBoolForKey:kStateKeyInheritsTitle];
+	self.inheritsTitleView  = [coder decodeBoolForKey:kStateKeyInheritsTitleView];
+	self.inheritsLeftBarButtonItem  = [coder decodeBoolForKey:kStateKeyInheritsLeftBarButtonItem];
+	self.inheritsRightBarButtonItem  = [coder decodeBoolForKey:kStateKeyInheritsRightBarButtonItem];
+	self.inheritsBackBarButtonItem  = [coder decodeBoolForKey:kStateKeyInheritsBackBarButtonItem];
+	self.inheritsToolbarItems  = [coder decodeBoolForKey:kStateKeyInheritsToolbarItems];
+	self.contentInset = [coder decodeUIEdgeInsetsForKey:kStateKeyContentInset];
+	self.contentController = [coder decodeObjectForKey:kStateKeyContentViewController];
 }
 
 

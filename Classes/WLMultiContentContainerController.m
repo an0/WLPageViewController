@@ -174,4 +174,25 @@
 	self.selectedViewController = [_viewControllers objectAtIndex:index];
 }
 
+
+
+#pragma mark - State Preservation and Restoration
+
+#define kStateKeyChildViewControllers @"child_view_controllers"
+#define kStateKeySelectedIndex @"selected_index"
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+	[super encodeRestorableStateWithCoder:coder];
+
+	[coder encodeObject:self.viewControllers forKey:kStateKeyChildViewControllers];
+	[coder encodeInteger:self.selectedIndex forKey:kStateKeySelectedIndex];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+	[super decodeRestorableStateWithCoder:coder];
+
+	self.viewControllers = [coder decodeObjectForKey:kStateKeyChildViewControllers];
+	self.selectedIndex = [coder decodeIntegerForKey:kStateKeySelectedIndex];
+}
+
 @end

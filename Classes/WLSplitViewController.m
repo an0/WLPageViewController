@@ -66,45 +66,46 @@ static void init(WLSplitViewController *self) {
 #pragma mark - Content View management
 
 - (void)setViewControllers:(NSArray *)viewControllers {
-	if (_viewControllers != viewControllers) {
-		UIViewController *oldMasterViewController = _masterViewController;
-		UIViewController *oldDetailViewController = _detailViewController;
+	if ([_viewControllers isEqualToArray:viewControllers]) return;
+	if ([viewControllers count] != 2) return;
 
-		_masterViewController = [viewControllers objectAtIndex:0];
-		_detailViewController = [viewControllers objectAtIndex:1];
-		
-		if (oldMasterViewController.parentViewController) {
-			[oldMasterViewController willMoveToParentViewController:nil];
-		}
-		[self addChildViewController:_masterViewController];
-		[oldDetailViewController willMoveToParentViewController:nil];
-		[self addChildViewController:_detailViewController];
-		
-		[_detailViewController didMoveToParentViewController:self];
-			[oldDetailViewController removeFromParentViewController];
-		[_masterViewController didMoveToParentViewController:self];
-		if (oldMasterViewController.parentViewController) {
-			[oldMasterViewController removeFromParentViewController];
-		}
-		
-		if (self.isViewLoaded) {
-			[oldDetailViewController.view removeFromSuperview];
-			[self.view addSubview:_detailViewController.view];
-			
-			if (!(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && _hidesMasterViewInPortrait)) {
-				[oldMasterViewController.view removeFromSuperview];				
-				[self showMasterViewController];
-			} else {
-				[self hideMasterViewController];
-			}			
-		}
+	UIViewController *oldMasterViewController = _masterViewController;
+	UIViewController *oldDetailViewController = _detailViewController;
 
-		[self updateNavigationBarFrom:_masterViewController];
-		[self updateToolbarFrom:_masterViewController];
+	_masterViewController = [viewControllers objectAtIndex:0];
+	_detailViewController = [viewControllers objectAtIndex:1];
 
-		_viewControllers = [viewControllers copy];
-		_contentController = _masterViewController;		
+	if (oldMasterViewController.parentViewController) {
+		[oldMasterViewController willMoveToParentViewController:nil];
 	}
+	[self addChildViewController:_masterViewController];
+	[oldDetailViewController willMoveToParentViewController:nil];
+	[self addChildViewController:_detailViewController];
+
+	[_detailViewController didMoveToParentViewController:self];
+	[oldDetailViewController removeFromParentViewController];
+	[_masterViewController didMoveToParentViewController:self];
+	if (oldMasterViewController.parentViewController) {
+		[oldMasterViewController removeFromParentViewController];
+	}
+
+	if (self.isViewLoaded) {
+		[oldDetailViewController.view removeFromSuperview];
+		[self.view addSubview:_detailViewController.view];
+
+		if (!(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && _hidesMasterViewInPortrait)) {
+			[oldMasterViewController.view removeFromSuperview];
+			[self showMasterViewController];
+		} else {
+			[self hideMasterViewController];
+		}
+	}
+
+	[self updateNavigationBarFrom:_masterViewController];
+	[self updateToolbarFrom:_masterViewController];
+
+	_viewControllers = [viewControllers copy];
+	_contentController = _masterViewController;
 }
 
 
@@ -172,6 +173,23 @@ static void init(WLSplitViewController *self) {
 	} else {
 		((UIImageView *)self.backgroundView).image = _landscapeBackgroundImage;
 	}
+}
+
+
+#pragma mark - State Preservation and Restoration
+
+#define kStateKeyChildViewControllers @"child_view_controllers"
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+	[super encodeRestorableStateWithCoder:coder];
+
+	[coder encodeObject:self.viewControllers forKey:kStateKeyChildViewControllers];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+	[super decodeRestorableStateWithCoder:coder];
+
+	self.viewControllers = [coder decodeObjectForKey:kStateKeyChildViewControllers];
 }
 
 
