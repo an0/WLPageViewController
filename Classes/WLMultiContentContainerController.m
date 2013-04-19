@@ -57,15 +57,15 @@
 	[self unregisterKVOForToolbar];
 
 	if (self.isViewLoaded) {
-		// !!!: nav bar & toolbar updating must go before content view updating, otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
-		[self updateNavigationBarFrom:contentController];
-		[self updateToolbarFrom:contentController];
-		
 		if (_contentController.view.superview == self.view) {
 			[_contentController.view removeFromSuperview];
 		}
-		if (contentController.view.superview != self.view) {
-			[self.view addSubview:contentController.view];
+		UIView *contentView = contentController.view;
+		// !!!: Update bar items after loading content view since content controller's bar items usually are configured in its viewDidLoad method, but before adding content view because otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
+		[self updateNavigationBarFrom:contentController];
+		[self updateToolbarFrom:contentController];
+		if (contentView.superview != self.view) {
+			[self.view addSubview:contentView];
 		}
 	}
 	

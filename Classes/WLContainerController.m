@@ -81,21 +81,21 @@
 	[self unregisterKVOForNavigationBar];
 	[self unregisterKVOForToolbar];
 
-	if (self.isViewLoaded) {
-		[self updateNavigationBarFrom:contentController];
-		[self updateToolbarFrom:contentController];
-	}
-
 	[_contentController willMoveToParentViewController:nil];
 	[self addChildViewController:contentController];
 	if (self.isViewLoaded) {
 		if (_contentController.view.superview == self.view) {
 			[_contentController.view removeFromSuperview];
 		}
-		if (contentController.view.superview != self.view) {
-			[self.view addSubview:contentController.view];
+		UIView *contentView = contentController.view;
+		// !!!: Update bar items after loading content view since content controller's bar items usually are configured in its viewDidLoad method, but before adding content view because otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
+		[self updateNavigationBarFrom:contentController];
+		[self updateToolbarFrom:contentController];
+		if (contentView.superview != self.view) {
+			[self.view addSubview:contentView];
 		}
 	}
+
 	[contentController didMoveToParentViewController:self];	
 	[_contentController removeFromParentViewController];
 	
@@ -194,14 +194,10 @@
 - (void)updateToolbarFrom:(UIViewController *)contentController {
 	if (_inheritsToolbarItems) {
 		if ([contentController.toolbarItems count] > 0) {
-			if (_isViewVisible) {
-				[self.navigationController setToolbarHidden:NO animated:_isViewVisible];
-			}
+			[self.navigationController setToolbarHidden:NO animated:_isViewVisible];
 			[self setToolbarItems:contentController.toolbarItems animated:_isViewVisible];
 		} else {
-			if (_isViewVisible) {
-				[self.navigationController setToolbarHidden:YES animated:_isViewVisible];
-			}
+			[self.navigationController setToolbarHidden:YES animated:_isViewVisible];
 			[self setToolbarItems:nil];
 		}
 
@@ -227,9 +223,7 @@
 			[self.navigationItem setBackBarButtonItem:value];
 		} else {
 			if ([keyPath isEqualToString:@"toolbarItems"]) {
-				if (_isViewVisible) {
-					[self.navigationController setToolbarHidden:([(NSArray *)value count] == 0) animated:_isViewVisible];
-				}
+				[self.navigationController setToolbarHidden:([(NSArray *)value count] == 0) animated:_isViewVisible];
 			}
 			[self setValue:value forKeyPath:keyPath];
 		}		
@@ -244,12 +238,6 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 
-	// Update bar items.
-	if (_contentController) {
-		[self updateNavigationBarFrom:_contentController];
-		[self updateToolbarFrom:_contentController];
-	}
-
 	// Add background view.
 	if (_backgroundView) {
 		_backgroundView.frame = self.view.bounds;
@@ -259,6 +247,12 @@
 	// Add content view.
 	if (self.contentView) {
 		[self.view addSubview:self.contentView];
+	}
+
+	// Update bar items after loading content view since content controller's bar items usually are configured in its viewDidLoad method.
+	if (_contentController) {
+		[self updateNavigationBarFrom:_contentController];
+		[self updateToolbarFrom:_contentController];
 	}
 }
 
