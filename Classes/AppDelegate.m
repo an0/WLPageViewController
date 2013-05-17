@@ -74,7 +74,6 @@
 }
 
 - (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
-	DLog(@"%@", identifierComponents);
 	if ([identifierComponents.lastObject isEqualToString:@"root"]) {
 		return _window.rootViewController;
 	} else if ([identifierComponents.lastObject isEqualToString:@"master"]) {

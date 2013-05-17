@@ -27,26 +27,22 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Present" style:UIBarButtonItemStyleBordered target:self action:@selector(present:)];
 }
 
-/*
 - (void)viewWillAppear:(BOOL)animated {
+	DLog(@"viewWillAppear");
     [super viewWillAppear:animated];
 }
-*/
-/*
 - (void)viewDidAppear:(BOOL)animated {
+	DLog(@"viewDidAppear");
     [super viewDidAppear:animated];
 }
-*/
-/*
 - (void)viewWillDisappear:(BOOL)animated {
+	DLog(@"viewWillDisappear");
     [super viewWillDisappear:animated];
 }
-*/
-/*
 - (void)viewDidDisappear:(BOOL)animated {
+	DLog(@"viewDidDisappear");
     [super viewDidDisappear:animated];
 }
-*/
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
