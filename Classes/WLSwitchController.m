@@ -10,7 +10,7 @@
 #import "NSString+WLExtension.h"
 
 
-@interface WLSwitchController () <UIViewControllerRestoration>
+@interface WLSwitchController ()
 
 // Track the item to update segment in real time.
 - (void)startObservingTabBarItem:(UIViewController *)viewController;
@@ -27,7 +27,6 @@
 
 
 static void _init(WLSwitchController *self) {
-	self.restorationClass = [self class];
 	self.inheritsRightBarButtonItem = YES;
 	self.inheritsToolbarItems = YES;
 }
@@ -78,6 +77,7 @@ static void _init(WLSwitchController *self) {
 + (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
 	WLSwitchController *viewController = [[self alloc] init];
 	viewController.restorationIdentifier = [identifierComponents lastObject];
+	viewController.restorationClass = [self class];
 	return viewController;
 }
 

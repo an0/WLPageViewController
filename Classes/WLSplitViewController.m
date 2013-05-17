@@ -179,16 +179,35 @@ static void init(WLSplitViewController *self) {
 #pragma mark - State Preservation and Restoration
 
 #define kStateKeyChildViewControllers @"child_view_controllers"
+#define kStateKeyShowsSplitLine @"shows_split_line"
+#define kStateKeySplitPosition @"split_position"
+#define kStateKeyGutterWidth @"gutter_width"
+#define kStateKeyHidesMasterViewInPortrait @"hides_master_view_in_portrait"
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
+	WLSplitViewController *viewController = [[self alloc] init];
+	viewController.restorationIdentifier = [identifierComponents lastObject];
+	viewController.restorationClass = [self class];
+	return viewController;
+}
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
 	[super encodeRestorableStateWithCoder:coder];
 
+	[coder encodeBool:_showsSplitLine forKey:kStateKeyShowsSplitLine];
+	[coder encodeFloat:_splitPosition forKey:kStateKeySplitPosition];
+	[coder encodeFloat:_gutterWidth forKey:kStateKeyGutterWidth];
+	[coder encodeBool:_hidesMasterViewInPortrait forKey:kStateKeyHidesMasterViewInPortrait];
 	[coder encodeObject:self.viewControllers forKey:kStateKeyChildViewControllers];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
 	[super decodeRestorableStateWithCoder:coder];
 
+	self.showsSplitLine = [coder decodeBoolForKey:kStateKeyShowsSplitLine];
+	self.splitPosition = [coder decodeFloatForKey:kStateKeySplitPosition];
+	self.gutterWidth = [coder decodeFloatForKey:kStateKeyGutterWidth];
+	self.hidesMasterViewInPortrait = [coder decodeBoolForKey:kStateKeyHidesMasterViewInPortrait];
 	self.viewControllers = [coder decodeObjectForKey:kStateKeyChildViewControllers];
 }
 
@@ -299,17 +318,17 @@ static void init(WLSplitViewController *self) {
 #pragma mark - Popover handling
 
 - (void)hideMasterViewController {
-	if (_masterViewController.parentViewController) {
-		[_masterViewController willMoveToParentViewController:nil];
-		[_masterViewController removeFromParentViewController];
-	}
-	
+	// Remove _masterViewController from parent before setting it as content view controller of popover controller because the view hierarchy checking will throw exception if content view controller is not root view controller.
+	[_masterViewController willMoveToParentViewController:nil];
+	[_masterViewController removeFromParentViewController];
 	if (_poController == nil) {
 		_poController = [[UIPopoverController alloc] initWithContentViewController:_masterViewController];
 	} else {
 		_poController.contentViewController = _masterViewController;
 	}
-
+	// Add it back.
+	[self addChildViewController:_masterViewController];
+	[_masterViewController didMoveToParentViewController:self];
 	
 	// Create and configure _barButtonItem.
 	if (_barButtonItem == nil) {
@@ -333,11 +352,6 @@ static void init(WLSplitViewController *self) {
 - (void)showMasterViewController {
 	if (_poController.popoverVisible) {
 		[_poController dismissPopoverAnimated:NO];
-	}
-
-	if (_masterViewController.parentViewController != self) {
-		[self addChildViewController:_masterViewController];
-		[_masterViewController didMoveToParentViewController:self];
 	}
 
 	if (_masterViewController.view != self.view) {

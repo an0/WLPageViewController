@@ -21,7 +21,7 @@
 
  Refer to the class reference of UITabBarController and UISegmentedControl.
  */
-@interface WLSwitchController : WLMultiContentContainerController
+@interface WLSwitchController : WLMultiContentContainerController <UIViewControllerRestoration>
 
 @property(nonatomic,strong, readonly) UISegmentedControl *switchBar; ///< The switch bar associated with this controller.
 

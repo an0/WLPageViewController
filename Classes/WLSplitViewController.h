@@ -10,7 +10,7 @@
 
 @protocol WLSplitViewControllerDelegate;
 
-@interface WLSplitViewController : WLContainerController {
+@interface WLSplitViewController : WLContainerController <UIViewControllerRestoration> {
 	NSArray *_viewControllers;
 	UIViewController *_masterViewController;
 	UIViewController *_detailViewController;
