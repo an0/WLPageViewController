@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WLSplitViewController.h"
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, WLSplitViewControllerDelegate>
+@interface AppDelegate : NSObject <UIApplicationDelegate>
 
 @property (nonatomic, retain) UIWindow *window;
 

@@ -21,9 +21,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Initially select the first controller if none is pre-selected.
-	if (_selectedViewController == nil && [_viewControllers count] > 0) {
-		self.selectedIndex = 0;
+	// Initially select the first/last controller if none is pre-selected.
+	if (_selectedViewController == nil && _viewControllers.count > 0) {
+		self.selectedIndex = _selectsLastByDefault ? _viewControllers.count - 1 : 0;
 	}
 }
 
@@ -90,13 +90,17 @@
 	}
 	
 	// Update the selected view controller.
-	// Reuse the selectedIndex if possible.
 	UIViewController *controllerToSelect;
 	NSUInteger index;
-	if (self.selectedIndex < [viewControllers count]) {
-		index = self.selectedIndex;
+	if (_selectsLastByDefault) {
+		index = viewControllers.count - 1;
 	} else {
-		index = 0;
+		// Reuse the selectedIndex if possible.
+		if (self.selectedIndex < viewControllers.count) {
+			index = self.selectedIndex;
+		} else {
+			index = 0;
+		}
 	}
 	controllerToSelect = [viewControllers objectAtIndex:index];
 	

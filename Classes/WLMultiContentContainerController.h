@@ -12,8 +12,8 @@
 
 @property(nonatomic, copy) NSArray *viewControllers;
 @property(nonatomic, assign) UIViewController *selectedViewController;
-@property(nonatomic) NSUInteger selectedIndex;
-
+@property(nonatomic, assign) NSUInteger selectedIndex;
+@property(nonatomic, assign) BOOL selectsLastByDefault;
 
 
 /**
