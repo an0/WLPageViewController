@@ -9,7 +9,6 @@
 #import "WLMultiContentContainerController.h"
 
 @implementation WLMultiContentContainerController {
-@private
 	NSMutableArray *_viewControllers;
 }
 

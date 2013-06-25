@@ -30,8 +30,7 @@
 
 @property (nonatomic, readonly) BOOL isViewVisible;
 
-#pragma mark -
-#pragma mark Protected methods
+#pragma mark - Protected methods
 
 - (void)unregisterKVOForNavigationBar;
 - (void)unregisterKVOForToolbar;
