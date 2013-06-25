@@ -7,31 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
-		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		C9354F441406FB05007F8CB0 /* WLMultiContentContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9354F431406FB05007F8CB0 /* WLMultiContentContainerController.m */; };
-		C945E5B0162715F300002AF0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C945E5AF162715F300002AF0 /* Default-568h@2x.png */; };
-		C9D0AC9F11F0943000A84A80 /* WLContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D0AC9B11F0943000A84A80 /* WLContainerController.m */; };
+		C9F05FF4177A46D100978AF2 /* WLContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F05FEF177A46D100978AF2 /* WLContainerController.m */; };
+		C9F05FF5177A46D100978AF2 /* WLMultiContentContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F05FF1177A46D100978AF2 /* WLMultiContentContainerController.m */; };
+		C9F05FF8177A46F400978AF2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F05FF7177A46F400978AF2 /* AppDelegate.m */; };
+		C9F05FFB177A470600978AF2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F05FF9177A470600978AF2 /* main.m */; };
+		C9F05FFE177A472200978AF2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9F05FFC177A472200978AF2 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* WLContainerControllers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WLContainerControllers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		28A0AAE50D9B0CCF005BE974 /* WLContainerControllers_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLContainerControllers_Prefix.pch; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* WLContainerControllers-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WLContainerControllers-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		C9354F421406FB05007F8CB0 /* WLMultiContentContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMultiContentContainerController.h; sourceTree = "<group>"; };
-		C9354F431406FB05007F8CB0 /* WLMultiContentContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMultiContentContainerController.m; sourceTree = "<group>"; };
-		C945E5AF162715F300002AF0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		C9D0AC9A11F0943000A84A80 /* WLContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLContainerController.h; sourceTree = "<group>"; };
-		C9D0AC9B11F0943000A84A80 /* WLContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLContainerController.m; sourceTree = "<group>"; };
-		C9F05FEA177A451800978AF2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		C9F05FEB177A45AE00978AF2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		C9F05FEC177A46D100978AF2 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = WLContainerControllers/LICENSE; sourceTree = SOURCE_ROOT; };
+		C9F05FED177A46D100978AF2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = WLContainerControllers/README.md; sourceTree = SOURCE_ROOT; };
+		C9F05FEE177A46D100978AF2 /* WLContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLContainerController.h; path = WLContainerControllers/WLContainerController.h; sourceTree = SOURCE_ROOT; };
+		C9F05FEF177A46D100978AF2 /* WLContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLContainerController.m; path = WLContainerControllers/WLContainerController.m; sourceTree = SOURCE_ROOT; };
+		C9F05FF0177A46D100978AF2 /* WLMultiContentContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLMultiContentContainerController.h; path = WLContainerControllers/WLMultiContentContainerController.h; sourceTree = SOURCE_ROOT; };
+		C9F05FF1177A46D100978AF2 /* WLMultiContentContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLMultiContentContainerController.m; path = WLContainerControllers/WLMultiContentContainerController.m; sourceTree = SOURCE_ROOT; };
+		C9F05FF6177A46F400978AF2 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = WLContainerControllers/AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		C9F05FF7177A46F400978AF2 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = WLContainerControllers/AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		C9F05FF9177A470600978AF2 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = WLContainerControllers/main.m; sourceTree = "<group>"; };
+		C9F05FFA177A470600978AF2 /* WLContainerControllers_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLContainerControllers_Prefix.pch; path = WLContainerControllers/WLContainerControllers_Prefix.pch; sourceTree = "<group>"; };
+		C9F05FFC177A472200978AF2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "WLContainerControllers/Default-568h@2x.png"; sourceTree = "<group>"; };
+		C9F05FFD177A472200978AF2 /* WLContainerControllers-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "WLContainerControllers-Info.plist"; path = "WLContainerControllers/WLContainerControllers-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,8 +50,9 @@
 		080E96DDFE201D6D7F000001 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				1D3623240D0F684500981E51 /* AppDelegate.h */,
-				1D3623250D0F684500981E51 /* AppDelegate.m */,
+				C9F05FF6177A46F400978AF2 /* AppDelegate.h */,
+				C9F05FF7177A46F400978AF2 /* AppDelegate.m */,
+				29B97317FDCFA39411CA2CEA /* Supporting Files */,
 			);
 			name = Demo;
 			path = Classes;
@@ -70,31 +71,22 @@
 			children = (
 				C9D0ACFD11F096C400A84A80 /* WLContainerControllers */,
 				080E96DDFE201D6D7F000001 /* Demo */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
-				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
 		};
-		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+		29B97317FDCFA39411CA2CEA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				28A0AAE50D9B0CCF005BE974 /* WLContainerControllers_Prefix.pch */,
-				29B97316FDCFA39411CA2CEA /* main.m */,
+				C9F05FF9177A470600978AF2 /* main.m */,
+				C9F05FFA177A470600978AF2 /* WLContainerControllers_Prefix.pch */,
+				C9F05FFC177A472200978AF2 /* Default-568h@2x.png */,
+				C9F05FFD177A472200978AF2 /* WLContainerControllers-Info.plist */,
 			);
-			name = "Other Sources";
-			sourceTree = "<group>";
-		};
-		29B97317FDCFA39411CA2CEA /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				C945E5AF162715F300002AF0 /* Default-568h@2x.png */,
-				C91E8B2912AC86310083E558 /* Images */,
-				8D1107310486CEB800E47090 /* WLContainerControllers-Info.plist */,
-			);
-			name = Resources;
+			name = "Supporting Files";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
@@ -106,22 +98,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C91E8B2912AC86310083E558 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 		C9D0ACFD11F096C400A84A80 /* WLContainerControllers */ = {
 			isa = PBXGroup;
 			children = (
-				C9F05FEA177A451800978AF2 /* README.md */,
-				C9F05FEB177A45AE00978AF2 /* LICENSE */,
-				C9D0AC9A11F0943000A84A80 /* WLContainerController.h */,
-				C9D0AC9B11F0943000A84A80 /* WLContainerController.m */,
-				C9354F421406FB05007F8CB0 /* WLMultiContentContainerController.h */,
-				C9354F431406FB05007F8CB0 /* WLMultiContentContainerController.m */,
+				C9F05FED177A46D100978AF2 /* README.md */,
+				C9F05FEC177A46D100978AF2 /* LICENSE */,
+				C9F05FEE177A46D100978AF2 /* WLContainerController.h */,
+				C9F05FEF177A46D100978AF2 /* WLContainerController.m */,
+				C9F05FF0177A46D100978AF2 /* WLMultiContentContainerController.h */,
+				C9F05FF1177A46D100978AF2 /* WLMultiContentContainerController.m */,
 			);
 			name = WLContainerControllers;
 			path = Classes;
@@ -182,7 +167,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C945E5B0162715F300002AF0 /* Default-568h@2x.png in Resources */,
+				C9F05FFE177A472200978AF2 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,10 +194,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
-				C9D0AC9F11F0943000A84A80 /* WLContainerController.m in Sources */,
-				C9354F441406FB05007F8CB0 /* WLMultiContentContainerController.m in Sources */,
+				C9F05FF8177A46F400978AF2 /* AppDelegate.m in Sources */,
+				C9F05FF4177A46D100978AF2 /* WLContainerController.m in Sources */,
+				C9F05FFB177A470600978AF2 /* main.m in Sources */,
+				C9F05FF5177A46D100978AF2 /* WLMultiContentContainerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,8 +213,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = WLContainerControllers_Prefix.pch;
-				INFOPLIST_FILE = "WLContainerControllers-Info.plist";
+				GCC_PREFIX_HEADER = WLContainerControllers/WLContainerControllers_Prefix.pch;
+				INFOPLIST_FILE = "WLContainerControllers/WLContainerControllers-Info.plist";
 				PRODUCT_NAME = WLContainerControllers;
 			};
 			name = Debug;
@@ -241,8 +226,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = WLContainerControllers_Prefix.pch;
-				INFOPLIST_FILE = "WLContainerControllers-Info.plist";
+				GCC_PREFIX_HEADER = WLContainerControllers/WLContainerControllers_Prefix.pch;
+				INFOPLIST_FILE = "WLContainerControllers/WLContainerControllers-Info.plist";
 				PRODUCT_NAME = WLContainerControllers;
 				VALIDATE_PRODUCT = YES;
 			};
