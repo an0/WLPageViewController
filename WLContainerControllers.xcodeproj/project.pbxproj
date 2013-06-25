@@ -20,8 +20,6 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* WLContainerControllers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WLContainerControllers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		C9F05FEC177A46D100978AF2 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = WLContainerControllers/LICENSE; sourceTree = SOURCE_ROOT; };
-		C9F05FED177A46D100978AF2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = WLContainerControllers/README.md; sourceTree = SOURCE_ROOT; };
 		C9F05FEE177A46D100978AF2 /* WLContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLContainerController.h; path = WLContainerControllers/WLContainerController.h; sourceTree = SOURCE_ROOT; };
 		C9F05FEF177A46D100978AF2 /* WLContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLContainerController.m; path = WLContainerControllers/WLContainerController.m; sourceTree = SOURCE_ROOT; };
 		C9F05FF0177A46D100978AF2 /* WLMultiContentContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLMultiContentContainerController.h; path = WLContainerControllers/WLMultiContentContainerController.h; sourceTree = SOURCE_ROOT; };
@@ -32,6 +30,8 @@
 		C9F05FFA177A470600978AF2 /* WLContainerControllers_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLContainerControllers_Prefix.pch; path = WLContainerControllers/WLContainerControllers_Prefix.pch; sourceTree = "<group>"; };
 		C9F05FFC177A472200978AF2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "WLContainerControllers/Default-568h@2x.png"; sourceTree = "<group>"; };
 		C9F05FFD177A472200978AF2 /* WLContainerControllers-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "WLContainerControllers-Info.plist"; path = "WLContainerControllers/WLContainerControllers-Info.plist"; sourceTree = "<group>"; };
+		C9F06007177A520F00978AF2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		C9F06008177A520F00978AF2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +101,8 @@
 		C9D0ACFD11F096C400A84A80 /* WLContainerControllers */ = {
 			isa = PBXGroup;
 			children = (
-				C9F05FED177A46D100978AF2 /* README.md */,
-				C9F05FEC177A46D100978AF2 /* LICENSE */,
+				C9F06008177A520F00978AF2 /* README.md */,
+				C9F06007177A520F00978AF2 /* LICENSE */,
 				C9F05FEE177A46D100978AF2 /* WLContainerController.h */,
 				C9F05FEF177A46D100978AF2 /* WLContainerController.m */,
 				C9F05FF0177A46D100978AF2 /* WLMultiContentContainerController.h */,
