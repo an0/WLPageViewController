@@ -1,4 +1,4 @@
 WLContainerControllers
 ======================
 
-Base classes for container controllers. WLContainerControllers is part of WLKit.
+Base classes of container controllers in WLKit.
