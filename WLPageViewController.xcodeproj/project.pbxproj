@@ -1,0 +1,360 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C952C46817626F490021A0BA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952C46717626F490021A0BA /* UIKit.framework */; };
+		C952C46A17626F490021A0BA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952C46917626F490021A0BA /* Foundation.framework */; };
+		C952C46C17626F490021A0BA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952C46B17626F490021A0BA /* CoreGraphics.framework */; };
+		C952C47217626F490021A0BA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C952C47017626F490021A0BA /* InfoPlist.strings */; };
+		C952C47417626F490021A0BA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C47317626F490021A0BA /* main.m */; };
+		C952C47817626F490021A0BA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C47717626F490021A0BA /* AppDelegate.m */; };
+		C952C47A17626F490021A0BA /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C952C47917626F490021A0BA /* Default.png */; };
+		C952C47C17626F490021A0BA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C952C47B17626F490021A0BA /* Default@2x.png */; };
+		C952C47E17626F490021A0BA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C952C47D17626F490021A0BA /* Default-568h@2x.png */; };
+		C952C48717626F620021A0BA /* WLPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C48617626F620021A0BA /* WLPageViewController.m */; };
+		C952C4951762709C0021A0BA /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C48E1762709C0021A0BA /* PageViewController.m */; };
+		C952C4961762709C0021A0BA /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C4901762709C0021A0BA /* DataViewController.m */; };
+		C952C4971762709C0021A0BA /* ModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C4921762709C0021A0BA /* ModelController.m */; };
+		C952C4981762709C0021A0BA /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C952C4931762709C0021A0BA /* PageViewController.xib */; };
+		C952C4991762709C0021A0BA /* DataViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C952C4941762709C0021A0BA /* DataViewController.xib */; };
+		C952C4D417629FFB0021A0BA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952C4D317629FFB0021A0BA /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C952C46417626F490021A0BA /* WLPageViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WLPageViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C952C46717626F490021A0BA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C952C46917626F490021A0BA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C952C46B17626F490021A0BA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C952C46F17626F490021A0BA /* WLPageViewController-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WLPageViewController-Info.plist"; sourceTree = "<group>"; };
+		C952C47117626F490021A0BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C952C47317626F490021A0BA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C952C47517626F490021A0BA /* WLPageViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WLPageViewController-Prefix.pch"; sourceTree = "<group>"; };
+		C952C47617626F490021A0BA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C952C47717626F490021A0BA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C952C47917626F490021A0BA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		C952C47B17626F490021A0BA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		C952C47D17626F490021A0BA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C952C48517626F620021A0BA /* WLPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPageViewController.h; sourceTree = "<group>"; };
+		C952C48617626F620021A0BA /* WLPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPageViewController.m; sourceTree = "<group>"; };
+		C952C48D1762709C0021A0BA /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
+		C952C48E1762709C0021A0BA /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
+		C952C48F1762709C0021A0BA /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
+		C952C4901762709C0021A0BA /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
+		C952C4911762709C0021A0BA /* ModelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelController.h; sourceTree = "<group>"; };
+		C952C4921762709C0021A0BA /* ModelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelController.m; sourceTree = "<group>"; };
+		C952C4931762709C0021A0BA /* PageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageViewController.xib; sourceTree = "<group>"; };
+		C952C4941762709C0021A0BA /* DataViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataViewController.xib; sourceTree = "<group>"; };
+		C952C4D317629FFB0021A0BA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C952C46117626F490021A0BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C952C4D417629FFB0021A0BA /* QuartzCore.framework in Frameworks */,
+				C952C46817626F490021A0BA /* UIKit.framework in Frameworks */,
+				C952C46A17626F490021A0BA /* Foundation.framework in Frameworks */,
+				C952C46C17626F490021A0BA /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C952C45B17626F490021A0BA = {
+			isa = PBXGroup;
+			children = (
+				C952C46D17626F490021A0BA /* WLPageViewController */,
+				C952C48417626F4E0021A0BA /* Demo */,
+				C952C46617626F490021A0BA /* Frameworks */,
+				C952C46517626F490021A0BA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C952C46517626F490021A0BA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C952C46417626F490021A0BA /* WLPageViewController.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C952C46617626F490021A0BA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C952C46717626F490021A0BA /* UIKit.framework */,
+				C952C46917626F490021A0BA /* Foundation.framework */,
+				C952C46B17626F490021A0BA /* CoreGraphics.framework */,
+				C952C4D317629FFB0021A0BA /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C952C46D17626F490021A0BA /* WLPageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C952C48C17626FD60021A0BA /* Dependence */,
+				C952C48517626F620021A0BA /* WLPageViewController.h */,
+				C952C48617626F620021A0BA /* WLPageViewController.m */,
+			);
+			path = WLPageViewController;
+			sourceTree = "<group>";
+		};
+		C952C46E17626F490021A0BA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C952C46F17626F490021A0BA /* WLPageViewController-Info.plist */,
+				C952C47017626F490021A0BA /* InfoPlist.strings */,
+				C952C47317626F490021A0BA /* main.m */,
+				C952C47517626F490021A0BA /* WLPageViewController-Prefix.pch */,
+				C952C47917626F490021A0BA /* Default.png */,
+				C952C47B17626F490021A0BA /* Default@2x.png */,
+				C952C47D17626F490021A0BA /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C952C48417626F4E0021A0BA /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				C952C47617626F490021A0BA /* AppDelegate.h */,
+				C952C47717626F490021A0BA /* AppDelegate.m */,
+				C952C48D1762709C0021A0BA /* PageViewController.h */,
+				C952C48E1762709C0021A0BA /* PageViewController.m */,
+				C952C48F1762709C0021A0BA /* DataViewController.h */,
+				C952C4901762709C0021A0BA /* DataViewController.m */,
+				C952C4911762709C0021A0BA /* ModelController.h */,
+				C952C4921762709C0021A0BA /* ModelController.m */,
+				C952C4931762709C0021A0BA /* PageViewController.xib */,
+				C952C4941762709C0021A0BA /* DataViewController.xib */,
+				C952C46E17626F490021A0BA /* Supporting Files */,
+			);
+			name = Demo;
+			path = WLPageViewController;
+			sourceTree = "<group>";
+		};
+		C952C48C17626FD60021A0BA /* Dependence */ = {
+			isa = PBXGroup;
+			children = (
+				C9F06006177A4F7900978AF2 /* WLContainerControllers */,
+			);
+			name = Dependence;
+			sourceTree = "<group>";
+		};
+		C9F06006177A4F7900978AF2 /* WLContainerControllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = WLContainerControllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C952C46317626F490021A0BA /* WLPageViewController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C952C48117626F490021A0BA /* Build configuration list for PBXNativeTarget "WLPageViewController" */;
+			buildPhases = (
+				C952C46017626F490021A0BA /* Sources */,
+				C952C46117626F490021A0BA /* Frameworks */,
+				C952C46217626F490021A0BA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WLPageViewController;
+			productName = WLPageViewController;
+			productReference = C952C46417626F490021A0BA /* WLPageViewController.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C952C45C17626F490021A0BA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = Moke;
+			};
+			buildConfigurationList = C952C45F17626F490021A0BA /* Build configuration list for PBXProject "WLPageViewController" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C952C45B17626F490021A0BA;
+			productRefGroup = C952C46517626F490021A0BA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C952C46317626F490021A0BA /* WLPageViewController */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C952C46217626F490021A0BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C952C47217626F490021A0BA /* InfoPlist.strings in Resources */,
+				C952C47A17626F490021A0BA /* Default.png in Resources */,
+				C952C47C17626F490021A0BA /* Default@2x.png in Resources */,
+				C952C47E17626F490021A0BA /* Default-568h@2x.png in Resources */,
+				C952C4981762709C0021A0BA /* PageViewController.xib in Resources */,
+				C952C4991762709C0021A0BA /* DataViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C952C46017626F490021A0BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C952C47417626F490021A0BA /* main.m in Sources */,
+				C952C47817626F490021A0BA /* AppDelegate.m in Sources */,
+				C952C48717626F620021A0BA /* WLPageViewController.m in Sources */,
+				C952C4951762709C0021A0BA /* PageViewController.m in Sources */,
+				C952C4961762709C0021A0BA /* DataViewController.m in Sources */,
+				C952C4971762709C0021A0BA /* ModelController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C952C47017626F490021A0BA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C952C47117626F490021A0BA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C952C47F17626F490021A0BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Wno-unused-parameter",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C952C48017626F490021A0BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Wno-unused-parameter",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C952C48217626F490021A0BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WLPageViewController/WLPageViewController-Prefix.pch";
+				INFOPLIST_FILE = "WLPageViewController/WLPageViewController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C952C48317626F490021A0BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WLPageViewController/WLPageViewController-Prefix.pch";
+				INFOPLIST_FILE = "WLPageViewController/WLPageViewController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C952C45F17626F490021A0BA /* Build configuration list for PBXProject "WLPageViewController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C952C47F17626F490021A0BA /* Debug */,
+				C952C48017626F490021A0BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C952C48117626F490021A0BA /* Build configuration list for PBXNativeTarget "WLPageViewController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C952C48217626F490021A0BA /* Debug */,
+				C952C48317626F490021A0BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C952C45C17626F490021A0BA /* Project object */;
+}
