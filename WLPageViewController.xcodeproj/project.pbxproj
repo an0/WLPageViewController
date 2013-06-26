@@ -23,6 +23,7 @@
 		C952C4981762709C0021A0BA /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C952C4931762709C0021A0BA /* PageViewController.xib */; };
 		C952C4991762709C0021A0BA /* DataViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C952C4941762709C0021A0BA /* DataViewController.xib */; };
 		C952C4D417629FFB0021A0BA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952C4D317629FFB0021A0BA /* QuartzCore.framework */; };
+		C98F5E18177B39C2006044A1 /* WLContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C98F5E15177B39C2006044A1 /* WLContainerController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,10 @@
 		C952C4931762709C0021A0BA /* PageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageViewController.xib; sourceTree = "<group>"; };
 		C952C4941762709C0021A0BA /* DataViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataViewController.xib; sourceTree = "<group>"; };
 		C952C4D317629FFB0021A0BA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C98F5E14177B39C2006044A1 /* WLContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLContainerController.h; path = WLContainerControllers/WLContainerControllers/WLContainerController.h; sourceTree = SOURCE_ROOT; };
+		C98F5E15177B39C2006044A1 /* WLContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLContainerController.m; path = WLContainerControllers/WLContainerControllers/WLContainerController.m; sourceTree = SOURCE_ROOT; };
+		C98F5E1A177B3C29006044A1 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		C98F5E1B177B3C29006044A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +104,8 @@
 		C952C46D17626F490021A0BA /* WLPageViewController */ = {
 			isa = PBXGroup;
 			children = (
+				C98F5E1B177B3C29006044A1 /* README.md */,
+				C98F5E1A177B3C29006044A1 /* LICENSE */,
 				C952C48C17626FD60021A0BA /* Dependence */,
 				C952C48517626F620021A0BA /* WLPageViewController.h */,
 				C952C48617626F620021A0BA /* WLPageViewController.m */,
@@ -150,6 +157,8 @@
 		C9F06006177A4F7900978AF2 /* WLContainerControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C98F5E14177B39C2006044A1 /* WLContainerController.h */,
+				C98F5E15177B39C2006044A1 /* WLContainerController.m */,
 			);
 			name = WLContainerControllers;
 			sourceTree = "<group>";
@@ -224,6 +233,7 @@
 				C952C47417626F490021A0BA /* main.m in Sources */,
 				C952C47817626F490021A0BA /* AppDelegate.m in Sources */,
 				C952C48717626F620021A0BA /* WLPageViewController.m in Sources */,
+				C98F5E18177B39C2006044A1 /* WLContainerController.m in Sources */,
 				C952C4951762709C0021A0BA /* PageViewController.m in Sources */,
 				C952C4961762709C0021A0BA /* DataViewController.m in Sources */,
 				C952C4971762709C0021A0BA /* ModelController.m in Sources */,
