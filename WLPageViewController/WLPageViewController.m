@@ -290,15 +290,15 @@
 		subTitleView.frame = titleViewBounds;
 	} else {
 		UILabel *titleLabel = [[UILabel alloc] initWithFrame:titleViewBounds];
-		UIFont *font = [_titleTextAttributes objectForKey:UITextAttributeFont];
+		UIFont *font = _titleTextAttributes[UITextAttributeFont];
 		if (!font) font = [UIFont boldSystemFontOfSize:20];
 		titleLabel.font = font;
-		UIColor *textColor = [_titleTextAttributes objectForKey:UITextAttributeTextColor];
+		UIColor *textColor = _titleTextAttributes[UITextAttributeTextColor];
 		if (!textColor) textColor = [UIColor whiteColor];
 		titleLabel.textColor = textColor;
-		UIColor *shadowColor= [_titleTextAttributes objectForKey:UITextAttributeTextShadowColor];
+		UIColor *shadowColor= _titleTextAttributes[UITextAttributeTextShadowColor];
 		if (shadowColor) titleLabel.shadowColor = shadowColor;
-		NSValue *shadowOffset = [_titleTextAttributes objectForKey:UITextAttributeTextShadowOffset];
+		NSValue *shadowOffset = _titleTextAttributes[UITextAttributeTextShadowOffset];
 		if (shadowOffset) titleLabel.shadowOffset = [shadowOffset CGSizeValue];
 		titleLabel.text = viewController.navigationItem.title;
 		titleLabel.textAlignment = NSTextAlignmentCenter;

@@ -47,7 +47,7 @@
     
     // Create a new view controller and pass suitable data.
     DataViewController *dataViewController = [[DataViewController alloc] initWithNibName:@"DataViewController" bundle:nil];
-    dataViewController.dataObject = [self.pageData objectAtIndex:index];
+    dataViewController.dataObject = (self.pageData)[index];
     return dataViewController;
 }
 
