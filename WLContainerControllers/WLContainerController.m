@@ -210,7 +210,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if (object == _contentController) {
-		id value = [change objectForKey:NSKeyValueChangeNewKey];
+		id value = change[NSKeyValueChangeNewKey];
 		if (value == [NSNull null]) {
 			value = nil;
 		}
