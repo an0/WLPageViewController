@@ -101,7 +101,7 @@
 			index = 0;
 		}
 	}
-	controllerToSelect = [viewControllers objectAtIndex:index];
+	controllerToSelect = viewControllers[index];
 	
 	// Must update the view controller array before the assignment of selected view controller because of the precondition that the selected view controller must be element of the view contronller array.
 	_viewControllers = [viewControllers mutableCopy];
@@ -110,7 +110,7 @@
 }
 
 - (BOOL)replaceViewControllerAtIndex:(NSUInteger)index withViewController:(UIViewController *)newViewController {
-	UIViewController *viewController = [_viewControllers objectAtIndex:index];
+	UIViewController *viewController = _viewControllers[index];
 	if (viewController == newViewController) return NO;
 	
 	[viewController willMoveToParentViewController:nil];
@@ -119,7 +119,7 @@
 	[self addChildViewController:newViewController];
 	[newViewController didMoveToParentViewController:self];
 	
-	[_viewControllers replaceObjectAtIndex:index withObject:newViewController];
+	_viewControllers[index] = newViewController;
 	
 	// Update the selected view controller if viewController is currently selected.
 	if (self.selectedViewController == viewController) {
@@ -132,8 +132,8 @@
 - (BOOL)exchangeViewControllerAtIndex:(NSUInteger)index1 withViewControllerAtIndex:(NSUInteger)index2 {
 	if (index1 == index2) return NO;
 	
-	UIViewController *viewController1 = [_viewControllers objectAtIndex:index1];
-	UIViewController *viewController2 = [_viewControllers objectAtIndex:index2];
+	UIViewController *viewController1 = _viewControllers[index1];
+	UIViewController *viewController2 = _viewControllers[index2];
 	UIViewController *selectedViewController = self.selectedViewController;
 	[_viewControllers exchangeObjectAtIndex:index1 withObjectAtIndex:index2];
 	if (selectedViewController == viewController1) {
@@ -174,7 +174,7 @@
 }
 
 - (void)setSelectedIndex:(NSUInteger)index {	
-	self.selectedViewController = [_viewControllers objectAtIndex:index];
+	self.selectedViewController = _viewControllers[index];
 }
 
 
