@@ -11,7 +11,7 @@
 
 #define kPagingAnimationDuration 0.4
 
-@interface WLPageViewController () {
+@interface WLPageViewController () <UIGestureRecognizerDelegate> {
 @private
 	UITapGestureRecognizer *_tapGestureRecognizer;
 	UIViewController *_nextViewController;
@@ -58,6 +58,7 @@
 	
 	// Pan gesture recognizer.
 	UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+    panGestureRecognizer.delegate = self;
 	[self.view addGestureRecognizer:panGestureRecognizer];
 	
 	// Tap gesture recognizer.
@@ -313,6 +314,11 @@
 
 
 #pragma mark - Paging
+
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
+    CGPoint velocity = [gestureRecognizer velocityInView:gestureRecognizer.view];
+    return fabs(velocity.x) > 3 * fabs(velocity.y);
+}
 
 - (IBAction)pan:(UIPanGestureRecognizer *)gestureRecognizer {
 	_isTransitioningContentView = YES;
