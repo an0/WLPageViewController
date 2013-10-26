@@ -28,14 +28,6 @@
 	[self unregisterKVOForToolbar];
 }
 
-- (void)didReceiveMemoryWarning {
-	if (self.isViewLoaded && self.view.window == nil) {
-		self.toolbarItems = nil;
-		self.view = nil;
-	}
-	[super didReceiveMemoryWarning];
-}
-
 - (void)unregisterKVOForNavigationBar {
 	if (_observesTitle) {
 		[_contentController removeObserver:self forKeyPath:@"title"];
