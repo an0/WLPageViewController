@@ -76,13 +76,6 @@
 
 - (void)didReceiveMemoryWarning {
 	[self unloadInvisiblePages];
-	if (self.isViewLoaded && self.view.window == nil) {
-		_titleView = nil;
-		_previousTitleView = nil;
-		_nextTitleView = nil;
-		_ppreviousTitleView = nil;
-		_nnextTitleView = nil;
-	}
 	[super didReceiveMemoryWarning];
 }
 
