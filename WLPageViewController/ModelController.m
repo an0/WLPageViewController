@@ -25,8 +25,6 @@
 
 @implementation ModelController
 
-@synthesize pageData = _pageData;
-
 - (id)init
 {
     self = [super init];

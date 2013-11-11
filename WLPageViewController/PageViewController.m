@@ -18,23 +18,14 @@
 
 @implementation PageViewController
 
-@synthesize pageViewController = _pageViewController;
 @synthesize modelController = _modelController;
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Configure the page view controller and add it as a child view controller.
 	DataViewController *startingViewController = [self.modelController viewControllerAtIndex:0];
-	self.pageViewController = [[WLPageViewController alloc] initWithViewController:startingViewController];
+	self.pageViewController = [[WLPageViewController alloc] initWithViewController:startingViewController pageSpacing:80];
 //	self.pageViewController.enableTapPageTurning = YES;
 	self.pageViewController.dataSource = self.modelController;
 	self.pageViewController.delegate = self;

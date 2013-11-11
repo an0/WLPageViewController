@@ -26,25 +26,21 @@
 	BOOL _arePagingAnimationsCancelled;
 	NSUInteger _pagingAnimationCount;
 }
-- (IBAction)pan:(UIPanGestureRecognizer *)gestureRecognizer;
-- (IBAction)turnPage:(UITapGestureRecognizer *)gestureRecognizer;
+- (void)pan:(UIPanGestureRecognizer *)gestureRecognizer;
+- (void)turnPage:(UITapGestureRecognizer *)gestureRecognizer;
 @end
-
-
-
 
 @implementation WLPageViewController
 
-@synthesize dataSource = _dataSource;
-@synthesize delegate = _delegate;
-@synthesize enableTapPageTurning = _enableTapPageTurning;
-@synthesize titleTextAttributes = _titleTextAttributes;
-
-
 - (id)initWithViewController:(UIViewController *)viewController {
-	self = [super init];
+	return [self initWithViewController:viewController pageSpacing:0];
+}
+
+- (id)initWithViewController:(UIViewController *)viewController pageSpacing:(CGFloat)pageSpacing {
+    self = [super init];
 	if (self) {
 		self.contentController = viewController;
+        _pageSpacing = pageSpacing;
 	}
 	return self;
 }
@@ -118,7 +114,7 @@
 		[self addChildViewController:previousViewController];
 	}
 	CGRect previousFrame = _contentController.view.frame;
-	previousFrame.origin.x -= self.view.bounds.size.width;
+	previousFrame.origin.x -= _pageSpacing + self.view.bounds.size.width;
 	previousViewController.view.frame = previousFrame;
 	[self.view addSubview:previousViewController.view];
 	if (isNewlyAdded) {
@@ -143,7 +139,7 @@
 		[self addChildViewController:nextViewController];
 	}
 	CGRect nextFrame = _contentController.view.frame;
-	nextFrame.origin.x += self.view.bounds.size.width;
+	nextFrame.origin.x += _pageSpacing + self.view.bounds.size.width;
 	nextViewController.view.frame = nextFrame;
 	[self.view addSubview:nextViewController.view];
 	if (isNewlyAdded) {
@@ -168,7 +164,7 @@
 		[self addChildViewController:ppreviousViewController];
 	}
 	CGRect previousFrame = _previousViewController.view.frame;
-	previousFrame.origin.x -= self.view.bounds.size.width;
+	previousFrame.origin.x -= _pageSpacing + self.view.bounds.size.width;
 	ppreviousViewController.view.frame = previousFrame;
 	[self.view addSubview:ppreviousViewController.view];
 	if (isNewlyAdded) {
@@ -193,7 +189,7 @@
 		[self addChildViewController:nnextViewController];
 	}
 	CGRect nextFrame = _nextViewController.view.frame;
-	nextFrame.origin.x += self.view.bounds.size.width;
+	nextFrame.origin.x += _pageSpacing + self.view.bounds.size.width;
 	nnextViewController.view.frame = nextFrame;
 	[self.view addSubview:nnextViewController.view];
 	if (isNewlyAdded) {
@@ -248,23 +244,20 @@
 - (void)layoutContentView:(UIView *)contentView {
 	[super layoutContentView:contentView];
 	// Maintain the invariant relationships among previous view, content view and next view.
-	CGFloat pageWidth = self.view.bounds.size.width;
+    CGFloat pageDistance = _pageSpacing + self.view.bounds.size.width;
 	if (_previousViewController) {
-		_previousViewController.view.frame = CGRectOffset(_contentController.view.frame, -pageWidth, 0.f);
+		_previousViewController.view.frame = CGRectOffset(_contentController.view.frame, -pageDistance, 0.f);
 	}
 	if (_nextViewController) {
-		_nextViewController.view.frame = CGRectOffset(_contentController.view.frame, pageWidth, 0.f);
+		_nextViewController.view.frame = CGRectOffset(_contentController.view.frame, pageDistance, 0.f);
 	}
 	if (_ppreviousViewController) {
-		_ppreviousViewController.view.frame = CGRectOffset(_previousViewController.view.frame, -pageWidth, 0.f);
+		_ppreviousViewController.view.frame = CGRectOffset(_previousViewController.view.frame, -pageDistance, 0.f);
 	}
 	if (_nnextViewController) {
-		_nnextViewController.view.frame = CGRectOffset(_nextViewController.view.frame, pageWidth, 0.f);
+		_nnextViewController.view.frame = CGRectOffset(_nextViewController.view.frame, pageDistance, 0.f);
 	}
 }
-
-
-
 
 #pragma mark - Configuration
 
@@ -272,7 +265,6 @@
 	_enableTapPageTurning = enableTapPageTurning;
 	_tapGestureRecognizer.enabled = _enableTapPageTurning;
 }
-
 
 #pragma mark - Navigation bar and toolbar configuration
 
@@ -303,9 +295,6 @@
 	return subTitleView;
 }
 
-
-
-
 #pragma mark - Paging
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
@@ -313,14 +302,14 @@
     return fabs(velocity.x) > 3 * fabs(velocity.y);
 }
 
-- (IBAction)pan:(UIPanGestureRecognizer *)gestureRecognizer {
+- (void)pan:(UIPanGestureRecognizer *)gestureRecognizer {
 	_isTransitioningContentView = YES;
 
 	const CGRect bounds = self.view.bounds;
 	CGPoint translation = [gestureRecognizer translationInView:self.view];
 	const CGPoint boundsCenter = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
 	CGPoint center = _contentController.view.center;
-	const CGFloat pageWidth = bounds.size.width;
+    CGFloat pageDistance = _pageSpacing + bounds.size.width;
 
 	if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
 		[CATransaction setDisableActions:YES];
@@ -330,25 +319,25 @@
 		}
 		if ([_previousViewController.view.layer animationForKey:@"position.x"]) {
 			CGPoint position = _contentController.view.layer.position;
-			position.x -= pageWidth;
+			position.x -= pageDistance;
 			_previousViewController.view.layer.position = position;
 			[_previousViewController.view.layer removeAnimationForKey:@"position.x"];
 		}
 		if ([_ppreviousViewController.view.layer animationForKey:@"position.x"]) {
-			CGPoint position = _ppreviousViewController.view.layer.position;
-			position.x -= pageWidth;
+			CGPoint position = _contentController.view.layer.position;
+			position.x -= 2 * pageDistance;
 			_ppreviousViewController.view.layer.position = position;
 			[_ppreviousViewController.view.layer removeAnimationForKey:@"position.x"];
 		}
 		if ([_nextViewController.view.layer animationForKey:@"position.x"]) {
 			CGPoint position = _contentController.view.layer.position;
-			position.x += pageWidth;
+			position.x += pageDistance;
 			_nextViewController.view.layer.position = position;
 			[_nextViewController.view.layer removeAnimationForKey:@"position.x"];
 		}
 		if ([_nnextViewController.view.layer animationForKey:@"position.x"]) {
-			CGPoint position = _nnextViewController.view.layer.position;
-			position.x += pageWidth;
+			CGPoint position = _contentController.view.layer.position;
+			position.x += 2 * pageDistance;
 			_nnextViewController.view.layer.position = position;
 			[_nnextViewController.view.layer removeAnimationForKey:@"position.x"];
 		}
@@ -399,7 +388,7 @@
 			}
 			// Title transition.
 			if (_nextViewController) {
-				_titleView.alpha = 1 - fabsf(pageOffset) / pageWidth;
+				_titleView.alpha = 1 - fabsf(pageOffset) / pageDistance;
 				_nextTitleView.alpha = 1 - _titleView.alpha;
 			}
 		} else if (center.x > boundsCenter.x) {
@@ -408,17 +397,17 @@
 			}
 			// Title transition.
 			if (_previousViewController) {
-				_titleView.alpha = 1 - fabsf(pageOffset) / pageWidth;
+				_titleView.alpha = 1 - fabsf(pageOffset) / pageDistance;
 				_previousTitleView.alpha = 1 - _titleView.alpha;
 			}
 		}
 		
 		_contentController.view.center = center;
 		CGPoint previousViewCenter = center;
-		previousViewCenter.x -= pageWidth;
+		previousViewCenter.x -= pageDistance;
 		_previousViewController.view.center = previousViewCenter;
 		CGPoint nextViewCenter = center;
-		nextViewCenter.x += pageWidth;
+		nextViewCenter.x += pageDistance;
 		_nextViewController.view.center = nextViewCenter;
 
 		// Reset translation: I'm use incremental translation not accumulative translation.
@@ -449,14 +438,14 @@
 
 		BOOL turnToPreviousPage = NO;
 		BOOL turnToNextPage = NO;
-		if (x_max >= 0.5 * pageWidth || velocity.x > 40.f) {
+		if (x_max >= 0.5 * pageDistance || velocity.x > 40.f) {
 			if (_previousViewController == nil) {
 				_previousViewController = [self loadPreviousPage];
 			}
 			if (_previousViewController) {
 				turnToPreviousPage = YES;
 			}
-		} else if (x_max <= -0.5 * pageWidth || velocity.x < -40.f) {
+		} else if (x_max <= -0.5 * pageDistance || velocity.x < -40.f) {
 			if (_nextViewController == nil) {
 				_nextViewController = [self loadNextPage];
 			}
@@ -469,7 +458,7 @@
 			// Turn to previous page.
 			CGPoint previousViewCenter = _previousViewController.view.center;
 			CGPoint newPreviousViewCenter = boundsCenter;
-			CGPoint newCenter = CGPointMake(newPreviousViewCenter.x + pageWidth, newPreviousViewCenter.y);
+			CGPoint newCenter = CGPointMake(newPreviousViewCenter.x + pageDistance, newPreviousViewCenter.y);
 
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:kPagingAnimationDuration];
@@ -550,7 +539,7 @@
 			titleAnimation.timingFunction = pageAnimation.timingFunction;
 			NSMutableArray *titleAnimationValues = [NSMutableArray arrayWithCapacity:steps];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -580,7 +569,7 @@
 
 			[titleAnimationValues removeAllObjects];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -591,7 +580,7 @@
 			[CATransaction setDisableActions:NO];
 
 			if (_ppreviousViewController) {
-				CGPoint newPPreviousViewCenter = CGPointMake(newPreviousViewCenter.x - pageWidth, newPreviousViewCenter.y);
+				CGPoint newPPreviousViewCenter = CGPointMake(newPreviousViewCenter.x - pageDistance, newPreviousViewCenter.y);
 				[pageAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
 					CGFloat t = 0.1f * step;
@@ -611,7 +600,7 @@
 
 				[titleAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
-					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 					[titleAnimationValues addObject:@(value)];
 				}
 				titleAnimation.values = titleAnimationValues;
@@ -625,7 +614,7 @@
 			// Next view.
 			if (_nextViewController) {
 				if (_nextViewController != _ppreviousViewController) {
-					CGPoint newNextViewCenter = CGPointMake(newCenter.x + pageWidth, newCenter.y);
+					CGPoint newNextViewCenter = CGPointMake(newCenter.x + pageDistance, newCenter.y);
 					[pageAnimationValues removeAllObjects];
 					for (NSUInteger step = 0; step < steps; ++step) {
 						CGFloat t = 0.1f * step;
@@ -647,7 +636,7 @@
 				if (_nextTitleView != _ppreviousTitleView) {
 					[titleAnimationValues removeAllObjects];
 					for (NSUInteger step = 0; step < steps; ++step) {
-						value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+						value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 						[titleAnimationValues addObject:@(value)];
 					}
 					titleAnimation.values = titleAnimationValues;
@@ -664,7 +653,7 @@
 			// Turn to next page.
 			CGPoint nextViewCenter = _nextViewController.view.center;
 			CGPoint newNextViewCenter = boundsCenter;
-			CGPoint newCenter = CGPointMake(newNextViewCenter.x - pageWidth, newNextViewCenter.y);
+			CGPoint newCenter = CGPointMake(newNextViewCenter.x - pageDistance, newNextViewCenter.y);
 
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:kPagingAnimationDuration];
@@ -745,7 +734,7 @@
 			titleAnimation.timingFunction = pageAnimation.timingFunction;
 			NSMutableArray *titleAnimationValues = [NSMutableArray arrayWithCapacity:steps];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -758,7 +747,7 @@
 			// Previous view.
 			if (_previousViewController) {
 				if (_previousViewController != _nnextViewController) {
-					CGPoint newPreviousViewCenter = CGPointMake(newCenter.x - pageWidth, newCenter.y);
+					CGPoint newPreviousViewCenter = CGPointMake(newCenter.x - pageDistance, newCenter.y);
 					[pageAnimationValues removeAllObjects];
 					for (NSUInteger step = 0; step < steps; ++step) {
 						CGFloat t = 0.1f * step;
@@ -780,7 +769,7 @@
 				if (_previousTitleView != _nnextTitleView) {
 					[titleAnimationValues removeAllObjects];
 					for (NSUInteger step = 0; step < steps; ++step) {
-						value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+						value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 						[titleAnimationValues addObject:@(value)];
 					}
 					titleAnimation.values = titleAnimationValues;
@@ -812,7 +801,7 @@
 
 			[titleAnimationValues removeAllObjects];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -823,7 +812,7 @@
 			[CATransaction setDisableActions:NO];
 
 			if (_nnextViewController) {
-				CGPoint newNNextViewCenter = CGPointMake(newNextViewCenter.x + pageWidth, newNextViewCenter.y);
+				CGPoint newNNextViewCenter = CGPointMake(newNextViewCenter.x + pageDistance, newNextViewCenter.y);
 				[pageAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
 					CGFloat t = 0.1f * step;
@@ -843,7 +832,7 @@
 
 				[titleAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
-					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 					[titleAnimationValues addObject:@(value)];
 				}
 				titleAnimation.values = titleAnimationValues;
@@ -896,7 +885,7 @@
 			titleAnimation.timingFunction = pageAnimation.timingFunction;
 			NSMutableArray *titleAnimationValues = [NSMutableArray arrayWithCapacity:steps];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -908,7 +897,7 @@
 
 			// Previous view.
 			if (_previousViewController) {
-				CGPoint previousViewCenter = CGPointMake(boundsCenter.x - pageWidth, boundsCenter.y);
+				CGPoint previousViewCenter = CGPointMake(boundsCenter.x - pageDistance, boundsCenter.y);
 				[pageAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
 					CGFloat t = 0.1f * step;
@@ -924,7 +913,7 @@
 				
 				[titleAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
-					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 					[titleAnimationValues addObject:@(value)];
 				}
 				titleAnimation.values = titleAnimationValues;
@@ -937,7 +926,7 @@
 
 			// Next view.
 			if (_nextViewController) {
-				CGPoint nextViewCenter = CGPointMake(boundsCenter.x + pageWidth, boundsCenter.y);
+				CGPoint nextViewCenter = CGPointMake(boundsCenter.x + pageDistance, boundsCenter.y);
 				[pageAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
 					CGFloat t = 0.1f * step;
@@ -953,7 +942,7 @@
 
 				[titleAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
-					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageWidth;
+					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 					[titleAnimationValues addObject:@(value)];
 				}
 				titleAnimation.values = titleAnimationValues;
@@ -969,7 +958,7 @@
 	}
 }
 
-- (IBAction)turnPage:(UITapGestureRecognizer *)gestureRecognizer
+- (void)turnPage:(UITapGestureRecognizer *)gestureRecognizer
 {
 	if (_pagingAnimationCount > 0) return;
 

@@ -16,6 +16,7 @@
 
 #pragma mark Creating Page View Controllers
 - (id)initWithViewController:(UIViewController *)viewController;
+- (id)initWithViewController:(UIViewController *)viewController pageSpacing:(CGFloat)pageSpacing;
 - (void)turnForward;
 - (void)turnBackward;
 
@@ -24,6 +25,7 @@
 
 #pragma mark Configuration
 @property(nonatomic, assign) BOOL enableTapPageTurning;
+@property(nonatomic, readonly) CGFloat pageSpacing;
 
 #pragma mark Customizing Appearance
 @property(nonatomic, copy) NSDictionary *titleTextAttributes;
