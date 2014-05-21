@@ -12,7 +12,6 @@
 #define kPagingAnimationDuration 0.4
 
 @interface WLPageViewController () <UIGestureRecognizerDelegate> {
-@private
 	UITapGestureRecognizer *_tapGestureRecognizer;
 	UIViewController *_nextViewController;
 	UIViewController *_previousViewController;
@@ -26,8 +25,6 @@
 	BOOL _arePagingAnimationsCancelled;
 	NSUInteger _pagingAnimationCount;
 }
-- (void)pan:(UIPanGestureRecognizer *)gestureRecognizer;
-- (void)turnPage:(UITapGestureRecognizer *)gestureRecognizer;
 @end
 
 @implementation WLPageViewController
@@ -44,7 +41,6 @@
 	}
 	return self;
 }
-
 
 #pragma mark - View lifecycle
 
@@ -63,10 +59,9 @@
 	[self.view addGestureRecognizer:_tapGestureRecognizer];	
 	
 	// Init navigation bar title view.
-	self.navigationItem.titleView = [[UIView alloc] init];
-	[_titleView removeFromSuperview];
+	self.navigationItem.titleView = [UIView new];
 	_titleView = [self setupSubTitleViewWith:_contentController];
-	self.navigationItem.titleView.bounds = _titleView.frame;
+	self.navigationItem.titleView.bounds = _titleView.bounds;
 	[self.navigationItem.titleView addSubview:_titleView];
 }
 
@@ -74,7 +69,6 @@
 	[self unloadInvisiblePages];
 	[super didReceiveMemoryWarning];
 }
-
 
 #pragma mark - Providing Content
 
@@ -276,23 +270,41 @@
 		subTitleView.frame = titleViewBounds;
 	} else {
 		UILabel *titleLabel = [[UILabel alloc] initWithFrame:titleViewBounds];
-		UIFont *font = _titleTextAttributes[UITextAttributeFont];
-		if (!font) font = [UIFont boldSystemFontOfSize:20];
-		titleLabel.font = font;
-		UIColor *textColor = _titleTextAttributes[UITextAttributeTextColor];
-		if (!textColor) textColor = [UIColor whiteColor];
-		titleLabel.textColor = textColor;
-		UIColor *shadowColor= _titleTextAttributes[UITextAttributeTextShadowColor];
-		if (shadowColor) titleLabel.shadowColor = shadowColor;
-		NSValue *shadowOffset = _titleTextAttributes[UITextAttributeTextShadowOffset];
-		if (shadowOffset) titleLabel.shadowOffset = [shadowOffset CGSizeValue];
-		titleLabel.text = viewController.navigationItem.title;
-		titleLabel.textAlignment = NSTextAlignmentCenter;
+		titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+		titleLabel.attributedText = [[NSAttributedString alloc] initWithString:viewController.navigationItem.title attributes:_titleTextAttributes];
 		titleLabel.backgroundColor = [UIColor clearColor];
 		subTitleView = titleLabel;
 	}
 	[subTitleView sizeToFit];
+    subTitleView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 	return subTitleView;
+}
+
+- (void)setTitleTextAttributes:(NSDictionary *)titleTextAttributes {
+    if ([_titleTextAttributes isEqual:titleTextAttributes]) return;
+    
+    _titleTextAttributes = [titleTextAttributes copy];
+    
+    if (_titleView != _contentController.navigationItem.titleView) {
+        ((UILabel *)_titleView).attributedText = [[NSAttributedString alloc] initWithString:_contentController.navigationItem.title attributes:_titleTextAttributes];
+    }
+    
+    if (_previousTitleView != _previousViewController.navigationItem.titleView) {
+        ((UILabel *)_previousTitleView).attributedText = [[NSAttributedString alloc] initWithString:_previousViewController.navigationItem.title attributes:_titleTextAttributes];
+    }
+
+    if (_nextTitleView != _nextViewController.navigationItem.titleView) {
+        ((UILabel *)_nextTitleView).attributedText = [[NSAttributedString alloc] initWithString:_nextViewController.navigationItem.title attributes:_titleTextAttributes];
+    }
+    
+    if (_ppreviousTitleView != _ppreviousViewController.navigationItem.titleView) {
+        ((UILabel *)_ppreviousTitleView).attributedText = [[NSAttributedString alloc] initWithString:_ppreviousViewController.navigationItem.title attributes:_titleTextAttributes];
+    }
+    
+    if (_nnextTitleView != _nnextViewController.navigationItem.titleView) {
+        ((UILabel *)_nnextTitleView).attributedText = [[NSAttributedString alloc] initWithString:_nnextViewController.navigationItem.title attributes:_titleTextAttributes];
+    }
 }
 
 #pragma mark - Paging
@@ -388,7 +400,7 @@
 			}
 			// Title transition.
 			if (_nextViewController) {
-				_titleView.alpha = 1 - fabsf(pageOffset) / pageDistance;
+				_titleView.alpha = 1 - fabs(pageOffset) / pageDistance;
 				_nextTitleView.alpha = 1 - _titleView.alpha;
 			}
 		} else if (center.x > boundsCenter.x) {
@@ -397,7 +409,7 @@
 			}
 			// Title transition.
 			if (_previousViewController) {
-				_titleView.alpha = 1 - fabsf(pageOffset) / pageDistance;
+				_titleView.alpha = 1 - fabs(pageOffset) / pageDistance;
 				_previousTitleView.alpha = 1 - _titleView.alpha;
 			}
 		}
@@ -417,7 +429,7 @@
 		// Elastic paging and bouncing modeled with damping.
 		CGFloat w_0 = 0.7f; // natural frequency
 		CGFloat zeta = 0.8f; // damping ratio for under-damping
-		CGFloat w_d = w_0 * sqrtf(1.f - zeta * zeta); // damped frequency
+		CGFloat w_d = w_0 * sqrt(1.f - zeta * zeta); // damped frequency
 		CGFloat x_0 = pageOffset;
 		
 		CGPoint velocity = [gestureRecognizer velocityInView:self.view];
@@ -433,7 +445,7 @@
 		CGFloat A = x_0;
 		CGFloat B = velocity.x + w_0 * x_0;
 		CGFloat t_max = 1 / w_0 - A / B;
-		CGFloat x_max = powf((CGFloat)M_E, -w_0 * t_max) * (A + B * t_max);
+		CGFloat x_max = pow(M_E, -w_0 * t_max) * (A + B * t_max);
 //		DLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
 
 		BOOL turnToPreviousPage = NO;
@@ -463,7 +475,7 @@
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:kPagingAnimationDuration];
 
-			// Equilibrium postion is differenct, initial replacement is different.
+			// Equilibrium postion is different, initial replacement is different.
 			x_0 = previousViewCenter.x - newPreviousViewCenter.x;
 
 			BOOL underDamping = NO;
@@ -472,8 +484,8 @@
 			// Limit x_max so that no more than 1 page is scrolled in one direction in one paging.
 			// When v_0 is large, x_max can be approximated by (v_0 / w_0 + x_0) / e.
 			const CGFloat X_MAX_LIMIT = 0;
-			const CGFloat VELOCITY_MAX_LIMIT = w_0 * (X_MAX_LIMIT * (CGFloat)M_E - x_0);
-			if (velocity.x > VELOCITY_MAX_LIMIT) {
+			const CGFloat CRITICAL_VELOCITY = w_0 * (X_MAX_LIMIT * M_E - x_0);
+			if (velocity.x > CRITICAL_VELOCITY) {
 				underDamping = YES;
 				velocity.x /= 1.5f;
 			}
@@ -489,16 +501,16 @@
 				B = (zeta * x_0 + velocity.x) / w_d;
 				CGFloat a = B * w_d - A * zeta * w_0;
 				CGFloat b = A * w_d + B * zeta * w_0;
-				CGFloat sin_max = sqrtf(a * a / (a * a + b * b));
+				CGFloat sin_max = sqrt(a * a / (a * a + b * b));
 				CGFloat theta_max;
 				if (a * b > 0) {
-					theta_max = asinf(sin_max);
+					theta_max = asin(sin_max);
 				} else {
-					theta_max = (CGFloat)M_PI - asinf(sin_max);
+					theta_max = M_PI - asin(sin_max);
 				}
 				t_max = theta_max / w_d;
 				if (t_max > 0.f) {
-					x_max = powf((CGFloat)M_E, -zeta * w_0 * t_max) * (A * cosf(w_d * t_max) + B * sinf(w_d * t_max));
+					x_max = pow(M_E, -zeta * w_0 * t_max) * (A * cos(w_d * t_max) + B * sin(w_d * t_max));
 //					DLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
 					if (x_max > 0.f) {
 						// Part of pre-previous view will be shown temporarily.
@@ -521,9 +533,9 @@
 			for (NSUInteger step = 0; step < steps; ++step) {
 				CGFloat t = 0.1f * step;
 				if (underDamping) {
-					value = powf((CGFloat)M_E, -zeta * w_0 * t) * (A * cosf(w_d * t) + B * sinf(w_d * t)) + newCenter.x;
+					value = pow(M_E, -zeta * w_0 * t) * (A * cos(w_d * t) + B * sin(w_d * t)) + newCenter.x;
 				} else {
-					value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + newCenter.x;
+					value = pow(M_E, -w_0 * t) * (A + B * t) + newCenter.x;
 				}
 				[pageAnimationValues addObject:@(value)];
 			}
@@ -539,7 +551,7 @@
 			titleAnimation.timingFunction = pageAnimation.timingFunction;
 			NSMutableArray *titleAnimationValues = [NSMutableArray arrayWithCapacity:steps];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+				value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -554,9 +566,9 @@
 			for (NSUInteger step = 0; step < steps; ++step) {
 				CGFloat t = 0.1f * step;
 				if (underDamping) {
-					value = powf((CGFloat)M_E, -zeta * w_0 * t) * (A * cosf(w_d * t) + B * sinf(w_d * t)) + newPreviousViewCenter.x;
+					value = pow(M_E, -zeta * w_0 * t) * (A * cos(w_d * t) + B * sin(w_d * t)) + newPreviousViewCenter.x;
 				} else {
-					value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + newPreviousViewCenter.x;
+					value = pow(M_E, -w_0 * t) * (A + B * t) + newPreviousViewCenter.x;
 				}
 				[pageAnimationValues addObject:@(value)];
 			}
@@ -569,7 +581,7 @@
 
 			[titleAnimationValues removeAllObjects];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+				value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -585,9 +597,9 @@
 				for (NSUInteger step = 0; step < steps; ++step) {
 					CGFloat t = 0.1f * step;
 					if (underDamping) {
-						value = powf((CGFloat)M_E, -zeta * w_0 * t) * (A * cosf(w_d * t) + B * sinf(w_d * t)) + newPPreviousViewCenter.x;
+						value = pow(M_E, -zeta * w_0 * t) * (A * cos(w_d * t) + B * sin(w_d * t)) + newPPreviousViewCenter.x;
 					} else {
-						value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + newPPreviousViewCenter.x;
+						value = pow(M_E, -w_0 * t) * (A + B * t) + newPPreviousViewCenter.x;
 					}
 					[pageAnimationValues addObject:@(value)];
 				}
@@ -600,7 +612,7 @@
 
 				[titleAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
-					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+					value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 					[titleAnimationValues addObject:@(value)];
 				}
 				titleAnimation.values = titleAnimationValues;
@@ -619,9 +631,9 @@
 					for (NSUInteger step = 0; step < steps; ++step) {
 						CGFloat t = 0.1f * step;
 						if (underDamping) {
-							value = powf((CGFloat)M_E, -zeta * w_0 * t) * (A * cosf(w_d * t) + B * sinf(w_d * t)) + newNextViewCenter.x;
+							value = pow(M_E, -zeta * w_0 * t) * (A * cos(w_d * t) + B * sin(w_d * t)) + newNextViewCenter.x;
 						} else {
-							value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + newNextViewCenter.x;
+							value = pow(M_E, -w_0 * t) * (A + B * t) + newNextViewCenter.x;
 						}
 						[pageAnimationValues addObject:@(value)];
 					}
@@ -636,7 +648,7 @@
 				if (_nextTitleView != _ppreviousTitleView) {
 					[titleAnimationValues removeAllObjects];
 					for (NSUInteger step = 0; step < steps; ++step) {
-						value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+						value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 						[titleAnimationValues addObject:@(value)];
 					}
 					titleAnimation.values = titleAnimationValues;
@@ -658,7 +670,7 @@
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:kPagingAnimationDuration];
 
-			// Equilibrium postion is differenct, initial replacement is different.
+			// Equilibrium postion is different, initial replacement is different.
 			x_0 = nextViewCenter.x - newNextViewCenter.x;
 
 			BOOL underDamping = NO;
@@ -667,7 +679,7 @@
 			// Limit x_max so that no more than 1 page is scrolled in one direction in one paging.
 			// When v_0 is large, x_max can be approximated by (v_0 / w_0 + x_0) / e.
 			const CGFloat X_MIN_LIMIT = 0;
-			const CGFloat VELOCITY_MIN_LIMIT = w_0 * (X_MIN_LIMIT * (CGFloat)M_E - x_0);
+			const CGFloat VELOCITY_MIN_LIMIT = w_0 * (X_MIN_LIMIT * M_E - x_0);
 			if (velocity.x < VELOCITY_MIN_LIMIT) {
 				underDamping = YES;
 				velocity.x /= 1.5f;
@@ -684,16 +696,16 @@
 				B = (zeta * x_0 + velocity.x) / w_d;
 				CGFloat a = B * w_d - A * zeta * w_0;
 				CGFloat b = A * w_d + B * zeta * w_0;
-				CGFloat sin_max = sqrtf(a * a / (a * a + b * b));
+				CGFloat sin_max = sqrt(a * a / (a * a + b * b));
 				CGFloat theta_max;
 				if (a * b > 0) {
-					theta_max = asinf(sin_max);
+					theta_max = asin(sin_max);
 				} else {
-					theta_max = (CGFloat)M_PI - asinf(sin_max);
+					theta_max = M_PI - asin(sin_max);
 				}
 				t_max = theta_max / w_d;
 				if (t_max > 0.f) {
-					x_max = powf((CGFloat)M_E, -zeta * w_0 * t_max) * (A * cosf(w_d * t_max) + B * sinf(w_d * t_max));
+					x_max = pow(M_E, -zeta * w_0 * t_max) * (A * cos(w_d * t_max) + B * sin(w_d * t_max));
 //					DLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
 					if (x_max < 0.f) {
 						// Part of next-next view will be shown temporarily.
@@ -716,9 +728,9 @@
 			for (NSUInteger step = 0; step < steps; ++step) {
 				CGFloat t = 0.1f * step;
 				if (underDamping) {
-					value = powf((CGFloat)M_E, -zeta * w_0 * t) * (A * cosf(w_d * t) + B * sinf(w_d * t)) + newCenter.x;
+					value = pow(M_E, -zeta * w_0 * t) * (A * cos(w_d * t) + B * sin(w_d * t)) + newCenter.x;
 				} else {
-					value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + newCenter.x;
+					value = pow(M_E, -w_0 * t) * (A + B * t) + newCenter.x;
 				}
 				[pageAnimationValues addObject:@(value)];
 			}
@@ -734,7 +746,7 @@
 			titleAnimation.timingFunction = pageAnimation.timingFunction;
 			NSMutableArray *titleAnimationValues = [NSMutableArray arrayWithCapacity:steps];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+				value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -752,9 +764,9 @@
 					for (NSUInteger step = 0; step < steps; ++step) {
 						CGFloat t = 0.1f * step;
 						if (underDamping) {
-							value = powf((CGFloat)M_E, -zeta * w_0 * t) * (A * cosf(w_d * t) + B * sinf(w_d * t)) + newPreviousViewCenter.x;
+							value = pow(M_E, -zeta * w_0 * t) * (A * cos(w_d * t) + B * sin(w_d * t)) + newPreviousViewCenter.x;
 						} else {
-							value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + newPreviousViewCenter.x;
+							value = pow(M_E, -w_0 * t) * (A + B * t) + newPreviousViewCenter.x;
 						}
 						[pageAnimationValues addObject:@(value)];
 					}
@@ -769,7 +781,7 @@
 				if (_previousTitleView != _nnextTitleView) {
 					[titleAnimationValues removeAllObjects];
 					for (NSUInteger step = 0; step < steps; ++step) {
-						value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+						value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 						[titleAnimationValues addObject:@(value)];
 					}
 					titleAnimation.values = titleAnimationValues;
@@ -786,9 +798,9 @@
 			for (NSUInteger step = 0; step < steps; ++step) {
 				CGFloat t = 0.1f * step;
 				if (underDamping) {
-					value = powf((CGFloat)M_E, -zeta * w_0 * t) * (A * cosf(w_d * t) + B * sinf(w_d * t)) + newNextViewCenter.x;
+					value = pow(M_E, -zeta * w_0 * t) * (A * cos(w_d * t) + B * sin(w_d * t)) + newNextViewCenter.x;
 				} else {
-					value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + newNextViewCenter.x;
+					value = pow(M_E, -w_0 * t) * (A + B * t) + newNextViewCenter.x;
 				}
 				[pageAnimationValues addObject:@(value)];
 			}
@@ -801,7 +813,7 @@
 
 			[titleAnimationValues removeAllObjects];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+				value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -817,9 +829,9 @@
 				for (NSUInteger step = 0; step < steps; ++step) {
 					CGFloat t = 0.1f * step;
 					if (underDamping) {
-						value = powf((CGFloat)M_E, -zeta * w_0 * t) * (A * cosf(w_d * t) + B * sinf(w_d * t)) + newNNextViewCenter.x;
+						value = pow(M_E, -zeta * w_0 * t) * (A * cos(w_d * t) + B * sin(w_d * t)) + newNNextViewCenter.x;
 					} else {
-						value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + newNNextViewCenter.x;
+						value = pow(M_E, -w_0 * t) * (A + B * t) + newNNextViewCenter.x;
 					}
 					[pageAnimationValues addObject:@(value)];
 				}
@@ -832,7 +844,7 @@
 
 				[titleAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
-					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+					value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 					[titleAnimationValues addObject:@(value)];
 				}
 				titleAnimation.values = titleAnimationValues;
@@ -870,7 +882,7 @@
 			CGFloat value;
 			for (NSUInteger step = 0; step < steps; ++step) {
 				CGFloat t = 0.1f * step;
-				value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + boundsCenter.x;
+				value = pow(M_E, -w_0 * t) * (A + B * t) + boundsCenter.x;
 				[pageAnimationValues addObject:@(value)];
 			}
 			pageAnimation.values = pageAnimationValues;
@@ -885,7 +897,7 @@
 			titleAnimation.timingFunction = pageAnimation.timingFunction;
 			NSMutableArray *titleAnimationValues = [NSMutableArray arrayWithCapacity:steps];
 			for (NSUInteger step = 0; step < steps; ++step) {
-				value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+				value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 				[titleAnimationValues addObject:@(value)];
 			}
 			titleAnimation.values = titleAnimationValues;
@@ -901,7 +913,7 @@
 				[pageAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
 					CGFloat t = 0.1f * step;
-					value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + previousViewCenter.x;
+					value = pow(M_E, -w_0 * t) * (A + B * t) + previousViewCenter.x;
 					[pageAnimationValues addObject:@(value)];
 				}
 				pageAnimation.values = pageAnimationValues;
@@ -913,7 +925,7 @@
 				
 				[titleAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
-					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+					value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 					[titleAnimationValues addObject:@(value)];
 				}
 				titleAnimation.values = titleAnimationValues;
@@ -930,7 +942,7 @@
 				[pageAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
 					CGFloat t = 0.1f * step;
-					value = powf((CGFloat)M_E, -w_0 * t) * (A + B * t) + nextViewCenter.x;
+					value = pow(M_E, -w_0 * t) * (A + B * t) + nextViewCenter.x;
 					[pageAnimationValues addObject:@(value)];
 				}
 				pageAnimation.values = pageAnimationValues;
@@ -942,7 +954,7 @@
 
 				[titleAnimationValues removeAllObjects];
 				for (NSUInteger step = 0; step < steps; ++step) {
-					value = 1.f - fabsf([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
+					value = 1.f - fabs([pageAnimationValues[step] floatValue] - boundsCenter.x) / pageDistance;
 					[titleAnimationValues addObject:@(value)];
 				}
 				titleAnimation.values = titleAnimationValues;
@@ -1051,7 +1063,8 @@
 	UIViewController *oldContentController = _contentController;
 	CGPoint center = _contentController.view.center;
 	CGRect bounds = self.view.bounds;
-	if (center.x > CGRectGetMaxX(bounds) && _previousViewController != nil) { // Land in the previous page.
+	if (center.x > CGRectGetMaxX(bounds) && _previousViewController != nil) {
+        // Land in the previous page.
 		_nextViewController = _contentController;
 		self.contentController = _previousViewController;
 		_previousViewController = _ppreviousViewController;
@@ -1061,8 +1074,10 @@
 		_titleView = _previousTitleView;
 		_previousTitleView = _ppreviousTitleView;
 		_ppreviousTitleView = nil;
-		self.navigationItem.titleView.bounds = _titleView.frame;
-	} else if (center.x < CGRectGetMinX(bounds) && _nextViewController != nil) { // Land in the next page.
+		self.navigationItem.titleView.bounds = _titleView.bounds;
+        _titleView.frame = self.navigationItem.titleView.bounds;
+	} else if (center.x < CGRectGetMinX(bounds) && _nextViewController != nil) {
+        // Land in the next page.
 		_previousViewController = _contentController;
 		self.contentController = _nextViewController;
 		_nextViewController = _nnextViewController;
@@ -1072,8 +1087,12 @@
 		_titleView = _nextTitleView;
 		_nextTitleView = _nnextTitleView;
 		_nnextTitleView = nil;
-		self.navigationItem.titleView.bounds = _titleView.frame;
-	}
+		self.navigationItem.titleView.bounds = _titleView.bounds;
+        _titleView.frame = self.navigationItem.titleView.bounds;
+	} else {
+        // Land in the current page.
+        [self unloadInvisiblePages];
+    }
 
 	_isTransitioningContentView = NO;
 	_arePagingAnimationsCancelled = NO;
