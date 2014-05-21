@@ -15,7 +15,6 @@
 @property(nonatomic, assign) NSUInteger selectedIndex;
 @property(nonatomic, assign) BOOL selectsLastByDefault;
 
-
 /**
  Sets the root view controllers of the switch controller.
  
