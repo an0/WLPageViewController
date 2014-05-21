@@ -11,17 +11,14 @@
 @interface WLContainerController () {
 	BOOL _observesTitle;
 	BOOL _observesTitleView;
-	BOOL _observesLeftButtonItem;
-	BOOL _observesRightButtonItem;
+	BOOL _observesLeftButtonItems;
+	BOOL _observesRightButtonItems;
 	BOOL _observesBackButtonItem;
 	BOOL _observesToolbarItems;
 }
 @end
 
-
-
 @implementation WLContainerController
-
 
 - (void)dealloc {
 	[self unregisterKVOForNavigationBar];
@@ -40,14 +37,14 @@
 		_observesTitleView = NO;
 	}
 
-	if (_observesLeftButtonItem) {
-		[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItem"];
-		_observesLeftButtonItem = NO;
+	if (_observesLeftButtonItems) {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItems"];
+		_observesLeftButtonItems = NO;
 	}
 
-	if (_observesRightButtonItem) {
-		[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItem"];
-		_observesRightButtonItem = NO;
+	if (_observesRightButtonItems) {
+		[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItems"];
+		_observesRightButtonItems = NO;
 	}
 
 	if (_observesBackButtonItem) {
@@ -62,7 +59,6 @@
 		_observesToolbarItems = NO;
 	}
 }
-
 
 #pragma mark - Content View management
 
@@ -93,7 +89,6 @@
 	
 	_contentController = contentController;
 }
-
 
 - (UIView *)contentView {
 	return self.contentController.view;
@@ -133,18 +128,15 @@
 	}
 }
 
-
-
-
 #pragma mark - Update navigation bar and toolbar
 
 - (void)updateNavigationBarFrom:(UIViewController *)contentController {
 	if (_inheritsTitle) {
 		self.title = contentController.title;
 		self.navigationItem.title = contentController.navigationItem.title;
-		[contentController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
-
+        
 		if (!_observesTitle) {
+            [contentController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
 			[contentController addObserver:self forKeyPath:@"navigationItem.title" options:NSKeyValueObservingOptionNew context:nil];
 			_observesTitle = YES;
 		}
@@ -157,20 +149,20 @@
 			_observesTitleView = YES;
 		}
 	}
-	if (_inheritsLeftBarButtonItem) {
-		[self.navigationItem setLeftBarButtonItem:contentController.navigationItem.leftBarButtonItem animated:_isViewVisible];
+	if (_inheritsLeftBarButtonItems) {
+		[self.navigationItem setLeftBarButtonItems:contentController.navigationItem.leftBarButtonItems animated:_isViewVisible];
 
-		if (!_observesLeftButtonItem) {
-			[contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
-			_observesLeftButtonItem = YES;
+		if (!_observesLeftButtonItems) {
+			[contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItems" options:NSKeyValueObservingOptionNew context:nil];
+			_observesLeftButtonItems = YES;
 		}
 	}
-	if (_inheritsRightBarButtonItem) {
-		[self.navigationItem setRightBarButtonItem:contentController.navigationItem.rightBarButtonItem animated:_isViewVisible];
+	if (_inheritsRightBarButtonItems) {
+		[self.navigationItem setRightBarButtonItems:contentController.navigationItem.rightBarButtonItems animated:_isViewVisible];
 
-		if (!_observesRightButtonItem) {
-			[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
-			_observesRightButtonItem = YES;
+		if (!_observesRightButtonItems) {
+			[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItems" options:NSKeyValueObservingOptionNew context:nil];
+			_observesRightButtonItems = YES;
 		}
 	}
 	if (_inheritsBackBarButtonItem) {
@@ -207,10 +199,10 @@
 			value = nil;
 		}
 		
-		if ([keyPath isEqualToString:@"navigationItem.leftBarButtonItem"]) {
-			[self.navigationItem setLeftBarButtonItem:value animated:_isViewVisible];
-		} else if ([keyPath isEqualToString:@"navigationItem.rightBarButtonItem"]) {
-			[self.navigationItem setRightBarButtonItem:value animated:_isViewVisible];
+		if ([keyPath isEqualToString:@"navigationItem.leftBarButtonItems"]) {
+			[self.navigationItem setLeftBarButtonItems:value animated:_isViewVisible];
+		} else if ([keyPath isEqualToString:@"navigationItem.rightBarButtonItems"]) {
+			[self.navigationItem setRightBarButtonItems:value animated:_isViewVisible];
 		} else if ([keyPath isEqualToString:@"navigationItem.backBarButtonItem"]) {
 			[self.navigationItem setBackBarButtonItem:value];
 		} else {
@@ -221,9 +213,6 @@
 		}		
 	}	
 }
-
-
-
 
 #pragma mark - View events
 
@@ -253,13 +242,10 @@
 	_isViewVisible = YES;
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-	
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];	
 	_isViewVisible = NO;
 }
-
-
 
 #pragma mark - Rotation support
 
@@ -271,8 +257,6 @@
 	return [_contentController supportedInterfaceOrientations];
 }
 
-
-
 #pragma mark - State Preservation and Restoration
 
 #define kStateKeyTitle @"title"
@@ -280,8 +264,8 @@
 #define kStateKeyContentInset @"content_inset"
 #define kStateKeyInheritsTitle @"inherits_title"
 #define kStateKeyInheritsTitleView @"inherits_title_view"
-#define kStateKeyInheritsLeftBarButtonItem @"inherits_left_bar_button_item"
-#define kStateKeyInheritsRightBarButtonItem @"inherits_right_bar_button_item"
+#define kStateKeyInheritsLeftBarButtonItems @"inherits_left_bar_button_items"
+#define kStateKeyInheritsRightBarButtonItems @"inherits_right_bar_button_items"
 #define kStateKeyInheritsBackBarButtonItem @"inherits_back_bar_button_item"
 #define kStateKeyInheritsToolbarItems @"inherits_toolbar_items"
 
@@ -293,8 +277,8 @@
 	[coder encodeUIEdgeInsets:self.contentInset forKey:kStateKeyContentInset];
 	[coder encodeBool:self.inheritsTitle forKey:kStateKeyInheritsTitle];
 	[coder encodeBool:self.inheritsTitleView forKey:kStateKeyInheritsTitleView];
-	[coder encodeBool:self.inheritsLeftBarButtonItem forKey:kStateKeyInheritsLeftBarButtonItem];
-	[coder encodeBool:self.inheritsRightBarButtonItem forKey:kStateKeyInheritsRightBarButtonItem];
+	[coder encodeBool:self.inheritsLeftBarButtonItems forKey:kStateKeyInheritsLeftBarButtonItems];
+	[coder encodeBool:self.inheritsRightBarButtonItems forKey:kStateKeyInheritsRightBarButtonItems];
 	[coder encodeBool:self.inheritsBackBarButtonItem forKey:kStateKeyInheritsBackBarButtonItem];
 	[coder encodeBool:self.inheritsToolbarItems forKey:kStateKeyInheritsToolbarItems];
 }
@@ -304,14 +288,12 @@
 
 	self.inheritsTitle = [coder decodeBoolForKey:kStateKeyInheritsTitle];
 	self.inheritsTitleView  = [coder decodeBoolForKey:kStateKeyInheritsTitleView];
-	self.inheritsLeftBarButtonItem  = [coder decodeBoolForKey:kStateKeyInheritsLeftBarButtonItem];
-	self.inheritsRightBarButtonItem  = [coder decodeBoolForKey:kStateKeyInheritsRightBarButtonItem];
+	self.inheritsLeftBarButtonItems  = [coder decodeBoolForKey:kStateKeyInheritsLeftBarButtonItems];
+	self.inheritsRightBarButtonItems  = [coder decodeBoolForKey:kStateKeyInheritsRightBarButtonItems];
 	self.inheritsBackBarButtonItem  = [coder decodeBoolForKey:kStateKeyInheritsBackBarButtonItem];
 	self.inheritsToolbarItems  = [coder decodeBoolForKey:kStateKeyInheritsToolbarItems];
 	self.contentInset = [coder decodeUIEdgeInsetsForKey:kStateKeyContentInset];
 	self.contentController = [coder decodeObjectForKey:kStateKeyContentViewController];
 }
-
-
 
 @end
