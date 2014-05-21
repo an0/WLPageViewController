@@ -12,10 +12,6 @@
 	NSMutableArray *_viewControllers;
 }
 
-@synthesize viewControllers = _viewControllers;
-@synthesize selectedViewController = _selectedViewController;
-
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
@@ -45,7 +41,6 @@
 
 	return mask;
 }
-
 
 #pragma mark - Managing the View Controllers
 
@@ -154,8 +149,6 @@
 	[_viewControllers removeObject:viewController];
 }
 
-
-
 #pragma mark - Managing the Selected View Controller
 
 - (void)setSelectedViewController:(UIViewController *)viewController {
@@ -176,8 +169,6 @@
 - (void)setSelectedIndex:(NSUInteger)index {	
 	self.selectedViewController = _viewControllers[index];
 }
-
-
 
 #pragma mark - State Preservation and Restoration
 
