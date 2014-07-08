@@ -150,7 +150,7 @@
 		}
 	}
 	if (_inheritsLeftBarButtonItems) {
-		[self.navigationItem setLeftBarButtonItems:contentController.navigationItem.leftBarButtonItems animated:_isViewVisible];
+		[self.navigationItem setLeftBarButtonItems:contentController.navigationItem.leftBarButtonItems animated:_animatesNavigationBarChanges];
 
 		if (!_observesLeftButtonItems) {
 			[contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItems" options:NSKeyValueObservingOptionNew context:nil];
@@ -158,7 +158,7 @@
 		}
 	}
 	if (_inheritsRightBarButtonItems) {
-		[self.navigationItem setRightBarButtonItems:contentController.navigationItem.rightBarButtonItems animated:_isViewVisible];
+		[self.navigationItem setRightBarButtonItems:contentController.navigationItem.rightBarButtonItems animated:_animatesNavigationBarChanges];
 
 		if (!_observesRightButtonItems) {
 			[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItems" options:NSKeyValueObservingOptionNew context:nil];
@@ -178,10 +178,10 @@
 - (void)updateToolbarFrom:(UIViewController *)contentController {
 	if (_inheritsToolbarItems) {
 		if ([contentController.toolbarItems count] > 0) {
-			[self.navigationController setToolbarHidden:NO animated:_isViewVisible];
-			[self setToolbarItems:contentController.toolbarItems animated:_isViewVisible];
+			[self.navigationController setToolbarHidden:NO animated:_animatesToolbarChanges];
+			[self setToolbarItems:contentController.toolbarItems animated:_animatesToolbarChanges];
 		} else {
-			[self.navigationController setToolbarHidden:YES animated:_isViewVisible];
+			[self.navigationController setToolbarHidden:YES animated:_animatesToolbarChanges];
 			[self setToolbarItems:nil];
 		}
 
@@ -200,14 +200,14 @@
 		}
 		
 		if ([keyPath isEqualToString:@"navigationItem.leftBarButtonItems"]) {
-			[self.navigationItem setLeftBarButtonItems:value animated:_isViewVisible];
+			[self.navigationItem setLeftBarButtonItems:value animated:_animatesNavigationBarChanges];
 		} else if ([keyPath isEqualToString:@"navigationItem.rightBarButtonItems"]) {
-			[self.navigationItem setRightBarButtonItems:value animated:_isViewVisible];
+			[self.navigationItem setRightBarButtonItems:value animated:_animatesNavigationBarChanges];
 		} else if ([keyPath isEqualToString:@"navigationItem.backBarButtonItem"]) {
 			[self.navigationItem setBackBarButtonItem:value];
 		} else {
 			if ([keyPath isEqualToString:@"toolbarItems"]) {
-				[self.navigationController setToolbarHidden:([(NSArray *)value count] == 0) animated:_isViewVisible];
+				[self.navigationController setToolbarHidden:([(NSArray *)value count] == 0) animated:_animatesToolbarChanges];
 			}
 			[self setValue:value forKeyPath:keyPath];
 		}		
