@@ -286,23 +286,23 @@
     
     _titleTextAttributes = [titleTextAttributes copy];
     
-    if (_titleView != _contentController.navigationItem.titleView) {
+    if (_titleView != _contentController.navigationItem.titleView && _contentController.navigationItem.title != nil) {
         ((UILabel *)_titleView).attributedText = [[NSAttributedString alloc] initWithString:_contentController.navigationItem.title attributes:_titleTextAttributes];
     }
     
-    if (_previousTitleView != _previousViewController.navigationItem.titleView) {
+    if (_previousTitleView != _previousViewController.navigationItem.titleView && _previousViewController.navigationItem.title != nil) {
         ((UILabel *)_previousTitleView).attributedText = [[NSAttributedString alloc] initWithString:_previousViewController.navigationItem.title attributes:_titleTextAttributes];
     }
 
-    if (_nextTitleView != _nextViewController.navigationItem.titleView) {
+    if (_nextTitleView != _nextViewController.navigationItem.titleView && _nextViewController.navigationItem.title != nil) {
         ((UILabel *)_nextTitleView).attributedText = [[NSAttributedString alloc] initWithString:_nextViewController.navigationItem.title attributes:_titleTextAttributes];
     }
     
-    if (_ppreviousTitleView != _ppreviousViewController.navigationItem.titleView) {
+    if (_ppreviousTitleView != _ppreviousViewController.navigationItem.titleView && _ppreviousViewController.navigationItem.title != nil) {
         ((UILabel *)_ppreviousTitleView).attributedText = [[NSAttributedString alloc] initWithString:_ppreviousViewController.navigationItem.title attributes:_titleTextAttributes];
     }
     
-    if (_nnextTitleView != _nnextViewController.navigationItem.titleView) {
+    if (_nnextTitleView != _nnextViewController.navigationItem.titleView && _nnextViewController.navigationItem.title != nil) {
         ((UILabel *)_nnextTitleView).attributedText = [[NSAttributedString alloc] initWithString:_nnextViewController.navigationItem.title attributes:_titleTextAttributes];
     }
 }
