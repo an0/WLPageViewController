@@ -12,6 +12,7 @@
 #define kPagingAnimationDuration 0.4
 
 @interface WLPageViewController () <UIGestureRecognizerDelegate> {
+    UIPanGestureRecognizer *_panGestureRecognizer;
 	UITapGestureRecognizer *_tapGestureRecognizer;
 	UIViewController *_nextViewController;
 	UIViewController *_previousViewController;
@@ -49,9 +50,9 @@
     [super viewDidLoad];
 	
 	// Pan gesture recognizer.
-	UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    panGestureRecognizer.delegate = self;
-	[self.view addGestureRecognizer:panGestureRecognizer];
+	_panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+    _panGestureRecognizer.delegate = self;
+	[self.view addGestureRecognizer:_panGestureRecognizer];
 	
 	// Tap gesture recognizer.
 	_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(turnPage:)];
@@ -309,9 +310,13 @@
 
 #pragma mark - Paging
 
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
-    CGPoint velocity = [gestureRecognizer velocityInView:gestureRecognizer.view];
-    return fabs(velocity.x) > 3 * fabs(velocity.y);
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer == _panGestureRecognizer) {
+        CGPoint velocity = [_panGestureRecognizer velocityInView:_panGestureRecognizer.view];
+        return fabs(velocity.x) > 3 * fabs(velocity.y);
+    } else {
+        return YES;
+    }
 }
 
 - (void)pan:(UIPanGestureRecognizer *)gestureRecognizer {
