@@ -289,23 +289,30 @@
     
     if (_titleView != _contentController.navigationItem.titleView && _contentController.navigationItem.title != nil) {
         ((UILabel *)_titleView).attributedText = [[NSAttributedString alloc] initWithString:_contentController.navigationItem.title attributes:_titleTextAttributes];
+        [_titleView sizeToFit];
     }
     
     if (_previousTitleView != _previousViewController.navigationItem.titleView && _previousViewController.navigationItem.title != nil) {
         ((UILabel *)_previousTitleView).attributedText = [[NSAttributedString alloc] initWithString:_previousViewController.navigationItem.title attributes:_titleTextAttributes];
+        [_previousTitleView sizeToFit];
     }
 
     if (_nextTitleView != _nextViewController.navigationItem.titleView && _nextViewController.navigationItem.title != nil) {
         ((UILabel *)_nextTitleView).attributedText = [[NSAttributedString alloc] initWithString:_nextViewController.navigationItem.title attributes:_titleTextAttributes];
+        [_nextTitleView sizeToFit];
     }
     
     if (_ppreviousTitleView != _ppreviousViewController.navigationItem.titleView && _ppreviousViewController.navigationItem.title != nil) {
         ((UILabel *)_ppreviousTitleView).attributedText = [[NSAttributedString alloc] initWithString:_ppreviousViewController.navigationItem.title attributes:_titleTextAttributes];
+        [_ppreviousTitleView sizeToFit];
     }
     
     if (_nnextTitleView != _nnextViewController.navigationItem.titleView && _nnextViewController.navigationItem.title != nil) {
         ((UILabel *)_nnextTitleView).attributedText = [[NSAttributedString alloc] initWithString:_nnextViewController.navigationItem.title attributes:_titleTextAttributes];
+        [_nnextTitleView sizeToFit];
     }
+    
+    self.navigationItem.titleView.bounds = _titleView.bounds;
 }
 
 #pragma mark - Paging
