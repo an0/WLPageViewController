@@ -27,6 +27,7 @@
 	DataViewController *startingViewController = [self.modelController viewControllerAtIndex:0];
 	self.pageViewController = [[WLPageViewController alloc] initWithViewController:startingViewController pageSpacing:80];
 //	self.pageViewController.enableTapPageTurning = YES;
+    self.pageViewController.enablePanPageTurning=YES;
 	self.pageViewController.dataSource = self.modelController;
 	self.pageViewController.delegate = self;
 
