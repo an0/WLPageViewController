@@ -52,6 +52,7 @@
 	// Pan gesture recognizer.
 	_panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
     _panGestureRecognizer.delegate = self;
+    _panGestureRecognizer.enabled=_enablePanPageTurning;
 	[self.view addGestureRecognizer:_panGestureRecognizer];
 	
 	// Tap gesture recognizer.
@@ -259,6 +260,10 @@
 - (void)setEnableTapPageTurning:(BOOL)enableTapPageTurning {
 	_enableTapPageTurning = enableTapPageTurning;
 	_tapGestureRecognizer.enabled = _enableTapPageTurning;
+}
+- (void)setEnablePanPageTurning:(BOOL)enablePanPageTurning {
+    _enablePanPageTurning = enablePanPageTurning;
+    _panGestureRecognizer.enabled = _enablePanPageTurning;
 }
 
 #pragma mark - Navigation bar and toolbar configuration
