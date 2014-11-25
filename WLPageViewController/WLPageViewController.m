@@ -12,8 +12,8 @@
 #define kPagingAnimationDuration 0.4
 
 @interface WLPageViewController () <UIGestureRecognizerDelegate> {
-    UIPanGestureRecognizer *_panGestureRecognizer;
-	UITapGestureRecognizer *_tapGestureRecognizer;
+    UIPanGestureRecognizer *_panGR;
+	UITapGestureRecognizer *_tapGR;
 	UIViewController *_nextViewController;
 	UIViewController *_previousViewController;
 	UIViewController *_nnextViewController;
@@ -43,6 +43,10 @@
 	return self;
 }
 
+- (void)dealloc {
+    _panGR.delegate = nil;
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -50,14 +54,14 @@
     [super viewDidLoad];
 	
 	// Pan gesture recognizer.
-	_panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    _panGestureRecognizer.delegate = self;
-	[self.view addGestureRecognizer:_panGestureRecognizer];
+	_panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+    _panGR.delegate = self;
+	[self.view addGestureRecognizer:_panGR];
 	
 	// Tap gesture recognizer.
-	_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(turnPage:)];
-	_tapGestureRecognizer.enabled = _enableTapPageTurning;
-	[self.view addGestureRecognizer:_tapGestureRecognizer];	
+	_tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(turnPage:)];
+	_tapGR.enabled = _enableTapPageTurning;
+	[self.view addGestureRecognizer:_tapGR];	
 	
 	// Init navigation bar title view.
 	self.navigationItem.titleView = [UIView new];
@@ -258,7 +262,7 @@
 
 - (void)setEnableTapPageTurning:(BOOL)enableTapPageTurning {
 	_enableTapPageTurning = enableTapPageTurning;
-	_tapGestureRecognizer.enabled = _enableTapPageTurning;
+	_tapGR.enabled = _enableTapPageTurning;
 }
 
 #pragma mark - Navigation bar and toolbar configuration
@@ -318,8 +322,8 @@
 #pragma mark - Paging
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if (gestureRecognizer == _panGestureRecognizer) {
-        CGPoint velocity = [_panGestureRecognizer velocityInView:_panGestureRecognizer.view];
+    if (gestureRecognizer == _panGR) {
+        CGPoint velocity = [_panGR velocityInView:_panGR.view];
         return fabs(velocity.x) > 3 * fabs(velocity.y);
     } else {
         return YES;
