@@ -262,7 +262,15 @@
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-	return [_contentController supportedInterfaceOrientations];
+    if (_contentController) {
+        return [_contentController supportedInterfaceOrientations];
+    } else {
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+            return UIInterfaceOrientationMaskAll;
+        } else {
+            return UIInterfaceOrientationMaskAllButUpsideDown;
+        }
+    }
 }
 
 #pragma mark - State Preservation and Restoration
