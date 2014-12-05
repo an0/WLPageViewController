@@ -34,7 +34,13 @@
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-	NSUInteger mask = UIInterfaceOrientationMaskAll;
+    NSUInteger mask;
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        mask = UIInterfaceOrientationMaskAll;
+    } else {
+        mask = UIInterfaceOrientationMaskAllButUpsideDown;
+    }
+    
 	for (UIViewController *controller in _viewControllers) {
 		mask &= [controller supportedInterfaceOrientations];
 	}

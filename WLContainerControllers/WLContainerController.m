@@ -20,6 +20,14 @@
 
 @implementation WLContainerController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    return self;
+}
+
 - (void)dealloc {
 	[self unregisterKVOForNavigationBar];
 	[self unregisterKVOForToolbar];
@@ -150,7 +158,7 @@
 		}
 	}
 	if (_inheritsLeftBarButtonItems) {
-		[self.navigationItem setLeftBarButtonItems:contentController.navigationItem.leftBarButtonItems animated:_isViewVisible];
+        self.navigationItem.leftBarButtonItems = contentController.navigationItem.leftBarButtonItems;
 
 		if (!_observesLeftButtonItems) {
 			[contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItems" options:NSKeyValueObservingOptionNew context:nil];
@@ -158,7 +166,7 @@
 		}
 	}
 	if (_inheritsRightBarButtonItems) {
-		[self.navigationItem setRightBarButtonItems:contentController.navigationItem.rightBarButtonItems animated:_isViewVisible];
+        self.navigationItem.rightBarButtonItems = contentController.navigationItem.rightBarButtonItems;
 
 		if (!_observesRightButtonItems) {
 			[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItems" options:NSKeyValueObservingOptionNew context:nil];
@@ -166,7 +174,7 @@
 		}
 	}
 	if (_inheritsBackBarButtonItem) {
-		[self.navigationItem setBackBarButtonItem:contentController.navigationItem.backBarButtonItem];
+		self.navigationItem.backBarButtonItem = contentController.navigationItem.backBarButtonItem;
 
 		if (!_observesBackButtonItem) {
 			[contentController addObserver:self forKeyPath:@"navigationItem.backBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
@@ -178,11 +186,11 @@
 - (void)updateToolbarFrom:(UIViewController *)contentController {
 	if (_inheritsToolbarItems) {
 		if ([contentController.toolbarItems count] > 0) {
-			[self.navigationController setToolbarHidden:NO animated:_isViewVisible];
-			[self setToolbarItems:contentController.toolbarItems animated:_isViewVisible];
+            self.navigationController.toolbarHidden = NO;
+            self.toolbarItems = contentController.toolbarItems;
 		} else {
-			[self.navigationController setToolbarHidden:YES animated:_isViewVisible];
-			[self setToolbarItems:nil];
+            self.navigationController.toolbarHidden = YES;
+            self.toolbarItems = nil;
 		}
 
 		if (!_observesToolbarItems) {
@@ -200,15 +208,15 @@
 		}
 		
 		if ([keyPath isEqualToString:@"navigationItem.leftBarButtonItems"]) {
-			[self.navigationItem setLeftBarButtonItems:value animated:_isViewVisible];
+            self.navigationItem.leftBarButtonItems = value;
 		} else if ([keyPath isEqualToString:@"navigationItem.rightBarButtonItems"]) {
-			[self.navigationItem setRightBarButtonItems:value animated:_isViewVisible];
+            self.navigationItem.rightBarButtonItems = value;
 		} else if ([keyPath isEqualToString:@"navigationItem.backBarButtonItem"]) {
 			[self.navigationItem setBackBarButtonItem:value];
-		} else {
-			if ([keyPath isEqualToString:@"toolbarItems"]) {
-				[self.navigationController setToolbarHidden:([(NSArray *)value count] == 0) animated:_isViewVisible];
-			}
+		} else if ([keyPath isEqualToString:@"toolbarItems"]) {
+            self.navigationController.toolbarHidden = ([(NSArray *)value count] == 0);
+            self.toolbarItems = value;
+        } else {
 			[self setValue:value forKeyPath:keyPath];
 		}		
 	}	
@@ -254,7 +262,15 @@
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-	return [_contentController supportedInterfaceOrientations];
+    if (_contentController) {
+        return [_contentController supportedInterfaceOrientations];
+    } else {
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+            return UIInterfaceOrientationMaskAll;
+        } else {
+            return UIInterfaceOrientationMaskAllButUpsideDown;
+        }
+    }
 }
 
 #pragma mark - State Preservation and Restoration
