@@ -27,8 +27,6 @@
 @property (nonatomic, assign) BOOL inheritsRightBarButtonItems; ///< A Boolean value indicating whether the container controller inherits the navigationItem.rightBarButtonItem property from the content controller. It has effect only when a new content controller is assigned.
 @property (nonatomic, assign) BOOL inheritsBackBarButtonItem; ///< A Boolean value indicating whether the container controller inherits the navigationItem.backBarButtonItem property from the content controller. It has effect only when a new content controller is assigned.
 @property (nonatomic, assign) BOOL inheritsToolbarItems; ///< A Boolean value indicating whether the container controller inherits the toolbarItems property from the content controller. It has effect only when a new content controller is assigned. Notice: WLContainerController will change navigationBarController.toolbarHidden, so its parent view controller may have to restore navigationBarController.toolbarHidden after poping it.
-@property (nonatomic, assign) BOOL animatesNavigationBarChanges;
-@property (nonatomic, assign) BOOL animatesToolbarChanges;
 
 @property (nonatomic, readonly) BOOL isViewVisible;
 
