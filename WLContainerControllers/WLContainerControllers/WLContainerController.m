@@ -186,10 +186,8 @@
 - (void)updateToolbarFrom:(UIViewController *)contentController {
 	if (_inheritsToolbarItems) {
 		if ([contentController.toolbarItems count] > 0) {
-            self.navigationController.toolbarHidden = NO;
             self.toolbarItems = contentController.toolbarItems;
 		} else {
-            self.navigationController.toolbarHidden = YES;
             self.toolbarItems = nil;
 		}
 
@@ -214,7 +212,6 @@
 		} else if ([keyPath isEqualToString:@"navigationItem.backBarButtonItem"]) {
 			[self.navigationItem setBackBarButtonItem:value];
 		} else if ([keyPath isEqualToString:@"toolbarItems"]) {
-            self.navigationController.toolbarHidden = ([(NSArray *)value count] == 0);
             self.toolbarItems = value;
         } else {
 			[self setValue:value forKeyPath:keyPath];
