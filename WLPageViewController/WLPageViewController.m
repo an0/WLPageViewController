@@ -1,10 +1,5 @@
-//
-//  WLPageViewController.m
-//  WLPageViewController
-//
 //  Created by Ling Wang on 7/8/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+//  Copyright 2011 I Wonder Phone. All rights reserved.
 
 #import "WLPageViewController.h"
 #import <QuartzCore/QuartzCore.h>
@@ -83,11 +78,6 @@
 	[self unregisterKVOForNavigationBar];
 	[self unregisterKVOForToolbar];
 
-	if (self.isViewLoaded) {
-		[self updateNavigationBarFrom:contentController];
-		[self updateToolbarFrom:contentController];
-	}
-
 	[self addChildViewController:contentController];
 	if (self.isViewLoaded) {
 		if (contentController.view.superview != self.view) {
@@ -97,6 +87,11 @@
 	[contentController didMoveToParentViewController:self];
 
 	_contentController = contentController;
+    
+    if (self.isViewLoaded) {
+        [self updateNavigationBar];
+        [self updateToolbar];
+    }
 
 	if (self.isViewLoaded) {
 		// !!!: Unloading invisible pages is not only for saving memory but is also necessary for scroll-to-top of content scroll view to work because if there are more than one sub scroll views tapping on status bar does not trigger scroll-to-top.
@@ -237,6 +232,10 @@
 		[vc willMoveToParentViewController:nil];
 		[v removeFromSuperview];
 		[vc removeFromParentViewController];
+        // FIXME: workaround for paging happens simultaneously with dismissing of page view controller.
+        if (self.parentViewController == nil) {
+            [vc viewDidDisappear:NO];
+        }
 	}
 }
 
@@ -462,7 +461,7 @@
 		CGFloat B = velocity.x + w_0 * x_0;
 		CGFloat t_max = 1 / w_0 - A / B;
 		CGFloat x_max = pow(M_E, -w_0 * t_max) * (A + B * t_max);
-//		DLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
+//		NSLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
 
 		BOOL turnToPreviousPage = NO;
 		BOOL turnToNextPage = NO;
@@ -507,7 +506,7 @@
 			}
 
 			if (underDamping) {
-//				DLog(@"Under-damping");
+//				NSLog(@"Under-damping");
 				// Limit x_max so that no more than 1 page is scrolled in one direction in one paging.
 				const CGFloat VELOCITY_MAX_LIMIT = 180.f;
 				if (velocity.x > VELOCITY_MAX_LIMIT) {
@@ -527,14 +526,14 @@
 				t_max = theta_max / w_d;
 				if (t_max > 0.f) {
 					x_max = pow(M_E, -zeta * w_0 * t_max) * (A * cos(w_d * t_max) + B * sin(w_d * t_max));
-//					DLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
+//					NSLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
 					if (x_max > 0.f) {
 						// Part of pre-previous view will be shown temporarily.
 						_ppreviousViewController = [self loadPPreviousPage];
 					}
 				}
 			} else {
-//				DLog(@"Critical damping");
+//				NSLog(@"Critical damping");
 				A = x_0;
 				B = velocity.x + w_0 * x_0;
 			}
@@ -702,7 +701,7 @@
 			}
 
 			if (underDamping) {
-//				DLog(@"Under-damping");
+//				NSLog(@"Under-damping");
 				// Limit x_max so that no more than 1 page is scrolled in one direction in one paging.
 				const CGFloat VELOCITY_MAX_LIMIT = 180.f;
 				if (velocity.x < -VELOCITY_MAX_LIMIT) {
@@ -722,14 +721,14 @@
 				t_max = theta_max / w_d;
 				if (t_max > 0.f) {
 					x_max = pow(M_E, -zeta * w_0 * t_max) * (A * cos(w_d * t_max) + B * sin(w_d * t_max));
-//					DLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
+//					NSLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
 					if (x_max < 0.f) {
 						// Part of next-next view will be shown temporarily.
 						_nnextViewController = [self loadNNextPage];
 					}
 				}
 			} else {
-//				DLog(@"Critical damping");
+//				NSLog(@"Critical damping");
 				A = x_0;
 				B = velocity.x + w_0 * x_0;
 			}

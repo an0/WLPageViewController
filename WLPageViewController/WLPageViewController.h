@@ -1,16 +1,10 @@
-//
-//  WLPageViewController.h
-//  WLPageViewController
-//
 //  Created by Ling Wang on 7/8/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+//  Copyright 2011 I Wonder Phone. All rights reserved.
 
 #import "WLContainerController.h"
 
 @protocol WLPageViewControllerDataSource;
 @protocol WLPageViewControllerDelegate;
-
 
 @interface WLPageViewController : WLContainerController
 
@@ -32,7 +26,6 @@
 
 @end
 
-
 @protocol WLPageViewControllerDataSource <NSObject>
 
 - (UIViewController *)pageViewController:(WLPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController;
@@ -40,8 +33,8 @@
 
 @end
 
-
 @protocol WLPageViewControllerDelegate <NSObject>
+
 @optional
 - (void)pageViewController:(WLPageViewController *)pageViewController willBeginPagingViewController:(UIViewController *)viewController;
 - (void)pageViewController:(WLPageViewController *)pageViewController didEndPagingViewController:(UIViewController *)viewController;

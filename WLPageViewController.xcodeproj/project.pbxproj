@@ -7,50 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C952C46817626F490021A0BA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952C46717626F490021A0BA /* UIKit.framework */; };
-		C952C46A17626F490021A0BA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952C46917626F490021A0BA /* Foundation.framework */; };
-		C952C46C17626F490021A0BA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952C46B17626F490021A0BA /* CoreGraphics.framework */; };
-		C952C47217626F490021A0BA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C952C47017626F490021A0BA /* InfoPlist.strings */; };
-		C952C47417626F490021A0BA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C47317626F490021A0BA /* main.m */; };
-		C952C47817626F490021A0BA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C47717626F490021A0BA /* AppDelegate.m */; };
+		C93615111A7D806F00AFECB4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C93615071A7D806F00AFECB4 /* AppDelegate.m */; };
+		C93615121A7D806F00AFECB4 /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C93615091A7D806F00AFECB4 /* DataViewController.m */; };
+		C93615131A7D806F00AFECB4 /* DataViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C936150A1A7D806F00AFECB4 /* DataViewController.xib */; };
+		C93615141A7D806F00AFECB4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C936150B1A7D806F00AFECB4 /* Images.xcassets */; };
+		C93615151A7D806F00AFECB4 /* ModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C936150D1A7D806F00AFECB4 /* ModelController.m */; };
+		C93615161A7D806F00AFECB4 /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C936150F1A7D806F00AFECB4 /* PageViewController.m */; };
+		C93615171A7D806F00AFECB4 /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C93615101A7D806F00AFECB4 /* PageViewController.xib */; };
+		C936151B1A7D807E00AFECB4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C93615181A7D807E00AFECB4 /* main.m */; };
 		C952C48717626F620021A0BA /* WLPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C48617626F620021A0BA /* WLPageViewController.m */; };
-		C952C4951762709C0021A0BA /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C48E1762709C0021A0BA /* PageViewController.m */; };
-		C952C4961762709C0021A0BA /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C4901762709C0021A0BA /* DataViewController.m */; };
-		C952C4971762709C0021A0BA /* ModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C952C4921762709C0021A0BA /* ModelController.m */; };
-		C952C4981762709C0021A0BA /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C952C4931762709C0021A0BA /* PageViewController.xib */; };
-		C952C4991762709C0021A0BA /* DataViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C952C4941762709C0021A0BA /* DataViewController.xib */; };
-		C952C4D417629FFB0021A0BA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C952C4D317629FFB0021A0BA /* QuartzCore.framework */; };
 		C98F5E18177B39C2006044A1 /* WLContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C98F5E15177B39C2006044A1 /* WLContainerController.m */; };
-		C9F325B717EB60C30033A498 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F325B617EB60C30033A498 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C93615061A7D806F00AFECB4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Demo/AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		C93615071A7D806F00AFECB4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Demo/AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		C93615081A7D806F00AFECB4 /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataViewController.h; path = Demo/DataViewController.h; sourceTree = SOURCE_ROOT; };
+		C93615091A7D806F00AFECB4 /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataViewController.m; path = Demo/DataViewController.m; sourceTree = SOURCE_ROOT; };
+		C936150A1A7D806F00AFECB4 /* DataViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DataViewController.xib; path = Demo/DataViewController.xib; sourceTree = SOURCE_ROOT; };
+		C936150B1A7D806F00AFECB4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Demo/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		C936150C1A7D806F00AFECB4 /* ModelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelController.h; path = Demo/ModelController.h; sourceTree = SOURCE_ROOT; };
+		C936150D1A7D806F00AFECB4 /* ModelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelController.m; path = Demo/ModelController.m; sourceTree = SOURCE_ROOT; };
+		C936150E1A7D806F00AFECB4 /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageViewController.h; path = Demo/PageViewController.h; sourceTree = SOURCE_ROOT; };
+		C936150F1A7D806F00AFECB4 /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageViewController.m; path = Demo/PageViewController.m; sourceTree = SOURCE_ROOT; };
+		C93615101A7D806F00AFECB4 /* PageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PageViewController.xib; path = Demo/PageViewController.xib; sourceTree = SOURCE_ROOT; };
+		C93615181A7D807E00AFECB4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Demo/main.m; sourceTree = SOURCE_ROOT; };
+		C93615191A7D807E00AFECB4 /* WLPageViewController-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "WLPageViewController-Info.plist"; path = "Demo/WLPageViewController-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C952C46417626F490021A0BA /* WLPageViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WLPageViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C952C46717626F490021A0BA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		C952C46917626F490021A0BA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		C952C46B17626F490021A0BA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		C952C46F17626F490021A0BA /* WLPageViewController-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WLPageViewController-Info.plist"; sourceTree = "<group>"; };
-		C952C47117626F490021A0BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C952C47317626F490021A0BA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C952C47517626F490021A0BA /* WLPageViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WLPageViewController-Prefix.pch"; sourceTree = "<group>"; };
-		C952C47617626F490021A0BA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		C952C47717626F490021A0BA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C952C48517626F620021A0BA /* WLPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPageViewController.h; sourceTree = "<group>"; };
 		C952C48617626F620021A0BA /* WLPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPageViewController.m; sourceTree = "<group>"; };
-		C952C48D1762709C0021A0BA /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
-		C952C48E1762709C0021A0BA /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
-		C952C48F1762709C0021A0BA /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
-		C952C4901762709C0021A0BA /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
-		C952C4911762709C0021A0BA /* ModelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelController.h; sourceTree = "<group>"; };
-		C952C4921762709C0021A0BA /* ModelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelController.m; sourceTree = "<group>"; };
-		C952C4931762709C0021A0BA /* PageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageViewController.xib; sourceTree = "<group>"; };
-		C952C4941762709C0021A0BA /* DataViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataViewController.xib; sourceTree = "<group>"; };
-		C952C4D317629FFB0021A0BA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C98F5E14177B39C2006044A1 /* WLContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLContainerController.h; path = WLContainerControllers/WLContainerControllers/WLContainerController.h; sourceTree = SOURCE_ROOT; };
 		C98F5E15177B39C2006044A1 /* WLContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLContainerController.m; path = WLContainerControllers/WLContainerControllers/WLContainerController.m; sourceTree = SOURCE_ROOT; };
 		C98F5E1A177B3C29006044A1 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		C98F5E1B177B3C29006044A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
-		C9F325B617EB60C30033A498 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,10 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C952C4D417629FFB0021A0BA /* QuartzCore.framework in Frameworks */,
-				C952C46817626F490021A0BA /* UIKit.framework in Frameworks */,
-				C952C46A17626F490021A0BA /* Foundation.framework in Frameworks */,
-				C952C46C17626F490021A0BA /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,7 +58,6 @@
 			children = (
 				C952C46D17626F490021A0BA /* WLPageViewController */,
 				C952C48417626F4E0021A0BA /* Demo */,
-				C952C46617626F490021A0BA /* Frameworks */,
 				C952C46517626F490021A0BA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,17 +68,6 @@
 				C952C46417626F490021A0BA /* WLPageViewController.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		C952C46617626F490021A0BA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C952C46717626F490021A0BA /* UIKit.framework */,
-				C952C46917626F490021A0BA /* Foundation.framework */,
-				C952C46B17626F490021A0BA /* CoreGraphics.framework */,
-				C952C4D317629FFB0021A0BA /* QuartzCore.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		C952C46D17626F490021A0BA /* WLPageViewController */ = {
@@ -112,10 +85,8 @@
 		C952C46E17626F490021A0BA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C952C46F17626F490021A0BA /* WLPageViewController-Info.plist */,
-				C952C47017626F490021A0BA /* InfoPlist.strings */,
-				C952C47317626F490021A0BA /* main.m */,
-				C952C47517626F490021A0BA /* WLPageViewController-Prefix.pch */,
+				C93615181A7D807E00AFECB4 /* main.m */,
+				C93615191A7D807E00AFECB4 /* WLPageViewController-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -123,17 +94,17 @@
 		C952C48417626F4E0021A0BA /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				C952C47617626F490021A0BA /* AppDelegate.h */,
-				C952C47717626F490021A0BA /* AppDelegate.m */,
-				C952C48D1762709C0021A0BA /* PageViewController.h */,
-				C952C48E1762709C0021A0BA /* PageViewController.m */,
-				C952C48F1762709C0021A0BA /* DataViewController.h */,
-				C952C4901762709C0021A0BA /* DataViewController.m */,
-				C952C4911762709C0021A0BA /* ModelController.h */,
-				C952C4921762709C0021A0BA /* ModelController.m */,
-				C952C4931762709C0021A0BA /* PageViewController.xib */,
-				C952C4941762709C0021A0BA /* DataViewController.xib */,
-				C9F325B617EB60C30033A498 /* Images.xcassets */,
+				C93615061A7D806F00AFECB4 /* AppDelegate.h */,
+				C93615071A7D806F00AFECB4 /* AppDelegate.m */,
+				C93615081A7D806F00AFECB4 /* DataViewController.h */,
+				C93615091A7D806F00AFECB4 /* DataViewController.m */,
+				C936150A1A7D806F00AFECB4 /* DataViewController.xib */,
+				C936150B1A7D806F00AFECB4 /* Images.xcassets */,
+				C936150C1A7D806F00AFECB4 /* ModelController.h */,
+				C936150D1A7D806F00AFECB4 /* ModelController.m */,
+				C936150E1A7D806F00AFECB4 /* PageViewController.h */,
+				C936150F1A7D806F00AFECB4 /* PageViewController.m */,
+				C93615101A7D806F00AFECB4 /* PageViewController.xib */,
 				C952C46E17626F490021A0BA /* Supporting Files */,
 			);
 			name = Demo;
@@ -208,10 +179,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C952C47217626F490021A0BA /* InfoPlist.strings in Resources */,
-				C9F325B717EB60C30033A498 /* Images.xcassets in Resources */,
-				C952C4981762709C0021A0BA /* PageViewController.xib in Resources */,
-				C952C4991762709C0021A0BA /* DataViewController.xib in Resources */,
+				C93615141A7D806F00AFECB4 /* Images.xcassets in Resources */,
+				C93615131A7D806F00AFECB4 /* DataViewController.xib in Resources */,
+				C93615171A7D806F00AFECB4 /* PageViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,28 +192,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C952C47417626F490021A0BA /* main.m in Sources */,
-				C952C47817626F490021A0BA /* AppDelegate.m in Sources */,
+				C93615111A7D806F00AFECB4 /* AppDelegate.m in Sources */,
 				C952C48717626F620021A0BA /* WLPageViewController.m in Sources */,
+				C93615151A7D806F00AFECB4 /* ModelController.m in Sources */,
 				C98F5E18177B39C2006044A1 /* WLContainerController.m in Sources */,
-				C952C4951762709C0021A0BA /* PageViewController.m in Sources */,
-				C952C4961762709C0021A0BA /* DataViewController.m in Sources */,
-				C952C4971762709C0021A0BA /* ModelController.m in Sources */,
+				C93615121A7D806F00AFECB4 /* DataViewController.m in Sources */,
+				C936151B1A7D807E00AFECB4 /* main.m in Sources */,
+				C93615161A7D806F00AFECB4 /* PageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		C952C47017626F490021A0BA /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C952C47117626F490021A0BA /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C952C47F17626F490021A0BA /* Debug */ = {
@@ -316,12 +275,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "WLPageViewController/WLPageViewController-Prefix.pch";
-				INFOPLIST_FILE = "WLPageViewController/WLPageViewController-Info.plist";
+				INFOPLIST_FILE = "Demo/WLPageViewController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
@@ -330,12 +286,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "WLPageViewController/WLPageViewController-Prefix.pch";
-				INFOPLIST_FILE = "WLPageViewController/WLPageViewController-Info.plist";
+				INFOPLIST_FILE = "Demo/WLPageViewController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
