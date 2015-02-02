@@ -1,21 +1,17 @@
-//
-//  WLContainerController.m
-//  WLContainerController
-//
 //  Created by Wang Ling on 7/16/10.
 //  Copyright I Wonder Phone 2010. All rights reserved.
-//
 
 #import "WLContainerController.h"
 
 @interface WLContainerController () {
-	BOOL _observesTitle;
-	BOOL _observesTitleView;
-	BOOL _observesLeftButtonItems;
-	BOOL _observesRightButtonItems;
-	BOOL _observesBackButtonItem;
-	BOOL _observesToolbarItems;
+    BOOL _observesTitle;
+    BOOL _observesTitleView;
+    BOOL _observesLeftButtonItems;
+    BOOL _observesRightButtonItems;
+    BOOL _observesBackButtonItem;
+    BOOL _observesToolbarItems;
 }
+
 @end
 
 @implementation WLContainerController
@@ -46,11 +42,13 @@
 	}
 
 	if (_observesLeftButtonItems) {
+        [_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItem"];
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.leftBarButtonItems"];
 		_observesLeftButtonItems = NO;
 	}
 
 	if (_observesRightButtonItems) {
+        [_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItem"];
 		[_contentController removeObserver:self forKeyPath:@"navigationItem.rightBarButtonItems"];
 		_observesRightButtonItems = NO;
 	}
@@ -72,30 +70,39 @@
 
 - (void)setContentController:(UIViewController *)contentController {
 	if (_contentController == contentController) return;
-	if (contentController == nil) return;
 
 	[self unregisterKVOForNavigationBar];
 	[self unregisterKVOForToolbar];
 
 	[_contentController willMoveToParentViewController:nil];
-	[self addChildViewController:contentController];
+    if (contentController) {
+        [self addChildViewController:contentController];
+    }
+    
 	if (self.isViewLoaded) {
 		if (_contentController.view.superview == self.view) {
 			[_contentController.view removeFromSuperview];
 		}
-		UIView *contentView = contentController.view;
-		// !!!: Update bar items after loading content view since content controller's bar items usually are configured in its viewDidLoad method, but before adding content view because otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
-		[self updateNavigationBarFrom:contentController];
-		[self updateToolbarFrom:contentController];
-		if (contentView.superview != self.view) {
-			[self.view addSubview:contentView];
-		}
+        if (contentController) {
+            UIView *contentView = contentController.view;
+            if (contentView.superview != self.view) {
+                [self.view addSubview:contentView];
+            }
+        }
 	}
 
-	[contentController didMoveToParentViewController:self];	
+    if (contentController) {
+        [contentController didMoveToParentViewController:self];
+    }
 	[_contentController removeFromParentViewController];
 	
 	_contentController = contentController;
+    
+    if (self.isViewLoaded && _contentController) {
+        // !!!: Update bar items after loading content view since content controller's bar items usually are configured in its viewDidLoad method, but before adding content view because otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
+        [self updateNavigationBar];
+        [self updateToolbar];
+    }
 }
 
 - (UIView *)contentView {
@@ -103,9 +110,7 @@
 }
 
 - (void)layoutContentView:(UIView *)contentView {
-	contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;			
-	// Adjust the frame of the content view according to the insets.
-	contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, _contentInset);
+	contentView.frame = UIEdgeInsetsInsetRect(self.view.bounds, self.contentInset);
 }
 
 - (void)setContentInset:(UIEdgeInsets)insets {
@@ -138,61 +143,50 @@
 
 #pragma mark - Update navigation bar and toolbar
 
-- (void)updateNavigationBarFrom:(UIViewController *)contentController {
+- (void)updateNavigationBar {
+    UIViewController *contentController = self.contentController;
+    
 	if (_inheritsTitle) {
-		self.title = contentController.title;
-		self.navigationItem.title = contentController.navigationItem.title;
-        
 		if (!_observesTitle) {
-            [contentController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
-			[contentController addObserver:self forKeyPath:@"navigationItem.title" options:NSKeyValueObservingOptionNew context:nil];
+            [contentController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
+			[contentController addObserver:self forKeyPath:@"navigationItem.title" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
 			_observesTitle = YES;
 		}
 	}
 	if (_inheritsTitleView) {
-		self.navigationItem.titleView = contentController.navigationItem.titleView;
-
 		if (!_observesTitleView) {
-			[contentController addObserver:self forKeyPath:@"navigationItem.titleView" options:NSKeyValueObservingOptionNew context:nil];
+			[contentController addObserver:self forKeyPath:@"navigationItem.titleView" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
 			_observesTitleView = YES;
 		}
 	}
 	if (_inheritsLeftBarButtonItems) {
-        self.navigationItem.leftBarButtonItems = contentController.navigationItem.leftBarButtonItems;
-
 		if (!_observesLeftButtonItems) {
-			[contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItems" options:NSKeyValueObservingOptionNew context:nil];
+            [contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItem" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
+			[contentController addObserver:self forKeyPath:@"navigationItem.leftBarButtonItems" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
 			_observesLeftButtonItems = YES;
 		}
 	}
 	if (_inheritsRightBarButtonItems) {
-        self.navigationItem.rightBarButtonItems = contentController.navigationItem.rightBarButtonItems;
-
 		if (!_observesRightButtonItems) {
-			[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItems" options:NSKeyValueObservingOptionNew context:nil];
+            [contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItem" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
+			[contentController addObserver:self forKeyPath:@"navigationItem.rightBarButtonItems" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
 			_observesRightButtonItems = YES;
 		}
 	}
 	if (_inheritsBackBarButtonItem) {
-		self.navigationItem.backBarButtonItem = contentController.navigationItem.backBarButtonItem;
-
 		if (!_observesBackButtonItem) {
-			[contentController addObserver:self forKeyPath:@"navigationItem.backBarButtonItem" options:NSKeyValueObservingOptionNew context:nil];
+			[contentController addObserver:self forKeyPath:@"navigationItem.backBarButtonItem" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
 			_observesBackButtonItem = YES;
 		}
 	}
 }
 
-- (void)updateToolbarFrom:(UIViewController *)contentController {
-	if (_inheritsToolbarItems) {
-		if ([contentController.toolbarItems count] > 0) {
-            self.toolbarItems = contentController.toolbarItems;
-		} else {
-            self.toolbarItems = nil;
-		}
+- (void)updateToolbar {
+    UIViewController *contentController = self.contentController;
 
+    if (_inheritsToolbarItems) {
 		if (!_observesToolbarItems) {
-			[contentController addObserver:self forKeyPath:@"toolbarItems" options:NSKeyValueObservingOptionNew context:nil];
+			[contentController addObserver:self forKeyPath:@"toolbarItems" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
 			_observesToolbarItems = YES;
 		}
 	}
@@ -205,18 +199,8 @@
 			value = nil;
 		}
 		
-		if ([keyPath isEqualToString:@"navigationItem.leftBarButtonItems"]) {
-            self.navigationItem.leftBarButtonItems = value;
-		} else if ([keyPath isEqualToString:@"navigationItem.rightBarButtonItems"]) {
-            self.navigationItem.rightBarButtonItems = value;
-		} else if ([keyPath isEqualToString:@"navigationItem.backBarButtonItem"]) {
-			[self.navigationItem setBackBarButtonItem:value];
-		} else if ([keyPath isEqualToString:@"toolbarItems"]) {
-            self.toolbarItems = value;
-        } else {
-			[self setValue:value forKeyPath:keyPath];
-		}		
-	}	
+        [self setValue:value forKeyPath:keyPath];
+	}
 }
 
 #pragma mark - View events
@@ -237,8 +221,8 @@
 
 	// Update bar items after loading content view since content controller's bar items usually are configured in its viewDidLoad method.
 	if (_contentController) {
-		[self updateNavigationBarFrom:_contentController];
-		[self updateToolbarFrom:_contentController];
+        [self updateNavigationBar];
+        [self updateToolbar];
 	}
 }
 
@@ -255,19 +239,27 @@
 #pragma mark - Rotation support
 
 - (BOOL)shouldAutorotate {
-	return [_contentController shouldAutorotate];
+    BOOL result = YES;
+    if (_contentController) {
+        result = [_contentController shouldAutorotate];
+    }
+	return result;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    if (_contentController) {
-        return [_contentController supportedInterfaceOrientations];
+    NSUInteger mask;
+    
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        mask = UIInterfaceOrientationMaskAll;
     } else {
-        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-            return UIInterfaceOrientationMaskAll;
-        } else {
-            return UIInterfaceOrientationMaskAllButUpsideDown;
-        }
+        mask = UIInterfaceOrientationMaskAllButUpsideDown;
     }
+    
+    if (_contentController) {
+        mask &= [_contentController supportedInterfaceOrientations];
+    }
+    
+    return mask;
 }
 
 #pragma mark - State Preservation and Restoration

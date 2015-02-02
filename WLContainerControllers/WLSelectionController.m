@@ -1,14 +1,9 @@
-//
-//  WLMultiContentContainerController.m
-//  WLContainerControllers
-//
 //  Created by Ling Wang on 8/25/11.
 //  Copyright (c) 2011 I Wonder Phone. All rights reserved.
-//
 
-#import "WLMultiContentContainerController.h"
+#import "WLSelectionController.h"
 
-@implementation WLMultiContentContainerController {
+@implementation WLSelectionController {
 	NSMutableArray *_viewControllers;
 }
 
@@ -23,14 +18,13 @@
 }
 
 - (BOOL)shouldAutorotate {
-	BOOL result = YES;
 	for (UIViewController *controller in _viewControllers) {
 		if (![controller shouldAutorotate]) {
 			return NO;
 		}
 	}
 
-    return result;
+    return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -61,15 +55,18 @@
 			[_contentController.view removeFromSuperview];
 		}
 		UIView *contentView = contentController.view;
-		// !!!: Update bar items after loading content view since content controller's bar items usually are configured in its viewDidLoad method, but before adding content view because otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
-		[self updateNavigationBarFrom:contentController];
-		[self updateToolbarFrom:contentController];
 		if (contentView.superview != self.view) {
 			[self.view addSubview:contentView];
 		}
 	}
 	
 	_contentController = contentController;
+    
+    if (self.isViewLoaded) {
+        // !!!: Update bar items after loading content view since content controller's bar items usually are configured in its viewDidLoad method, but before adding content view because otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
+        [self updateNavigationBar];
+        [self updateToolbar];
+    }
 }
 
 - (void)setViewControllers:(NSArray *)viewControllers {

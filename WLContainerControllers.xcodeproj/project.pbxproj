@@ -9,29 +9,31 @@
 /* Begin PBXBuildFile section */
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		C93614EC1A7D7B7300AFECB4 /* WLCompositeController.m in Sources */ = {isa = PBXBuildFile; fileRef = C93614EB1A7D7B7300AFECB4 /* WLCompositeController.m */; };
+		C93614F01A7D7BBC00AFECB4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C93614EE1A7D7BBC00AFECB4 /* AppDelegate.m */; };
+		C93614F11A7D7BBC00AFECB4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C93614EF1A7D7BBC00AFECB4 /* Images.xcassets */; };
+		C93614F51A7D7BCE00AFECB4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C93614F21A7D7BCE00AFECB4 /* main.m */; };
 		C9F05FF4177A46D100978AF2 /* WLContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F05FEF177A46D100978AF2 /* WLContainerController.m */; };
-		C9F05FF5177A46D100978AF2 /* WLMultiContentContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F05FF1177A46D100978AF2 /* WLMultiContentContainerController.m */; };
-		C9F05FF8177A46F400978AF2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F05FF7177A46F400978AF2 /* AppDelegate.m */; };
-		C9F325AC17EB5F650033A498 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F325A917EB5F650033A498 /* main.m */; };
-		C9F325B017EB5F7B0033A498 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F325AF17EB5F7B0033A498 /* Images.xcassets */; };
+		C9F05FF5177A46D100978AF2 /* WLSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F05FF1177A46D100978AF2 /* WLSelectionController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* WLContainerControllers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WLContainerControllers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C93614EA1A7D7B7300AFECB4 /* WLCompositeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLCompositeController.h; path = WLContainerControllers/WLCompositeController.h; sourceTree = SOURCE_ROOT; };
+		C93614EB1A7D7B7300AFECB4 /* WLCompositeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLCompositeController.m; path = WLContainerControllers/WLCompositeController.m; sourceTree = SOURCE_ROOT; };
+		C93614ED1A7D7BBC00AFECB4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Demo/AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		C93614EE1A7D7BBC00AFECB4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Demo/AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		C93614EF1A7D7BBC00AFECB4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Demo/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		C93614F21A7D7BCE00AFECB4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Demo/main.m; sourceTree = SOURCE_ROOT; };
+		C93614F41A7D7BCE00AFECB4 /* WLContainerControllers-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "WLContainerControllers-Info.plist"; path = "Demo/WLContainerControllers-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C9F05FEE177A46D100978AF2 /* WLContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLContainerController.h; path = WLContainerControllers/WLContainerController.h; sourceTree = SOURCE_ROOT; };
 		C9F05FEF177A46D100978AF2 /* WLContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLContainerController.m; path = WLContainerControllers/WLContainerController.m; sourceTree = SOURCE_ROOT; };
-		C9F05FF0177A46D100978AF2 /* WLMultiContentContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLMultiContentContainerController.h; path = WLContainerControllers/WLMultiContentContainerController.h; sourceTree = SOURCE_ROOT; };
-		C9F05FF1177A46D100978AF2 /* WLMultiContentContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLMultiContentContainerController.m; path = WLContainerControllers/WLMultiContentContainerController.m; sourceTree = SOURCE_ROOT; };
-		C9F05FF6177A46F400978AF2 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = WLContainerControllers/AppDelegate.h; sourceTree = SOURCE_ROOT; };
-		C9F05FF7177A46F400978AF2 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = WLContainerControllers/AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		C9F05FF0177A46D100978AF2 /* WLSelectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLSelectionController.h; path = WLContainerControllers/WLSelectionController.h; sourceTree = SOURCE_ROOT; };
+		C9F05FF1177A46D100978AF2 /* WLSelectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLSelectionController.m; path = WLContainerControllers/WLSelectionController.m; sourceTree = SOURCE_ROOT; };
 		C9F06007177A520F00978AF2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		C9F06008177A520F00978AF2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
-		C9F325A917EB5F650033A498 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = WLContainerControllers/main.m; sourceTree = SOURCE_ROOT; };
-		C9F325AA17EB5F650033A498 /* WLContainerControllers_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLContainerControllers_Prefix.pch; path = WLContainerControllers/WLContainerControllers_Prefix.pch; sourceTree = SOURCE_ROOT; };
-		C9F325AB17EB5F650033A498 /* WLContainerControllers-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "WLContainerControllers-Info.plist"; path = "WLContainerControllers/WLContainerControllers-Info.plist"; sourceTree = SOURCE_ROOT; };
-		C9F325AF17EB5F7B0033A498 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = WLContainerControllers/Images.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,9 +52,9 @@
 		080E96DDFE201D6D7F000001 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				C9F05FF6177A46F400978AF2 /* AppDelegate.h */,
-				C9F05FF7177A46F400978AF2 /* AppDelegate.m */,
-				C9F325AF17EB5F7B0033A498 /* Images.xcassets */,
+				C93614ED1A7D7BBC00AFECB4 /* AppDelegate.h */,
+				C93614EE1A7D7BBC00AFECB4 /* AppDelegate.m */,
+				C93614EF1A7D7BBC00AFECB4 /* Images.xcassets */,
 				C9F325AE17EB5F6A0033A498 /* Supporting Files */,
 			);
 			name = Demo;
@@ -94,8 +96,10 @@
 				C9F06007177A520F00978AF2 /* LICENSE */,
 				C9F05FEE177A46D100978AF2 /* WLContainerController.h */,
 				C9F05FEF177A46D100978AF2 /* WLContainerController.m */,
-				C9F05FF0177A46D100978AF2 /* WLMultiContentContainerController.h */,
-				C9F05FF1177A46D100978AF2 /* WLMultiContentContainerController.m */,
+				C9F05FF0177A46D100978AF2 /* WLSelectionController.h */,
+				C9F05FF1177A46D100978AF2 /* WLSelectionController.m */,
+				C93614EA1A7D7B7300AFECB4 /* WLCompositeController.h */,
+				C93614EB1A7D7B7300AFECB4 /* WLCompositeController.m */,
 			);
 			name = WLContainerControllers;
 			path = Classes;
@@ -104,9 +108,8 @@
 		C9F325AE17EB5F6A0033A498 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C9F325A917EB5F650033A498 /* main.m */,
-				C9F325AA17EB5F650033A498 /* WLContainerControllers_Prefix.pch */,
-				C9F325AB17EB5F650033A498 /* WLContainerControllers-Info.plist */,
+				C93614F21A7D7BCE00AFECB4 /* main.m */,
+				C93614F41A7D7BCE00AFECB4 /* WLContainerControllers-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -138,7 +141,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "I Wonder Phone";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "WLContainerControllers" */;
@@ -166,7 +169,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9F325B017EB5F7B0033A498 /* Images.xcassets in Resources */,
+				C93614F11A7D7BBC00AFECB4 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,10 +196,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9F05FF8177A46F400978AF2 /* AppDelegate.m in Sources */,
+				C93614F51A7D7BCE00AFECB4 /* main.m in Sources */,
 				C9F05FF4177A46D100978AF2 /* WLContainerController.m in Sources */,
-				C9F325AC17EB5F650033A498 /* main.m in Sources */,
-				C9F05FF5177A46D100978AF2 /* WLMultiContentContainerController.m in Sources */,
+				C93614EC1A7D7B7300AFECB4 /* WLCompositeController.m in Sources */,
+				C9F05FF5177A46D100978AF2 /* WLSelectionController.m in Sources */,
+				C93614F01A7D7BBC00AFECB4 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,9 +218,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = WLContainerControllers/WLContainerControllers_Prefix.pch;
-				INFOPLIST_FILE = "WLContainerControllers/WLContainerControllers-Info.plist";
+				INFOPLIST_FILE = "Demo/WLContainerControllers-Info.plist";
 				PRODUCT_NAME = WLContainerControllers;
 			};
 			name = Debug;
@@ -230,9 +232,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = WLContainerControllers/WLContainerControllers_Prefix.pch;
-				INFOPLIST_FILE = "WLContainerControllers/WLContainerControllers-Info.plist";
+				INFOPLIST_FILE = "Demo/WLContainerControllers-Info.plist";
 				PRODUCT_NAME = WLContainerControllers;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -242,16 +242,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -267,15 +275,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-Wextra",
