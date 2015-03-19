@@ -323,7 +323,7 @@
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer == _panGR) {
         CGPoint velocity = [_panGR velocityInView:_panGR.view];
-        return fabs(velocity.x) > 3 * fabs(velocity.y);
+        return fabs(velocity.x) > 2 * fabs(velocity.y);
     } else {
         return YES;
     }
