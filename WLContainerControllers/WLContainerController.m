@@ -10,6 +10,7 @@
     BOOL _observesRightButtonItems;
     BOOL _observesBackButtonItem;
     BOOL _observesToolbarItems;
+    BOOL _observesTabBarItem;
 }
 
 @end
@@ -27,6 +28,7 @@
 - (void)dealloc {
 	[self unregisterKVOForNavigationBar];
 	[self unregisterKVOForToolbar];
+    [self unregisterKVOForTabBar];
 }
 
 - (void)unregisterKVOForNavigationBar {
@@ -66,6 +68,15 @@
 	}
 }
 
+- (void)unregisterKVOForTabBar {
+    if (_observesTabBarItem) {
+        [_contentController removeObserver:self forKeyPath:@"tabBarItem.title"];
+        [_contentController removeObserver:self forKeyPath:@"tabBarItem.badgeValue"];
+        [_contentController removeObserver:self forKeyPath:@"tabBarItem.enabled"];
+        _observesTabBarItem = NO;
+    }
+}
+
 #pragma mark - Content View management
 
 - (void)setContentController:(UIViewController *)contentController {
@@ -73,6 +84,7 @@
 
 	[self unregisterKVOForNavigationBar];
 	[self unregisterKVOForToolbar];
+    [self unregisterKVOForTabBar];
 
 	[_contentController willMoveToParentViewController:nil];
     if (contentController) {
@@ -102,6 +114,11 @@
         // !!!: Update bar items after loading content view since content controller's bar items usually are configured in its viewDidLoad method, but before adding content view because otherwise viewWillLayoutSubviews may be called too early during nav bar & toolbar updating before self.contentView is updated to the new value.
         [self updateNavigationBar];
         [self updateToolbar];
+    }
+    
+    if (_contentController) {
+        // Tab bar item should be configured before view is loaded. Otherwise all content view controllers are required to load their views before tab bar can be configured.
+        [self updateTabBar];
     }
 }
 
@@ -141,7 +158,7 @@
 	}
 }
 
-#pragma mark - Update navigation bar and toolbar
+#pragma mark - Update navigation bar, toolbar, tab bar
 
 - (void)updateNavigationBar {
     UIViewController *contentController = self.contentController;
@@ -190,6 +207,19 @@
 			_observesToolbarItems = YES;
 		}
 	}
+}
+
+- (void)updateTabBar {
+    UIViewController *contentController = self.contentController;
+    
+    if (_inheritsTabBarItem) {
+        if (!_observesTabBarItem) {
+            [contentController addObserver:self forKeyPath:@"tabBarItem.title" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
+            [contentController addObserver:self forKeyPath:@"tabBarItem.badgeValue" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
+            [contentController addObserver:self forKeyPath:@"tabBarItem.enabled" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
+            _observesTabBarItem = YES;
+        }
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
