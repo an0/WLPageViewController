@@ -459,7 +459,7 @@
 		// x_max = (v_0 / w_0 + x_0) * e^[-v_0 / (v_0 + w_0 * x_0)]
 		CGFloat A = x_0;
 		CGFloat B = velocity.x + w_0 * x_0;
-		CGFloat t_max = 1 / w_0 - A / B;
+        CGFloat t_max = MAX(1 / w_0 - A / B, 0);
 		CGFloat x_max = pow(M_E, -w_0 * t_max) * (A + B * t_max);
 //		NSLog(@"v_0 = %f, x_0 = %f, t_max = %f, x_max = %f", velocity.x, x_0, t_max, x_max);
 
