@@ -15,6 +15,7 @@
     for (UIViewController *vc in _viewControllers) {
         [self.contentView addSubview:vc.view];
     }
+    [self layoutContentView];
 }
 
 - (UIView *)contentView {
@@ -31,7 +32,7 @@
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     NSUInteger mask;
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         mask = UIInterfaceOrientationMaskAll;
@@ -77,9 +78,16 @@
         if (self.isViewLoaded) {
             [self.contentView addSubview:vc.view];
         }
-        [vc didMoveToParentViewController:self];
     }
     
+    if (self.isViewLoaded) {
+        [self layoutContentView];
+    }
+    
+    for (UIViewController *vc in viewControllers) {
+        [vc didMoveToParentViewController:self];
+    }
+
     _viewControllers = [viewControllers mutableCopy];
 }
 
@@ -92,6 +100,7 @@
     if (self.isViewLoaded) {
         [vc.view removeFromSuperview];
         [self.contentView addSubview:viewController.view];
+        [self layoutContentView];
     }
     [viewController didMoveToParentViewController:self];
     [vc removeFromParentViewController];
