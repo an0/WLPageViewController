@@ -81,6 +81,7 @@
 	[self addChildViewController:contentController];
 	if (self.isViewLoaded) {
 		if (contentController.view.superview != self.view) {
+            [self layoutContentView:contentController.view];
 			[self.view addSubview:contentController.view];
 		}
 	}
