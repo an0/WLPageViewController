@@ -27,7 +27,7 @@
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     NSUInteger mask;
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         mask = UIInterfaceOrientationMaskAll;
@@ -56,6 +56,7 @@
 		}
 		UIView *contentView = contentController.view;
 		if (contentView.superview != self.view) {
+            [self layoutContentView:self.contentView];
 			[self.view addSubview:contentView];
 		}
 	}

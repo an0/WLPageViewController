@@ -98,6 +98,7 @@
         if (contentController) {
             UIView *contentView = contentController.view;
             if (contentView.superview != self.view) {
+                [self layoutContentView:self.contentView];
                 [self.view addSubview:contentView];
             }
         }
@@ -246,6 +247,7 @@
 
 	// Add content view.
 	if (self.contentView) {
+        [self layoutContentView:self.contentView];
 		[self.view addSubview:self.contentView];
 	}
 
@@ -276,7 +278,7 @@
 	return result;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     NSUInteger mask;
     
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
