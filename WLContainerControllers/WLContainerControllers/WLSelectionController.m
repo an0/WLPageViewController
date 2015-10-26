@@ -4,7 +4,7 @@
 #import "WLSelectionController.h"
 
 @implementation WLSelectionController {
-	NSMutableArray *_viewControllers;
+	NSMutableArray<__kindof UIViewController *> *_viewControllers;
 }
 
 #pragma mark - View lifecycle
@@ -70,11 +70,11 @@
     }
 }
 
-- (void)setViewControllers:(NSArray *)viewControllers {
+- (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers {
 	[self setViewControllers:viewControllers animated:NO];
 }
 
-- (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated {
+- (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers animated:(BOOL)animated {
 	if ([_viewControllers isEqualToArray:viewControllers]) return;
 
 	for (UIViewController *controller in _viewControllers) {

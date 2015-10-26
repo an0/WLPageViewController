@@ -5,7 +5,7 @@
 
 @interface WLCompositeController : UIViewController
 
-@property(nonatomic, copy) NSArray *viewControllers;
+@property(nonatomic, copy) NSArray<__kindof UIViewController *> *viewControllers;
 @property(nonatomic, readonly) UIView *contentView;
 
 #pragma mark - Protected

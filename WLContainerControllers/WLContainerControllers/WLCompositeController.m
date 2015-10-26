@@ -4,7 +4,7 @@
 #import "WLCompositeController.h"
 
 @implementation WLCompositeController {
-    NSMutableArray *_viewControllers;
+    NSMutableArray<__kindof UIViewController *> *_viewControllers;
 }
 
 #pragma mark - View lifecycle
@@ -58,11 +58,11 @@
 
 #pragma mark - Managing the View Controllers
 
-- (void)setViewControllers:(NSArray *)viewControllers {
+- (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers {
     [self setViewControllers:viewControllers animated:NO];
 }
 
-- (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated {
+- (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers animated:(BOOL)animated {
     if ([_viewControllers isEqualToArray:viewControllers]) return;
     
     for (UIViewController *vc in _viewControllers) {

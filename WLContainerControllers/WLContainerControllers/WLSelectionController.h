@@ -5,12 +5,12 @@
 
 @interface WLSelectionController : WLContainerController
 
-@property(nonatomic, copy) NSArray *viewControllers;
-@property(nonatomic, assign) UIViewController *selectedViewController;
+@property(nonatomic, copy) NSArray<__kindof UIViewController *> *viewControllers;
+@property(nonatomic, strong) UIViewController *selectedViewController;
 @property(nonatomic, assign) NSUInteger selectedIndex;
 @property(nonatomic, assign) BOOL selectsLastByDefault;
 
-- (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated;
+- (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers animated:(BOOL)animated;
 - (BOOL)replaceViewControllerAtIndex:(NSUInteger)index withViewController:(UIViewController *)newViewController;
 - (BOOL)exchangeViewControllerAtIndex:(NSUInteger)index1 withViewControllerAtIndex:(NSUInteger)index2; // Exchange view controllers, keep selectedIndex not selectedViewController.
 
